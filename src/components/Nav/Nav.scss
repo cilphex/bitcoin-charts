@@ -1,0 +1,38 @@
+div.wrapper {
+  border-bottom: 1px solid #ccc;
+
+  div.navigation {
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto -1px;
+
+    a,
+    a:visited {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      height: 60px;
+      text-decoration: none;
+      border-bottom: 1px solid #ccc;
+      outline: none;
+    }
+
+    a:hover,
+    a:active {
+      background: #fafafa;
+    }
+
+    a.selected {
+      border-bottom: 1px solid #000;
+    }
+
+    a.home {
+      span {
+        margin: 0 1px 0 0;
+        width: 5px;
+        height: 15px;
+        background: #000;
+      }
+    }
+  }
+}
