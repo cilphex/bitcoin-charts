@@ -30,6 +30,8 @@
     "start": "babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open"
   },
   "dependencies": {
+    "d3": "^5.14.2",
+    "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2"

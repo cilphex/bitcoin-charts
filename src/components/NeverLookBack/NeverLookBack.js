@@ -1,4 +1,5 @@
 import React from "react"
+import BasicChart from './components/BasicChart'
 
 export default function() {
   return (
@@ -10,6 +11,8 @@ export default function() {
         {' '} by {' '}
         <a href="https://twitter.com/nsquaredcrypto">Timothy Peterson</a>
       </p>
+
+      <BasicChart />
     </div>
   )
 }

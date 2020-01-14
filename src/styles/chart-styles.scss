@@ -1,0 +1,203 @@
+div.chartHeader {
+  display: flex;
+  align-items: center;
+  margin: 40px 0 10px;
+}
+
+div.chartHeader h2 {
+  margin: 0;
+}
+
+div.description {
+  position: relative;
+  font-size: 16px;
+  line-height: 1.6em;
+  /*border: 1px solid #ccc;*/
+  background: #fafafa;
+  border-radius: 3px;
+}
+
+div.description div.inner {
+  padding: 10px 30px;
+}
+
+div.description div.quote {
+  position: absolute;
+  padding-top: 20px;
+  top: 0;
+  left: 0;
+  width: 30px;
+  text-align: center;
+  font-size: 50px;
+  opacity: 0.25;
+}
+
+.chartData {
+  visibility: hidden;
+}
+
+.chartData .price {
+  color: #555;
+}
+
+.chartData .forwardMinimum {
+  color: #03a9f4;
+}
+
+.chartData .expected {
+  color: #ff699c;
+}
+
+.chartData .deviation {
+  color: #ff699c;
+  opacity: 0.66;
+}
+
+div.chartDataTop {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+  font-size: 14px;
+  color: #888;
+}
+
+div.chartDataTop span {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+div.chartDataTop span:last-of-type {
+  margin: 0;
+}
+
+div.chartWrapper {
+  position: relative;
+}
+
+table.chartDataOverlay {
+  display: none;
+  position: absolute;
+  top: 6%;
+  left: 13%;
+  font-size: 12px;
+}
+
+table.chartDataOverlay td:last-child {
+  padding-left: 10px;
+  width: 80px;
+  font-weight: bold;
+  text-align: right;
+}
+
+div.chart {
+  margin: 10px 0;
+}
+
+div.chartLoading {
+  position: relative;
+  width: 100%;
+  padding-top: 50%;
+  background: #fafafa;
+  border: 1px solid #eee;
+}
+
+div.chartLoading div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+
+
+
+
+.chartSvg {
+  max-width: 100%;
+  background: #fafafa;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+}
+
+.grid {
+  stroke-width: 0;
+}
+
+.grid line {
+  stroke-width: 1px;
+  stroke: #eee;
+}
+
+.axisText {
+  fill: #000;
+}
+
+.pathLine {
+  fill: none;
+  stroke: #000;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.pathPrice {
+  stroke: #ccc;
+  stroke-width: 1;
+}
+
+.pathForwardMinPrice {
+  stroke: #03a9f4;
+}
+
+.pathRegression {
+  stroke: #ff699c;
+}
+
+.pathRegressionStdDev {
+  stroke: #ff699c;
+  opacity: 0.3;
+}
+
+.mouseOverlay {
+  fill: none;
+  /* Lets this rect detect mouseover events even though it otherwise
+     wouldn't when fill=none */
+  pointer-events: all;
+}
+
+.mouseLine {
+  stroke: #00ffcc;
+  stroke-width: 2px;
+  opacity: 0.5;
+}
+
+.mouseCircle {
+  r: 4;
+  fill: #000;
+  stroke-width: 0;
+}
+
+.mouseCirclePrice {
+  fill: #555;
+  opacity: 0.5;
+}
+
+.mouseCircleForwardMinimum {
+  fill: #03a9f4;
+}
+
+.mouseCircleNlb,
+.mouseCircleRegression {
+  fill: #ff699c;
+}
+
+.mouseCircleDeviation {
+  fill: #ff699c;
+  opacity: 0.3;
+}
