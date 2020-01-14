@@ -30,7 +30,12 @@
     "start": "babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open"
   },
   "dependencies": {
-    "d3": "^5.14.2",
+    "@vx/axis": "^0.0.193-alpha.2",
+    "@vx/grid": "^0.0.193-alpha.2",
+    "@vx/group": "^0.0.193-alpha.2",
+    "@vx/scale": "^0.0.193-alpha.2",
+    "@vx/shape": "^0.0.193-alpha.2",
+    "d3-array": "^2.4.0",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
