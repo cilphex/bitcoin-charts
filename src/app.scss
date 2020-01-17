@@ -45,3 +45,73 @@ div.content {
   max-width: 800px;
   min-width: 300px;
 }
+
+div.chartHeader {
+  display: flex;
+  align-items: center;
+  margin: 40px 0 10px;
+}
+
+div.chartHeader h2 {
+  margin: 0;
+}
+
+div.chartHeader .price {
+  color: #555;
+}
+
+div.chartHeader .forwardMinPrice {
+  color: #03a9f4;
+}
+
+div.chartHeader .expected {
+  color: #ff699c;
+}
+
+div.chartHeader .deviation {
+  color: #ff699c;
+  opacity: 0.66;
+}
+
+div.chartDataTop {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 20px;
+  font-size: 14px;
+  color: #888;
+  visibility: hidden;
+}
+
+div.chartDataTop span {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+div.chartDataTop span:last-of-type {
+  margin: 0;
+}
+
+div.chartDescription {
+  position: relative;
+  font-size: 16px;
+  line-height: 1.6em;
+  /*border: 1px solid #ccc;*/
+  background: #fafafa;
+  border-radius: 3px;
+}
+
+div.chartDescription div.inner {
+  padding: 10px 30px;
+}
+
+div.chartDescription div.quote {
+  position: absolute;
+  padding-top: 20px;
+  top: 0;
+  left: 0;
+  width: 30px;
+  text-align: center;
+  font-size: 50px;
+  opacity: 0.25;
+}
