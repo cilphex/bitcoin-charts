@@ -11,8 +11,8 @@ class ChartData {
     this.standardDeviationPlc = this.getStandardDeviationPlc()
 
     // Tmp, for testing
-    window.datax = this.data
-    window.regressionDatax = this.regressionData
+    window.data = this.data
+    window.regressionData = this.regressionData
   }
 
   reverseData() {

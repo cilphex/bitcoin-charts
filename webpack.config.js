@@ -4,6 +4,7 @@
 import path from 'path';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
 
 module.exports = {
   // These are used to tell our server what has to be compiled and from where
@@ -78,6 +79,13 @@ module.exports = {
     // new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'app.html')
-    })
+    }),
+
+    new CopyPlugin([
+      {
+        from: path.join(__dirname, 'public'),
+        to: path.join(__dirname, 'build')
+      }
+    ])
   ]
 }

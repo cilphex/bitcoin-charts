@@ -175,6 +175,7 @@ div.chartLoading div {
   stroke: #00ffcc;
   stroke-width: 2px;
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .mouseCircle {
