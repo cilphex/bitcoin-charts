@@ -1,7 +1,9 @@
 import React from "react"
 import { Link, withRouter } from "react-router-dom";
+import { observer } from 'mobx-react';
 import styles from "./Nav.scss"
 
+@observer
 class Nav extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +11,7 @@ class Nav extends React.Component {
 
   render() {
     const { pathname } = this.props.location;
+    const { chartData } = this.props.dataStore;
 
     const linkClasses = ({
       home: '/',
@@ -30,6 +33,12 @@ class Nav extends React.Component {
           </Link>
           <Link to="/never-look-back" className={linkClasses.nlb}>NLB</Link>
           <Link to="/power-law-corridor" className={linkClasses.plc}>PLC</Link>
+
+          {!chartData && (
+            <div className={styles.loading}>
+              Loading
+            </div>
+          )}
         </div>
       </div>
     )

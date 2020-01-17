@@ -24,7 +24,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <Nav/>
+        <Nav dataStore={this.dataStore}/>
         <div className={styles.content}>
           <Route path="/never-look-back">
             <NeverLookBack dataStore={this.dataStore}/>
