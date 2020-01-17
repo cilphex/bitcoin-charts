@@ -1035,6 +1035,14 @@
     "@types/react-dom" "*"
     prop-types "^15.5.10"
 
+"@vx/clip-path@^0.0.193-alpha.2":
+  version "0.0.193-alpha.2"
+  resolved "https://registry.yarnpkg.com/@vx/clip-path/-/clip-path-0.0.193-alpha.2.tgz#7a4a26f9ddd2b69c5bf048c8c41cdaa938edb554"
+  integrity sha512-sVk4CmSUq3FGGLzez9TE0k08Z/f8Eno4tHYejEU8gNesVXnc19dw+l4xKhzR0aAmrIHIu+85sTMvAyrJ/B5Pvg==
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.5.10"
+
 "@vx/curve@0.0.193-alpha.2":
   version "0.0.193-alpha.2"
   resolved "https://registry.yarnpkg.com/@vx/curve/-/curve-0.0.193-alpha.2.tgz#0fa186e83e0e8167c19284e55766863e8cfdea5e"
@@ -2382,6 +2390,11 @@ d3-format@1:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-1.4.2.tgz#2a8c0ebf500f315981c2110eaaf70b82f472cb2b"
   integrity sha512-gco1Ih54PgMsyIXgttLxEhNy/mXxq8+rLnCb5shQk+P5TsiySrwWU5gpB4zen626J4LIwBxHvDChyA8qDm57ww==
+
+d3-format@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-1.4.3.tgz#4e8eb4dff3fdcb891a8489ec6e698601c41b96f1"
+  integrity sha512-mm/nE2Y9HgGyjP+rKIekeITVgBtX97o1nrvHCWX8F/yBYyevUTvu9vb5pUnKwrcSw7o7GuwMOWjS9gFDs4O+uQ==
 
 d3-geo@1:
   version "1.11.9"
