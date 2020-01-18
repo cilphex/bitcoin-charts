@@ -1,12 +1,13 @@
 import React from 'react';
-import { scaleLinear, scaleTime } from "@vx/scale";
+import { observer } from 'mobx-react';
 import { extent } from "d3-array";
+import { scaleLinear, scaleTime } from "@vx/scale";
 import { Group } from "@vx/group";
 import { Grid } from "@vx/grid";
 import { LinePath, Circle } from "@vx/shape";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { localPoint } from "@vx/event";
-import { observer } from 'mobx-react';
+
 import { bisector } from 'd3-array';
 
 import Chart from 'components/Chart';

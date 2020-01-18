@@ -56,7 +56,7 @@ class NeverLookBack extends React.Component {
   render() {
     return (
       <div>
-        <h1>Example chart: Bitcion price over time</h1>
+        <h1>Bitcoin's Never Look Back Price</h1>
         <p className={styles.intro}>
           As described in {' '}
           <a href="https://www.caneislandcrypto.com/blog/2019/10/5/why-bitcoin-is-never-looking-back">this article</a>

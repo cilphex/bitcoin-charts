@@ -1,6 +1,6 @@
 import React from 'react';
 import dimensions from './dimensions.js';
-import ChartLoading from 'components/ChartLoading';
+import ChartLoading from './components/ChartLoading';
 import chartStyles from 'styles/chart-styles.scss';
 
 class Chart extends React.Component {
