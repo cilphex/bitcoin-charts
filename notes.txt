@@ -1,2 +1,3 @@
 Notes:
 - utilize scss and nest some attributes for clarity
+- onMouseMove callbacks use slightly different stuff for setting up index/xPos

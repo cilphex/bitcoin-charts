@@ -29,16 +29,15 @@ class BasicChart extends React.Component {
     super(props);
 
     this.dataStore = this.props.dataStore;
-
     this.lineRef = React.createRef();
-    this.priceCircle = React.createRef();
-    this.forwardMinCircle = React.createRef();
+    this.priceCircleRef = React.createRef();
+    this.forwardMinCircleRef = React.createRef();
   }
 
   onMouseOver() {
     this.lineRef.current.setAttribute('visibility', 'visible')
-    this.priceCircle.current.setAttribute('visibility', 'visible')
-    this.forwardMinCircle.current.setAttribute('visibility', 'visible')
+    this.priceCircleRef.current.setAttribute('visibility', 'visible')
+    this.forwardMinCircleRef.current.setAttribute('visibility', 'visible')
 
     if (this.props.onMouseOver) {
       this.props.onMouseOver();
@@ -47,8 +46,8 @@ class BasicChart extends React.Component {
 
   onMouseOut() {
     this.lineRef.current.setAttribute('visibility', 'hidden')
-    this.priceCircle.current.setAttribute('visibility', 'hidden')
-    this.forwardMinCircle.current.setAttribute('visibility', 'hidden')
+    this.priceCircleRef.current.setAttribute('visibility', 'hidden')
+    this.forwardMinCircleRef.current.setAttribute('visibility', 'hidden')
 
     if (this.props.onMouseOut) {
       this.props.onMouseOut();
@@ -68,8 +67,8 @@ class BasicChart extends React.Component {
     const yPosForwardMin = yScale(item.forwardMinimumPrice);
 
     this.lineRef.current.setAttribute('transform', `translate(${xPos}, 0)`)
-    this.priceCircle.current.setAttribute('transform', `translate(${xPos}, ${yPosPrice})`)
-    this.forwardMinCircle.current.setAttribute('transform', `translate(${xPos}, ${yPosForwardMin})`)
+    this.priceCircleRef.current.setAttribute('transform', `translate(${xPos}, ${yPosPrice})`)
+    this.forwardMinCircleRef.current.setAttribute('transform', `translate(${xPos}, ${yPosForwardMin})`)
 
     if (this.props.onMouseMove) {
       this.props.onMouseMove(item);
@@ -136,13 +135,13 @@ class BasicChart extends React.Component {
           />
 
           <circle
-            ref={this.priceCircle}
+            ref={this.priceCircleRef}
             className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
             visibility="hidden"
           />
 
           <circle
-            ref={this.forwardMinCircle}
+            ref={this.forwardMinCircleRef}
             className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
             visibility="hidden"
           />

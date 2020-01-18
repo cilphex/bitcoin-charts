@@ -11,6 +11,7 @@ import { LinePath } from "@vx/shape";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { RectClipPath } from "@vx/clip-path";
 import { Grid } from "@vx/grid";
+import {localPoint} from "@vx/event";
 
 const chartDimensions = (() => {
   const margin = { top: 20, right: 20, bottom: 35, left: 75 };
@@ -28,6 +29,31 @@ class RegressionChart extends React.Component {
     super(props);
 
     this.dataStore = this.props.dataStore;
+    this.lineRef = React.createRef();
+    this.forwardMinCircleRef = React.createRef();
+    this.regressionCircleRef = React.createRef();
+    this.regressionCircleTopRef = React.createRef();
+    this.regressionCircleBottomRef = React.createRef();
+  }
+
+  onMouseOver() {
+    this.lineRef.current.setAttribute('visibility', 'visible')
+  }
+
+  onMouseOut() {
+    this.lineRef.current.setAttribute('visibility', 'hidden')
+  }
+
+  onMouseMove(e, regressionData, xScale, yScale) {
+    const { margin } = chartDimensions;
+    const point = localPoint(e);
+    const x = point.x - margin.left;
+    const date = xScale.invert(x);
+    const index = Math.round(date)
+    const item = regressionData[index]
+    const xPos = xScale(index)
+
+    this.lineRef.current.setAttribute('transform', `translate(${xPos}, 0)`)
   }
 
   get loadingView() {
@@ -121,6 +147,17 @@ class RegressionChart extends React.Component {
             clipPath="url(#regression_chart_clip)"
           />
 
+          {/* The vertical line that follows the cursor when hovering */}
+          <line
+            ref={this.lineRef}
+            x1={0}
+            y1={0}
+            x2={0}
+            y2={innerHeight}
+            className={chartStyles.mouseLine}
+            visibility="hidden"
+          />
+
           {/* Left axis */}
           <AxisLeft
             scale={yScale}
@@ -134,6 +171,16 @@ class RegressionChart extends React.Component {
             top={innerHeight}
             tickValues={colTickValues}
             tickFormat={i => moment(data[0].date).add(i, 'days').format('`YY')}
+          />
+
+          {/* Hover detection area */}
+          <rect
+            width={innerWidth}
+            height={innerHeight}
+            className={chartStyles.mouseOverlay}
+            onMouseOver={() => this.onMouseOver()}
+            onMouseOut={() => this.onMouseOut()}
+            onMouseMove={(e) => this.onMouseMove(e, regressionData, xScale, yScale)}
           />
         </Group>
       </svg>
