@@ -4,31 +4,21 @@ import { scalePower, scaleLog } from "@vx/scale";
 import { min } from "d3-array";
 import { format } from "d3-format";
 import { observer } from 'mobx-react';
-import ChartLoading from 'components/ChartLoading';
-import chartStyles from 'styles/chart-styles.scss';
 import { Group } from "@vx/group";
 import { LinePath } from "@vx/shape";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { RectClipPath } from "@vx/clip-path";
 import { Grid } from "@vx/grid";
-import {localPoint} from "@vx/event";
+import { localPoint } from "@vx/event";
 
-const chartDimensions = (() => {
-  const margin = { top: 20, right: 20, bottom: 35, left: 75 };
-  const width = 800;
-  const height = 400;
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
-
-  return { margin, width, height, innerWidth, innerHeight };
-})();
+import Chart from 'components/Chart';
+import chartStyles from 'styles/chart-styles.scss';
 
 @observer
-class RegressionChart extends React.Component {
+class RegressionChart extends Chart {
   constructor(props) {
     super(props);
 
-    this.dataStore = this.props.dataStore;
     this.lineRef = React.createRef();
     this.forwardMinCircleRef = React.createRef();
     this.regressionCircleRef = React.createRef();
@@ -37,27 +27,64 @@ class RegressionChart extends React.Component {
   }
 
   onMouseOver() {
-    this.lineRef.current.setAttribute('visibility', 'visible')
+    [
+      this.lineRef,
+      this.forwardMinCircleRef,
+      this.regressionCircleRef,
+      this.regressionCircleTopRef,
+      this.regressionCircleBottomRef
+    ].forEach(ref =>
+      ref.current.setAttribute('visibility', 'visible')
+    )
   }
 
   onMouseOut() {
-    this.lineRef.current.setAttribute('visibility', 'hidden')
+    [
+      this.lineRef,
+      this.forwardMinCircleRef,
+      this.regressionCircleRef,
+      this.regressionCircleTopRef,
+      this.regressionCircleBottomRef
+    ].forEach(ref =>
+      ref.current.setAttribute('visibility', 'hidden')
+    )
   }
 
-  onMouseMove(e, regressionData, xScale, yScale) {
-    const { margin } = chartDimensions;
+  onMouseMove(e, xScale, yScale) {
+    const {
+      regressionData,
+      standardDeviationNlb
+    } = this.dataStore.chartData;
+    const { margin } = this.chartDimensions;
     const point = localPoint(e);
     const x = point.x - margin.left;
     const date = xScale.invert(x);
-    const index = Math.round(date)
-    const item = regressionData[index]
-    const xPos = xScale(index)
+    const index = Math.round(date);
+    const item = regressionData[index];
+    const xPos = xScale(index);
 
     this.lineRef.current.setAttribute('transform', `translate(${xPos}, 0)`)
-  }
 
-  get loadingView() {
-    return <ChartLoading />;
+    if (item.forwardMinimumPrice) {
+      const yPosForwardMin = yScale(item.forwardMinimumPrice);
+      this.forwardMinCircleRef.current.setAttribute('visibility', 'visible')
+      this.forwardMinCircleRef.current.setAttribute('transform', `translate(${xPos}, ${yPosForwardMin})`)
+    }
+    else {
+      this.forwardMinCircleRef.current.setAttribute('visibility', 'hidden')
+    }
+
+    const regressionPrice = Math.pow(10, item.regressionNlb)
+    const regressionPriceMax = Math.pow(10, item.regressionNlb + standardDeviationNlb)
+    const regressionPriceMin = Math.pow(10, item.regressionNlb - standardDeviationNlb)
+
+    const yPosRegression = yScale(regressionPrice)
+    const yPosRegressionMax = yScale(regressionPriceMax)
+    const yPosRegressionMin = yScale(regressionPriceMin)
+
+    this.regressionCircleRef.current.setAttribute('transform', `translate(${xPos}, ${yPosRegression})`)
+    this.regressionCircleTopRef.current.setAttribute('transform', `translate(${xPos}, ${yPosRegressionMax})`)
+    this.regressionCircleBottomRef.current.setAttribute('transform', `translate(${xPos}, ${yPosRegressionMin})`)
   }
 
   get chartView() {
@@ -67,7 +94,7 @@ class RegressionChart extends React.Component {
       regressionData,
       standardDeviationNlb
     } = chartData;
-    const { margin, width, height, innerWidth, innerHeight } = chartDimensions;
+    const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const maxDays = data.length - 1;
     const maxRegressionNlb = regressionData[data.length-1].regressionNlb;
 
@@ -158,6 +185,30 @@ class RegressionChart extends React.Component {
             visibility="hidden"
           />
 
+          <circle
+            ref={this.forwardMinCircleRef}
+            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
+            visibility="hidden"
+          />
+
+          <circle
+            ref={this.regressionCircleRef}
+            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleRegression}`}
+            visibility="hidden"
+          />
+
+          <circle
+            ref={this.regressionCircleTopRef}
+            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleDeviation}`}
+            visibility="hidden"
+          />
+
+          <circle
+            ref={this.regressionCircleBottomRef}
+            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleDeviation}`}
+            visibility="hidden"
+          />
+
           {/* Left axis */}
           <AxisLeft
             scale={yScale}
@@ -180,23 +231,10 @@ class RegressionChart extends React.Component {
             className={chartStyles.mouseOverlay}
             onMouseOver={() => this.onMouseOver()}
             onMouseOut={() => this.onMouseOut()}
-            onMouseMove={(e) => this.onMouseMove(e, regressionData, xScale, yScale)}
+            onMouseMove={(e) => this.onMouseMove(e, xScale, yScale)}
           />
         </Group>
       </svg>
-    );
-  }
-
-  render() {
-    const { chartData } = this.dataStore;
-    const view = chartData
-        ? this.chartView
-        : this.loadingView;
-
-    return (
-      <div className={chartStyles.chart}>
-        {view}
-      </div>
     );
   }
 }

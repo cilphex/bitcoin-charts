@@ -7,28 +7,18 @@ import { LinePath, Circle } from "@vx/shape";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { localPoint } from "@vx/event";
 import { observer } from 'mobx-react';
-import ChartLoading from 'components/ChartLoading';
-import chartStyles from 'styles/chart-styles.scss';
 import { bisector } from 'd3-array';
+
+import Chart from 'components/Chart';
+import chartStyles from 'styles/chart-styles.scss';
 
 const bisectDate = bisector((d) => d.date).right;
 
-const chartDimensions = (() => {
-  const margin = { top: 20, right: 20, bottom: 35, left: 75 };
-  const width = 800;
-  const height = 400;
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
-
-  return { margin, width, height, innerWidth, innerHeight };
-})();
-
 @observer
-class BasicChart extends React.Component {
+class BasicChart extends Chart {
   constructor(props) {
     super(props);
 
-    this.dataStore = this.props.dataStore;
     this.lineRef = React.createRef();
     this.priceCircleRef = React.createRef();
     this.forwardMinCircleRef = React.createRef();
@@ -55,7 +45,7 @@ class BasicChart extends React.Component {
   }
 
   onMouseMove(e, data, xScale, yScale) {
-    const { margin } = chartDimensions;
+    const { margin } = this.chartDimensions;
     const point = localPoint(e);
     const x = point.x - margin.left;
     const date = xScale.invert(x);
@@ -75,16 +65,10 @@ class BasicChart extends React.Component {
     }
   }
 
-  get loadingView() {
-    return (
-      <ChartLoading />
-    );
-  }
-
   get chartView() {
     const { chartData } = this.dataStore;
     const { data } = chartData;
-    const { margin, width, height, innerWidth, innerHeight } = chartDimensions;
+    const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
 
     const xScale = scaleTime({
       range: [0, innerWidth],
@@ -168,19 +152,6 @@ class BasicChart extends React.Component {
           />
         </Group>
       </svg>
-    );
-  }
-
-  render() {
-    const { chartData } = this.dataStore;
-    const view = chartData
-      ? this.chartView
-      : this.loadingView;
-
-    return (
-      <div className={chartStyles.chart}>
-        {view}
-      </div>
     );
   }
 }
