@@ -3,7 +3,7 @@ import { scaleLinear, scaleTime } from "@vx/scale";
 import { extent } from "d3-array";
 import { Group } from "@vx/group";
 import { Grid } from "@vx/grid";
-import { LinePath } from "@vx/shape";
+import { LinePath, Circle } from "@vx/shape";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { localPoint } from "@vx/event";
 import { observer } from 'mobx-react';
@@ -28,12 +28,17 @@ class BasicChart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.lineRef = React.createRef();
     this.dataStore = this.props.dataStore;
+
+    this.lineRef = React.createRef();
+    this.priceCircle = React.createRef();
+    this.forwardMinCircle = React.createRef();
   }
 
   onMouseOver() {
     this.lineRef.current.setAttribute('visibility', 'visible')
+    this.priceCircle.current.setAttribute('visibility', 'visible')
+    this.forwardMinCircle.current.setAttribute('visibility', 'visible')
 
     if (this.props.onMouseOver) {
       this.props.onMouseOver();
@@ -42,13 +47,15 @@ class BasicChart extends React.Component {
 
   onMouseOut() {
     this.lineRef.current.setAttribute('visibility', 'hidden')
+    this.priceCircle.current.setAttribute('visibility', 'hidden')
+    this.forwardMinCircle.current.setAttribute('visibility', 'hidden')
 
     if (this.props.onMouseOut) {
       this.props.onMouseOut();
     }
   }
 
-  onMouseMove(e, data, xScale) {
+  onMouseMove(e, data, xScale, yScale) {
     const { margin } = chartDimensions;
     const point = localPoint(e);
     const x = point.x - margin.left;
@@ -57,7 +64,12 @@ class BasicChart extends React.Component {
     const item = data[index];
     const xPos = xScale(date);
 
+    const yPosPrice = yScale(item.price);
+    const yPosForwardMin = yScale(item.forwardMinimumPrice);
+
     this.lineRef.current.setAttribute('transform', `translate(${xPos}, 0)`)
+    this.priceCircle.current.setAttribute('transform', `translate(${xPos}, ${yPosPrice})`)
+    this.forwardMinCircle.current.setAttribute('transform', `translate(${xPos}, ${yPosForwardMin})`)
 
     if (this.props.onMouseMove) {
       this.props.onMouseMove(item);
@@ -119,8 +131,20 @@ class BasicChart extends React.Component {
             y1={0}
             x2={0}
             y2={innerHeight}
-            visibility="hidden"
             className={chartStyles.mouseLine}
+            visibility="hidden"
+          />
+
+          <circle
+            ref={this.priceCircle}
+            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+            visibility="hidden"
+          />
+
+          <circle
+            ref={this.forwardMinCircle}
+            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
+            visibility="hidden"
           />
 
           {/* Left axis */}
@@ -141,7 +165,7 @@ class BasicChart extends React.Component {
             className={chartStyles.mouseOverlay}
             onMouseOver={() => this.onMouseOver()}
             onMouseOut={() => this.onMouseOut()}
-            onMouseMove={(e) => this.onMouseMove(e, data, xScale)}
+            onMouseMove={(e) => this.onMouseMove(e, data, xScale, yScale)}
           />
         </Group>
       </svg>
