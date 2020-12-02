@@ -29,14 +29,6 @@ module.exports = {
     ]
   },
 
-  // This tells the webpack-dev-server what files are needed to be served.
-  // Everything from our src folder needs to be served (outputted) in the
-  // browser
-  devServer: {
-    contentBase: path.join(__dirname, 'src'),
-    historyApiFallback: true
-  },
-
   module: {
     rules: [
       {
@@ -76,7 +68,7 @@ module.exports = {
   // index.bundle.js should be injected (or added if you will) to our
   // index.html file
   plugins: [
-    // new CleanWebpackPlugin(),
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'app.html')
     }),
@@ -87,5 +79,13 @@ module.exports = {
         to: path.join(__dirname, 'build')
       }
     ])
-  ]
+  ],
+
+  // This tells the webpack-dev-server what files are needed to be served.
+  // Everything from our src folder needs to be served (outputted) in the
+  // browser
+  devServer: {
+    contentBase: path.join(__dirname, 'src'),
+    historyApiFallback: true
+  },
 }

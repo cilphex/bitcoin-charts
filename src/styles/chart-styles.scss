@@ -2,9 +2,6 @@ div.chart {
   margin: 10px 0;
 }
 
-/**************/
-/* SVG styles */
-
 .chartSvg {
   max-width: 100%;
   background: #fafafa;
@@ -14,11 +11,11 @@ div.chart {
 
 .grid {
   stroke-width: 0;
-}
 
-.grid line {
-  stroke-width: 1px;
-  stroke: #eee;
+  line {
+    stroke-width: 1px;
+    stroke: #eee;
+  }
 }
 
 .axisText {
@@ -88,4 +85,39 @@ div.chart {
 .mouseCircleDeviation {
   fill: #ff699c;
   opacity: 0.3;
+}
+
+div.rangeWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  height: 20px; /* Height of the slider thumb. */
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 200px;
+    height: 3px;
+    background: #00da0a;
+    border-radius: 100px;
+    outline: none;
+    cursor: ew-resize;
+    opacity: 0.75;
+    outline: none;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border: 3px solid #00da0a;
+      border-radius: 100px;
+    }
+  }
 }

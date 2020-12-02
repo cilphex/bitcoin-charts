@@ -1,6 +1,10 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import { moneyFormat } from 'lib/utils.js'
+
+// Stores
+import ChartStore from 'stores/ChartStore.js';
 
 // Components
 import BasicChart from './components/BasicChart';
@@ -9,51 +13,23 @@ import RegressionChart from './components/RegressionChart';
 // Styles
 import styles from "app.scss";
 
+@observer
 class NeverLookBack extends React.Component {
   constructor(props) {
     super(props);
 
     this.dataStore = this.props.dataStore;
-
-    this.basicDataRef = React.createRef();
-    this.basicDateRef = React.createRef();
-    this.basicPriceRef = React.createRef();
-    this.basicForwardMinRef = React.createRef();
-
-    this.regressionDataRef = React.createRef();
-    this.regressionPriceRef = React.createRef();
-    this.regressionMaxRef = React.createRef();
-    this.regressionMinRef = React.createRef();
-    this.regressionExpectedRef = React.createRef();
-  }
-
-  basicChartMouseOver() {
-    this.basicDataRef.current.style.visibility = 'visible';
-  }
-
-  basicChartMouseOut() {
-    this.basicDataRef.current.style.visibility = 'hidden';
-  }
-
-  basicChartMouseMove(item) {
-    this.basicDateRef.current.textContent = moment(item.date).format('MMM D, YYYY');
-    this.basicPriceRef.current.textContent = moneyFormat(item.price);
-    this.basicForwardMinRef.current.textContent = moneyFormat(item.forwardMinimumPrice);
-  }
-
-  regressionChartMouseOver() {
-    this.regressionDataRef.current.style.visibility = 'visible';
-  }
-
-  regressionChartMouseOut() {
-    this.regressionDataRef.current.style.visibility = 'hidden';
-  }
-
-  regressionChartMouseMove(item) {
-    this.regressionDateRef.current.textContent = moment(item.date).format('MMM D, YYYY');
+    this.basicChartStore = new ChartStore();
+    this.regressionChartStore = new ChartStore();
   }
 
   render() {
+    const { hoverItem: basicChartItem } = this.basicChartStore;
+    const {
+      hoverData: regressionChartData,
+      hoverItem: regressionChartItem,
+    } = this.regressionChartStore;
+
     return (
       <div>
         <h1>Bitcoin's Never Look Back Price</h1>
@@ -66,13 +42,17 @@ class NeverLookBack extends React.Component {
 
         <div className={styles.chartHeader}>
           <h2>Basic NLB</h2>
-          <div ref={this.basicDataRef} className={styles.chartDataTop}>
-            <div ref={this.basicDateRef} />
-            <div>
-              Price: <span ref={this.basicPriceRef} className={styles.price} />
-              NLB: <span ref={this.basicForwardMinRef} className={styles.forwardMinPrice} />
+          { basicChartItem && (
+            <div className={styles.chartDataTop}>
+              <div>
+                {moment(basicChartItem.date).format('MMM D, YYYY')}
+              </div>
+              <div>
+                Price: <span className={styles.price}>{moneyFormat(basicChartItem.price)}</span>
+                NLB: <span className={styles.forwardMinPrice}>{moneyFormat(basicChartItem.forwardMinimumPrice)}</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className={styles.chartDescription}>
@@ -90,22 +70,24 @@ class NeverLookBack extends React.Component {
 
         <BasicChart
           dataStore={this.dataStore}
-          onMouseOver={() => this.basicChartMouseOver()}
-          onMouseOut={() => this.basicChartMouseOut()}
-          onMouseMove={(item) => this.basicChartMouseMove(item)}
+          chartStore={this.basicChartStore}
         />
 
         <div className={styles.chartHeader}>
           <h2>Regression</h2>
-          <div ref={this.regressionDataRef} className={styles.chartDataTop}>
-            <div ref={this.dateRef} />
-            <div>
-              Price: <span ref={this.regressionPriceRef} className={styles.price} />
-              Max: <span ref={this.regressionMaxRef} className={styles.deviation} />
-              Expected: <span ref={this.regressionExpectedRef} className={styles.expected} />
-              Min: <span ref={this.regressionMinRef} className={styles.deviation} />
+          { regressionChartItem && (
+            <div className={styles.chartDataTop}>
+              <div>
+                {moment(regressionChartItem.date).format('MMM D, YYYY')}
+              </div>
+              <div>
+                Price: <span className={styles.price}>{moneyFormat(regressionChartItem.forwardMinimumPrice)}</span>
+                Max: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPrice)}</span>
+                Expected: <span className={styles.expected}>{moneyFormat(regressionChartData.regressionPriceMax)}</span>
+                Min: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPriceMin)}</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className={styles.chartDescription}>
@@ -123,9 +105,7 @@ class NeverLookBack extends React.Component {
 
         <RegressionChart
           dataStore={this.dataStore}
-          onMouseOver={() => this.regressionChartMouseOver()}
-          onMouseOut={() => this.regressionChartMouseOut()}
-          onMouseMove={(item) => this.regressionChartMouseMove(item)}
+          chartStore={this.regressionChartStore}
         />
       </div>
     );

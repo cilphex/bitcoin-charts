@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { extent } from "d3-array";
+import * as d3 from 'd3';
 import { scaleLinear, scaleTime } from "@vx/scale";
 import { Group } from "@vx/group";
 import { Grid } from "@vx/grid";
@@ -19,30 +19,14 @@ const bisectDate = bisector((d) => d.date).right;
 class BasicChart extends Chart {
   constructor(props) {
     super(props);
-
-    this.lineRef = React.createRef();
-    this.priceCircleRef = React.createRef();
-    this.forwardMinCircleRef = React.createRef();
   }
 
   onMouseOver() {
-    this.lineRef.current.setAttribute('visibility', 'visible')
-    this.priceCircleRef.current.setAttribute('visibility', 'visible')
-    this.forwardMinCircleRef.current.setAttribute('visibility', 'visible')
-
-    if (this.props.onMouseOver) {
-      this.props.onMouseOver();
-    }
+    this.chartStore.hovering = true;
   }
 
   onMouseOut() {
-    this.lineRef.current.setAttribute('visibility', 'hidden')
-    this.priceCircleRef.current.setAttribute('visibility', 'hidden')
-    this.forwardMinCircleRef.current.setAttribute('visibility', 'hidden')
-
-    if (this.props.onMouseOut) {
-      this.props.onMouseOut();
-    }
+    this.chartStore.hovering = false;
   }
 
   onMouseMove(e, data, xScale, yScale) {
@@ -57,13 +41,13 @@ class BasicChart extends Chart {
     const yPosPrice = yScale(item.price);
     const yPosForwardMin = yScale(item.forwardMinimumPrice);
 
-    this.lineRef.current.setAttribute('transform', `translate(${xPos}, 0)`)
-    this.priceCircleRef.current.setAttribute('transform', `translate(${xPos}, ${yPosPrice})`)
-    this.forwardMinCircleRef.current.setAttribute('transform', `translate(${xPos}, ${yPosForwardMin})`)
+    this.chartStore.data = {
+      xPos,
+      yPosPrice,
+      yPosForwardMin,
+    };
 
-    if (this.props.onMouseMove) {
-      this.props.onMouseMove(item);
-    }
+    this.chartStore.item = item;
   }
 
   get chartView() {
@@ -73,13 +57,20 @@ class BasicChart extends Chart {
 
     const xScale = scaleTime({
       range: [0, innerWidth],
-      domain: extent(data, (d) => d.date)
+      domain: d3.extent(data, (d) => d.date)
     });
 
     const yScale = scaleLinear({
       range: [innerHeight, 0],
-      domain: extent(data, (d) => d.price)
+      domain: d3.extent(data, (d) => d.price)
     });
+
+    const { hoverData } = this.chartStore;
+    const {
+      xPos,
+      yPosPrice,
+      yPosForwardMin
+    } = hoverData;
 
     return (
       <svg className={chartStyles.chartSvg} width={800} height={400} viewBox={`0 0 ${width} ${height}`}>
@@ -108,28 +99,30 @@ class BasicChart extends Chart {
             className={`${chartStyles.pathLine} ${chartStyles.pathForwardMinPrice}`}
           />
 
-          {/* The vertical line that follows the cursor when hovering */}
-          <line
-            ref={this.lineRef}
-            x1={0}
-            y1={0}
-            x2={0}
-            y2={innerHeight}
-            className={chartStyles.mouseLine}
-            visibility="hidden"
-          />
+          { hoverData && (
+            <Group>
+              {/* The vertical line that follows the cursor when hovering */}
+              <line
+                x1={xPos}
+                y1={0}
+                x2={xPos}
+                y2={innerHeight}
+                className={chartStyles.mouseLine}
+              />
 
-          <circle
-            ref={this.priceCircleRef}
-            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
-            visibility="hidden"
-          />
+              <circle
+                cx={xPos}
+                cy={yPosPrice}
+                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+              />
 
-          <circle
-            ref={this.forwardMinCircleRef}
-            className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
-            visibility="hidden"
-          />
+              <circle
+                cx={xPos}
+                cy={yPosForwardMin}
+                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
+              />
+            </Group>
+          )}
 
           {/* Left axis */}
           <AxisLeft

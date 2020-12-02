@@ -5,11 +5,17 @@
   "main": "index.js",
   "author": "Craig Hammell",
   "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "babel-node ./node_modules/webpack/bin/webpack",
+    "start": "babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open"
+  },
   "devDependencies": {
     "@babel/core": "7.7.5",
     "@babel/node": "7.7.4",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.11.0",
     "@babel/preset-env": "7.7.6",
     "@babel/preset-react": "7.7.4",
     "babel-loader": "8.0.6",
@@ -23,12 +29,8 @@
     "style-loader": "1.0.1",
     "webpack": "4.41.2",
     "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.9.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "babel-node ./node_modules/webpack/bin/webpack",
-    "start": "babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open"
+    "webpack-dev-server": "3.9.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@vx/axis": "^0.0.193-alpha.2",
@@ -41,8 +43,6 @@
     "@vx/tooltip": "^0.0.193-alpha.2",
     "copy-webpack-plugin": "^5.1.1",
     "d3": "^5.15.0",
-    "d3-array": "^2.4.0",
-    "d3-format": "^1.4.3",
     "mobx": "^5.15.2",
     "mobx-react": "^6.1.5",
     "moment": "^2.24.0",

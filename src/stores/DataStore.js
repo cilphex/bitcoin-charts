@@ -5,17 +5,12 @@ class DataStore {
   @observable chartData = null;
 
   constructor() {
-    this.fetchData();
   }
 
-  fetchData() {
-    fetch('/data/price-data.json')
-      .then(res => res.json())
-      .then(this.gotData);
-  }
-
-  gotData = (rawData) => {
-    this.chartData = new ChartData(rawData);
+  async fetchData() {
+    const res = await fetch('/data/price-data.json')
+    const data = await res.json();
+    this.chartData = new ChartData(data);
   }
 }
 
