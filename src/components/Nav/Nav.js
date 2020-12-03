@@ -32,7 +32,7 @@ class Nav extends React.Component {
             <span />
           </Link>
           <Link to="/never-look-back" className={linkClasses.nlb}>NLB</Link>
-          <Link to="/power-law-corridor" className={linkClasses.plc}>PLC</Link>
+          {/*<Link to="/power-law-corridor" className={linkClasses.plc}>PLC</Link>*/}
 
           {!chartData && (
             <div className={styles.loading}>

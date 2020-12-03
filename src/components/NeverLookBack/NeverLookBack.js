@@ -82,8 +82,8 @@ class NeverLookBack extends React.Component {
               </div>
               <div>
                 Price: <span className={styles.price}>{moneyFormat(regressionChartItem.forwardMinimumPrice)}</span>
-                Max: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPrice)}</span>
-                Expected: <span className={styles.expected}>{moneyFormat(regressionChartData.regressionPriceMax)}</span>
+                Max: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPriceMax)}</span>
+                Expected: <span className={styles.expected}>{moneyFormat(regressionChartData.regressionPrice)}</span>
                 Min: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPriceMin)}</span>
               </div>
             </div>
