@@ -1,0 +1,15 @@
+steps:
+
+# Install dependencies
+- name: node
+  entrypoint: yarn
+  args: ['install']
+
+# Build with webpack
+- name: node
+  entrypoint: yarn
+  args: ['run', 'build']
+
+# Copy build files to cloud storage location
+- name: gcr.io/cloud-builders/gsutil
+  args: [ "-m", "rsync", "-r", "-c", "-d", "./build", "gs://bitcoin.craighammell.com/v2" ]
