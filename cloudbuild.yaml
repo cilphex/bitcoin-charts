@@ -12,4 +12,4 @@ steps:
 
 # Copy build files to cloud storage location
 - name: gcr.io/cloud-builders/gsutil
-  args: [ "-m", "rsync", "-r", "-c", "-d", "./build", "gs://bitcoin.craighammell.com/v2" ]
+  args: [ "-m", "rsync", "-r", "-c", "-d", "./build", "gs://test.bitcoin.craighammell.com" ]
