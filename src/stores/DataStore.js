@@ -5,6 +5,7 @@ class DataStore {
   @observable chartData = null;
 
   constructor() {
+    this.fetchData();
   }
 
   async fetchData() {

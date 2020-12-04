@@ -81,6 +81,9 @@ module.exports = {
     ])
   ],
 
+  // Development stuff?
+  devtool: 'source-map',
+
   // This tells the webpack-dev-server what files are needed to be served.
   // Everything from our src folder needs to be served (outputted) in the
   // browser

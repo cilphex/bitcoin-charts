@@ -18,14 +18,9 @@ class RegressionChart extends Chart {
   constructor(props) {
     super(props);
 
-    this.state = {};
-  }
-
-  gotData() {
-    const { chartData } = this.dataStore;
-    const { data } = chartData;
-
-    this.setScales(data.length - 1);
+    this.state = {
+      maxDays: null,
+    };
   }
 
   onMouseOver() {
@@ -41,26 +36,28 @@ class RegressionChart extends Chart {
       regressionData,
       standardDeviationNlb
     } = this.dataStore.chartData;
+    const { xScale, yScale } = this.scales;
+
     const { margin } = this.chartDimensions;
     const point = localPoint(e);
     const x = point.x - margin.left;
-    const date = this.state.xScale.invert(x);
+    const date = xScale.invert(x);
     const index = Math.round(date);
     const item = regressionData[index];
-    const xPos = this.state.xScale(index);
+    const xPos = xScale(index);
 
     let yPosForwardMin;
     if (item.forwardMinimumPrice) {
-      yPosForwardMin = this.state.yScale(item.forwardMinimumPrice);
+      yPosForwardMin = yScale(item.forwardMinimumPrice);
     }
 
     const regressionPrice = Math.pow(10, item.regressionNlb)
     const regressionPriceMax = Math.pow(10, item.regressionNlb + standardDeviationNlb)
     const regressionPriceMin = Math.pow(10, item.regressionNlb - standardDeviationNlb)
 
-    const yPosRegression = this.state.yScale(regressionPrice)
-    const yPosRegressionMax = this.state.yScale(regressionPriceMax)
-    const yPosRegressionMin = this.state.yScale(regressionPriceMin)
+    const yPosRegression = yScale(regressionPrice)
+    const yPosRegressionMax = yScale(regressionPriceMax)
+    const yPosRegressionMin = yScale(regressionPriceMin)
 
     Object.assign(this.chartStore.data, {
       regressionPrice,
@@ -90,20 +87,27 @@ class RegressionChart extends Chart {
 
   onRangeChange(e) {
     const maxDays = this.mapInputRangeToDays(e.target.value);
-
-    this.setScales(maxDays);
+    this.setState({ maxDays });
   }
 
-  setScales(maxDays) {
+  get scales() {
     const { chartData } = this.dataStore;
     const {
       data,
       regressionData,
     } = chartData;
     const { innerWidth, innerHeight } = this.chartDimensions;
+    const maxDays = this.state.maxDays || data.length - 1;
     const maxRegressionNlb = regressionData[maxDays].regressionNlb;
 
-    this.setState({
+    // Memoize, so we're re-evaluating on scale sliding but not on
+    // every mouse move
+    if (maxDays == this.prevMaxDays) {
+      return this._scales;
+    }
+
+    this.prevMaxDays = maxDays;
+    this._scales = {
       xScale: scalePower({
         range: [0, innerWidth],
         domain: [0, maxDays],
@@ -116,14 +120,12 @@ class RegressionChart extends Chart {
           Math.pow(10, maxRegressionNlb)
         ]
       })
-    });
+    };
+
+    return this._scales;
   }
 
   get chartView() {
-    if (!this.state.xScale || !this.state.yScale) {
-      return <div>Scaling...</div>;
-    }
-
     const { chartData } = this.dataStore;
     const {
       data,
@@ -131,6 +133,8 @@ class RegressionChart extends Chart {
       standardDeviationNlb
     } = chartData;
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
+
+    const { xScale, yScale } = this.scales;
 
     const rowTickValues = Array(9).fill(null).map((val, i) => Math.pow(10, i-1));
     const colTickValues = regressionData
@@ -161,8 +165,8 @@ class RegressionChart extends Chart {
 
             {/* Background grid */}
             <Grid
-              xScale={this.state.xScale}
-              yScale={this.state.yScale}
+              xScale={xScale}
+              yScale={yScale}
               width={innerWidth}
               height={innerHeight}
               rowTickValues={rowTickValues}
@@ -173,16 +177,16 @@ class RegressionChart extends Chart {
             {/* Forward min line */}
             <LinePath
               data={data}
-              x={(d) => this.state.xScale(d.index)}
-              y={(d) => this.state.yScale(d.forwardMinimumPrice)}
+              x={(d) => xScale(d.index)}
+              y={(d) => yScale(d.forwardMinimumPrice)}
               className={`${chartStyles.pathLine} ${chartStyles.pathForwardMinPrice}`}
             />
 
             {/* Regression line */}
             <LinePath
               data={data}
-              x={(d) => this.state.xScale(d.index)}
-              y={(d) => this.state.yScale(Math.pow(10, d.regressionNlb))}
+              x={(d) => xScale(d.index)}
+              y={(d) => yScale(Math.pow(10, d.regressionNlb))}
               className={`${chartStyles.pathLine} ${chartStyles.pathRegression}`}
               clipPath="url(#regression_chart_clip)"
             />
@@ -190,8 +194,8 @@ class RegressionChart extends Chart {
             {/* Regression line top deviation */}
             <LinePath
               data={data}
-              x={(d) => this.state.xScale(d.index)}
-              y={(d) => this.state.yScale(Math.pow(10, d.regressionNlb + standardDeviationNlb))}
+              x={(d) => xScale(d.index)}
+              y={(d) => yScale(Math.pow(10, d.regressionNlb + standardDeviationNlb))}
               className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
               clipPath="url(#regression_chart_clip)"
             />
@@ -199,8 +203,8 @@ class RegressionChart extends Chart {
             {/* Regression line bottom deviation */}
             <LinePath
               data={data}
-              x={(d) => this.state.xScale(d.index)}
-              y={(d) => this.state.yScale(Math.pow(10, d.regressionNlb - standardDeviationNlb))}
+              x={(d) => xScale(d.index)}
+              y={(d) => yScale(Math.pow(10, d.regressionNlb - standardDeviationNlb))}
               className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
               clipPath="url(#regression_chart_clip)"
             />
@@ -248,14 +252,14 @@ class RegressionChart extends Chart {
 
             {/* Left axis */}
             <AxisLeft
-              scale={this.state.yScale}
+              scale={yScale}
               tickValues={rowTickValues}
               tickFormat={d3.format(",.1f")}
             />
 
             {/* Bottom axis */}
             <AxisBottom
-              scale={this.state.xScale}
+              scale={xScale}
               top={innerHeight}
               tickValues={colTickValues}
               tickFormat={i => moment(data[0].date).add(i, 'days').format('`YY')}

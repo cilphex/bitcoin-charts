@@ -9,17 +9,6 @@ class Chart extends React.Component {
 
     this.dataStore = this.props.dataStore;
     this.chartStore = this.props.chartStore;
-
-    this.fetchData();
-  }
-
-  async fetchData() {
-    await this.dataStore.fetchData();
-    this.gotData();
-  }
-
-  gotData() {
-    // Override me in subclasses
   }
 
   get chartDimensions() {
