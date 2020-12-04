@@ -10,6 +10,12 @@ export default function() {
         <Link to="/never-look-back">Never Look Back Price</Link>
         {/*<Link to="/power-law-corridor">Power Law Corridor</Link>*/}
       </div>
+
+      <br />
+      <br />
+      <br />
+      <p><strong>What is money?</strong></p>
+      <p>Money is a self-organizing system of resource management.</p>
     </div>
   )
 }

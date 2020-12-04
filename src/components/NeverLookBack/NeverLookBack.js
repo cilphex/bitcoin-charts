@@ -9,6 +9,7 @@ import ChartStore from 'stores/ChartStore.js';
 // Components
 import BasicChart from './components/BasicChart';
 import RegressionChart from './components/RegressionChart';
+import ChartPageFooter from 'components/ChartPageFooter';
 
 // Styles
 import styles from "app.scss";
@@ -106,6 +107,30 @@ class NeverLookBack extends React.Component {
         <RegressionChart
           dataStore={this.dataStore}
           chartStore={this.regressionChartStore}
+        />
+
+        <div className={styles.chartHeader}>
+          <h2>Data Points</h2>
+        </div>
+
+        <div className={styles.chartDescription}>
+          <div className={styles.quote}>&ldquo;</div>
+          <div className={styles.inner}>
+            <p>
+              Is this NLB price a trend that will continue? Like I mentioned before, we don't know
+              what the next lowest price is until we hit that price. There will undoubtedly be
+              skeptics who criticize this methodology, and healthy professional skepticism is
+              beneficial because it keeps expectations realistic. On the other hand, would you bet
+              money that the price will fall substantially, say, to $4,000, given the ten-year
+              history of the Never Look Back price? I think that might take some guts, to say the least.
+            </p>
+          </div>
+        </div>
+
+        <ChartPageFooter
+          sourceQuote="Bitcoin's Never Look Back price is a picture of bitcoin adoption."
+          sourceUrl="https://static1.squarespace.com/static/5d580747908cdc0001e6792d/t/5e93243abadd4454b360bf18/1586701372057/research+note+4.12.pdf"
+          sourceText="Original Article by Timothy Peterson"
         />
       </div>
     );

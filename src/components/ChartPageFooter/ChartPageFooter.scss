@@ -1,0 +1,47 @@
+div.credits {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 60px 30px;
+
+  p {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.7em;
+    text-align: center;
+  }
+
+  a {
+    display: block;
+    padding: 20px 30px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.5em;
+    border: 1px solid #555;
+    border-radius: 5px;
+    outline: none;
+
+    &:focus,
+    &:hover {
+      border-color: #000;
+    }
+  }
+}
+
+div.footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 0;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+
+  p.trueTilNot span {
+    display: none;
+    color: #bbb;
+  }
+
+  p.trueTilNot:hover span {
+    display: inline;
+  }
+}
