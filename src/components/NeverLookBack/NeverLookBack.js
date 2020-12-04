@@ -9,6 +9,7 @@ import ChartStore from 'stores/ChartStore.js';
 // Components
 import BasicChart from './components/BasicChart';
 import RegressionChart from './components/RegressionChart';
+import Estimates from './components/Estimates';
 import ChartPageFooter from 'components/ChartPageFooter';
 
 // Styles
@@ -126,6 +127,10 @@ class NeverLookBack extends React.Component {
             </p>
           </div>
         </div>
+
+        <Estimates
+          dataStore={this.dataStore}
+        />
 
         <ChartPageFooter
           sourceQuote="Bitcoin's Never Look Back price is a picture of bitcoin adoption."
