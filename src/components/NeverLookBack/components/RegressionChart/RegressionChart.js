@@ -46,7 +46,6 @@ class RegressionChart extends Chart {
     const item = regressionData[index];
     const xPos = xScale(index);
 
-
     const yPosForwardMin = yScale(item.forwardMinimumPrice);
     const regressionPrice = Math.pow(10, item.regressionNlb)
     const regressionPriceMax = Math.pow(10, item.regressionNlb + standardDeviationNlb)

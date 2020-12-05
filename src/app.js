@@ -30,7 +30,7 @@ class App extends React.Component {
             <NeverLookBack dataStore={this.dataStore}/>
           </Route>
           <Route path="/power-law-corridor">
-            <PowerLawCorridor/>
+            <PowerLawCorridor dataStore={this.dataStore}/>
           </Route>
           <Route exact path="/">
             <Home/>

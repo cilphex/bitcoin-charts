@@ -3,17 +3,16 @@ import { observer } from 'mobx-react';
 import moment from 'moment';
 import * as d3 from 'd3';
 import { scaleTime, scaleLinear } from '@vx/scale';
-
+import { Group } from "@vx/group";
+import { Grid } from "@vx/grid";
+import { RectClipPath } from "@vx/clip-path";
+import { LinePath } from "@vx/shape";
+import { localPoint } from "@vx/event";
+import { AxisBottom, AxisLeft } from "@vx/axis";
 import { bisector } from 'd3-array';
 
 import Chart from 'components/Chart';
 import chartStyles from 'styles/chart-styles.scss';
-import {Group} from "@vx/group";
-import {Grid} from "@vx/grid";
-import {RectClipPath} from "@vx/clip-path";
-import {LinePath} from "@vx/shape";
-import {localPoint} from "@vx/event";
-import {AxisBottom, AxisLeft} from "@vx/axis";
 
 const bisectDate = bisector((d) => d.date).right;
 
@@ -122,7 +121,10 @@ class LinearScaleChart extends Chart {
     this._scales = {
       xScale: scaleTime({
         range: [0, innerWidth],
-        domain: [data[0].date, moment(data[0].date).add(maxDays, 'days').toDate()],
+        domain: [
+          data[0].date,
+          moment(data[0].date).add(maxDays, 'days').toDate()
+        ],
       }),
       yScale: scaleLinear({
         range: [innerHeight, 0],
