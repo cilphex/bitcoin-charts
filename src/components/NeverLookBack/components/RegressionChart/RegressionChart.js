@@ -133,7 +133,6 @@ class RegressionChart extends Chart {
       standardDeviationNlb
     } = chartData;
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
-
     const { xScale, yScale } = this.scales;
 
     const rowTickValues = Array(9).fill(null).map((val, i) => Math.pow(10, i-1));

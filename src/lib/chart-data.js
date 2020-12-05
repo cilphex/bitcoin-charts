@@ -5,7 +5,6 @@ import moment from 'moment'
 class ChartData {
   constructor(rawData) {
     this.data = rawData.slice()
-    console.log('data is set');
     this.formatData()
     this.regressionData = this.getRegressionData()
     this.standardDeviationNlb = this.getStandardDeviationNlb()

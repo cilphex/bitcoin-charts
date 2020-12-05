@@ -9,6 +9,7 @@ import ChartStore from 'stores/ChartStore.js';
 // Components
 import BasicChart from './components/BasicChart';
 import RegressionChart from './components/RegressionChart';
+import LinearScaleChart from './components/LinearScaleChart';
 import Estimates from './components/Estimates';
 import ChartPageFooter from 'components/ChartPageFooter';
 
@@ -23,6 +24,7 @@ class NeverLookBack extends React.Component {
     this.dataStore = this.props.dataStore;
     this.basicChartStore = new ChartStore();
     this.regressionChartStore = new ChartStore();
+    this.linearScaleChartStore = new ChartStore();
   }
 
   render() {
@@ -108,6 +110,27 @@ class NeverLookBack extends React.Component {
         <RegressionChart
           dataStore={this.dataStore}
           chartStore={this.regressionChartStore}
+        />
+
+        <div className={styles.chartHeader}>
+          <h2>Linear Scales</h2>
+        </div>
+
+        <div className={styles.chartDescription}>
+          <div className={styles.quote}>&ldquo;</div>
+          <div className={styles.inner}>
+            <p>
+              The NLB price represents a floor value for bitcoin. The actual
+              price could be higher, but significantly higher prices will fall
+              back down to the floor value. The NLB price is a sustainable price
+              over the long term.
+            </p>
+          </div>
+        </div>
+
+        <LinearScaleChart
+          dataStore={this.dataStore}
+          chartStore={this.linearScaleChartStore}
         />
 
         <div className={styles.chartHeader}>
