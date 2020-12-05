@@ -13,9 +13,8 @@ class Estimates extends Chart {
   }
 
   get today() {
-    if (this._today) {
+    if (this._today)
       return this._today;
-    }
 
     const { chartData } = this.dataStore;
     const { regressionData, standardDeviationNlb } = chartData;
@@ -36,6 +35,42 @@ class Estimates extends Chart {
     }
 
     return this._today;
+  }
+
+  get years() {
+    if (this._years)
+      return this._years;
+
+    const { chartData } = this.dataStore;
+    const { regressionData } = chartData;
+
+    this._years = Array(5).fill(null)
+      .map((item, i) => moment().year() + i)
+      .map((year, i) =>
+        regressionData.find(dataItem =>
+          moment(dataItem.date).isSame(moment(`${year}-01-01`), 'day')
+        )
+      )
+
+    return this._years;
+  }
+
+  get magnitudes() {
+    if (this._magnitudes)
+      return this._magnitudes;
+
+    const { chartData } = this.dataStore;
+    const { regressionData } = chartData;
+
+    this._magnitudes = Array(5).fill(null)
+      .map((val, i) => Math.pow(10, i+3)) // 10,000 to 100,000,000
+      .map((price, i) =>
+          regressionData.find(dataItem =>
+              Math.pow(10, dataItem.regressionNlb) > price
+          )
+      )
+
+    return this._magnitudes;
   }
 
   get chartView() {
@@ -63,12 +98,30 @@ class Estimates extends Chart {
 
         <div>
           <h3>5 Years</h3>
-          <table></table>
+          <table>
+            <tbody>
+              {this.years.map((year, i) =>
+                <tr key={i}>
+                  <td>{moment(year.date).year()}</td>
+                  <td>{moneyFormat(Math.round(Math.pow(10, year.regressionNlb)))}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
         <div>
           <h3>Goals</h3>
-          <table></table>
+          <table>
+            <tbody>
+              {this.magnitudes.map((magnitude, i) =>
+                <tr key={i}>
+                  <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude.regressionNlb))))}</td>
+                  <td>{moment(magnitude.date).format('MMM D, YYYY')}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     )
