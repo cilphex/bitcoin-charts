@@ -8,6 +8,7 @@ import ChartStore from 'stores/ChartStore';
 
 // Components
 import PowerLawChart from './components/PowerLawChart';
+import LinearScaleChart from './components/LinearScaleChart';
 import ChartPageFooter from 'components/ChartPageFooter';
 
 // Styles
@@ -20,6 +21,7 @@ class PowerLawCorridor extends React.Component {
 
     this.dataStore = this.props.dataStore;
     this.powerLawChartStore = new ChartStore();
+    this.linearScaleChartStore = new ChartStore();
   }
 
   render() {
@@ -38,7 +40,7 @@ class PowerLawCorridor extends React.Component {
           <a href="https://twitter.com/hcburger1">Harold Christopher Burger</a>
         </p>
 
-        <div className={styles.chartDescription}>
+        <div className={styles.textBlock}>
           <p>Bitcoin's Power Law Corridor is the channel within which Bitcoin has
           been growing in price since its inception, when charted on log price
           over square-root time scales.</p>
@@ -71,7 +73,21 @@ class PowerLawCorridor extends React.Component {
           dataStore={this.dataStore}
           chartStore={this.powerLawChartStore}
         />
-        
+
+        <div className={styles.textBlock}>
+          <p>If we plot the same values on linear scales, we can see Bitcoin's
+          exponential growth within this corridor.</p>
+        </div>
+
+        <div className={styles.chartHeader}>
+          <h2>Linear Scales</h2>
+        </div>
+
+        <LinearScaleChart
+          dataStore={this.dataStore}
+          chartStore={this.linearScaleChartStore}
+        />
+
         <ChartPageFooter
           sourceUrl="https://medium.com/coinmonks/bitcoins-natural-long-term-power-law-corridor-of-growth-649d0e9b3c94"
           sourceText="Original Article by Harold Christopher Burger"
