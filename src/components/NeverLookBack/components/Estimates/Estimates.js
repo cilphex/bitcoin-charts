@@ -13,8 +13,9 @@ class Estimates extends Chart {
   }
 
   get today() {
-    if (this._today)
+    if (this._today) {
       return this._today;
+    }
 
     const { chartData } = this.dataStore;
     const { regressionData, standardDeviationNlb } = chartData;
@@ -38,8 +39,9 @@ class Estimates extends Chart {
   }
 
   get years() {
-    if (this._years)
+    if (this._years) {
       return this._years;
+    }
 
     const { chartData } = this.dataStore;
     const { regressionData } = chartData;
@@ -56,8 +58,9 @@ class Estimates extends Chart {
   }
 
   get magnitudes() {
-    if (this._magnitudes)
+    if (this._magnitudes) {
       return this._magnitudes;
+    }
 
     const { chartData } = this.dataStore;
     const { regressionData } = chartData;

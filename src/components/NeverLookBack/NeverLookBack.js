@@ -61,11 +61,11 @@ class NeverLookBack extends React.Component {
           <div className={styles.quote}>&ldquo;</div>
           <div className={styles.inner}>
             <p>
-              I have plotted these NLB prices on a lognormal scale over
-              time. The result was amazing. The horizontal scale is &ldquo;square root
-              time&rdquo;, which is just regular time plotted on a different scale. It
-              essentially equates traditional time-value of money concepts to
-              bitcoin's adoption rate, and therefore price.
+              Bitcoin has a relatively unnoticed and &mdash; for most &mdash; unknown
+              characteristic. I call it the &ldquo;Never Look Back Price.&rdquo; The NLB price is
+              the last time bitcoin was at a particular price level. Once it reached
+              that price, it only proceeded up, it never retraced to that value
+              again.
             </p>
           </div>
         </div>

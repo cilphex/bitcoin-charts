@@ -150,6 +150,8 @@ class RegressionChart extends Chart {
       yPosRegressionMin,
     } = hoverData;
 
+    const { hoverItem } = this.chartStore;
+
     return (
       <div>
         <svg className={chartStyles.chartSvg} width={800} height={400} viewBox={`0 0 ${width} ${height}`}>
@@ -184,7 +186,7 @@ class RegressionChart extends Chart {
 
             {/* Regression line */}
             <LinePath
-              data={data}
+              data={regressionData}
               x={(d) => xScale(d.index)}
               y={(d) => yScale(Math.pow(10, d.regressionNlb))}
               className={`${chartStyles.pathLine} ${chartStyles.pathRegression}`}
@@ -193,7 +195,7 @@ class RegressionChart extends Chart {
 
             {/* Regression line top deviation */}
             <LinePath
-              data={data}
+              data={regressionData}
               x={(d) => xScale(d.index)}
               y={(d) => yScale(Math.pow(10, d.regressionNlb + standardDeviationNlb))}
               className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
@@ -202,7 +204,7 @@ class RegressionChart extends Chart {
 
             {/* Regression line bottom deviation */}
             <LinePath
-              data={data}
+              data={regressionData}
               x={(d) => xScale(d.index)}
               y={(d) => yScale(Math.pow(10, d.regressionNlb - standardDeviationNlb))}
               className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
@@ -221,11 +223,13 @@ class RegressionChart extends Chart {
                 />
 
                 {/* Forward min circle */}
-                <circle
-                  cx={xPos}
-                  cy={yPosForwardMin}
-                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
-                />
+                { hoverItem && hoverItem.forwardMinimumPrice && (
+                  <circle
+                    cx={xPos}
+                    cy={yPosForwardMin}
+                    className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
+                  />
+                )}
 
                 {/* Regression circle */}
                 <circle
