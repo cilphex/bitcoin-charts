@@ -33,6 +33,10 @@ class NeverLookBack extends React.Component {
       hoverData: regressionChartData,
       hoverItem: regressionChartItem,
     } = this.regressionChartStore;
+    const {
+      hoverData: linearScaleChartData,
+      hoverItem: linearScaleChartItem,
+    } = this.linearScaleChartStore;
 
     return (
       <div>
@@ -85,7 +89,9 @@ class NeverLookBack extends React.Component {
                 {moment(regressionChartItem.date).format('MMM D, YYYY')}
               </div>
               <div>
-                Price: <span className={styles.price}>{moneyFormat(regressionChartItem.forwardMinimumPrice)}</span>
+                Price: <span className={styles.price}>
+                  {regressionChartItem.forwardMinimumPrice && moneyFormat(regressionChartItem.forwardMinimumPrice) || '???'}
+                </span>
                 Max: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPriceMax)}</span>
                 Expected: <span className={styles.expected}>{moneyFormat(regressionChartData.regressionPrice)}</span>
                 Min: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPriceMin)}</span>
@@ -114,6 +120,21 @@ class NeverLookBack extends React.Component {
 
         <div className={styles.chartHeader}>
           <h2>Linear Scales</h2>
+          { linearScaleChartItem && (
+            <div className={styles.chartDataTop}>
+              <div>
+                {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
+              </div>
+              <div>
+                Price: <span className={styles.price}>
+                  {linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}
+                </span>
+                Max: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</span>
+                Expected: <span className={styles.expected}>{moneyFormat(linearScaleChartData.regressionPrice)}</span>
+                Min: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</span>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className={styles.chartDescription}>
