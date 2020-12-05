@@ -46,11 +46,8 @@ class RegressionChart extends Chart {
     const item = regressionData[index];
     const xPos = xScale(index);
 
-    let yPosForwardMin;
-    if (item.forwardMinimumPrice) {
-      yPosForwardMin = yScale(item.forwardMinimumPrice);
-    }
 
+    const yPosForwardMin = yScale(item.forwardMinimumPrice);
     const regressionPrice = Math.pow(10, item.regressionNlb)
     const regressionPriceMax = Math.pow(10, item.regressionNlb + standardDeviationNlb)
     const regressionPriceMin = Math.pow(10, item.regressionNlb - standardDeviationNlb)
@@ -149,8 +146,6 @@ class RegressionChart extends Chart {
       yPosRegressionMin,
     } = hoverData;
 
-    const { hoverItem } = this.chartStore;
-
     return (
       <div>
         <svg className={chartStyles.chartSvg} width={800} height={400} viewBox={`0 0 ${width} ${height}`}>
@@ -172,7 +167,6 @@ class RegressionChart extends Chart {
               height={innerHeight}
               rowTickValues={rowTickValues}
               columnTickValues={colTickValues}
-              className={'something'}
             />
 
             {/* Forward min line */}
@@ -222,7 +216,7 @@ class RegressionChart extends Chart {
                 />
 
                 {/* Forward min circle */}
-                { hoverItem && hoverItem.forwardMinimumPrice && (
+                { yPosForwardMin && (
                   <circle
                     cx={xPos}
                     cy={yPosForwardMin}

@@ -4,10 +4,18 @@ import moment from 'moment';
 import * as d3 from 'd3';
 import { scaleTime, scaleLinear } from '@vx/scale';
 
+import { bisector } from 'd3-array';
+
 import Chart from 'components/Chart';
 import chartStyles from 'styles/chart-styles.scss';
 import {Group} from "@vx/group";
 import {Grid} from "@vx/grid";
+import {RectClipPath} from "@vx/clip-path";
+import {LinePath} from "@vx/shape";
+import {localPoint} from "@vx/event";
+import {AxisBottom, AxisLeft} from "@vx/axis";
+
+const bisectDate = bisector((d) => d.date).right;
 
 @observer
 class LinearScaleChart extends Chart {
@@ -37,8 +45,42 @@ class LinearScaleChart extends Chart {
     this.chartStore.hovering = false;
   }
 
-  onMouseMove() {
+  onMouseMove(e) {
+    const {
+      regressionData,
+      standardDeviationNlb
+    } = this.dataStore.chartData;
+    const { xScale, yScale } = this.scales;
 
+    const { margin } = this.chartDimensions;
+    const point = localPoint(e);
+    const x = point.x - margin.left;
+    const date = xScale.invert(x)
+    const index = bisectDate(regressionData, date, 1);
+    const item = regressionData[index];
+    const xPos = xScale(date);
+
+    const yPosPrice = yScale(item.price);
+    const regressionPrice = Math.pow(10, item.regressionNlb)
+    const regressionPriceMax = Math.pow(10, item.regressionNlb + standardDeviationNlb)
+    const regressionPriceMin = Math.pow(10, item.regressionNlb - standardDeviationNlb)
+
+    const yPosRegression = yScale(regressionPrice)
+    const yPosRegressionMax = yScale(regressionPriceMax)
+    const yPosRegressionMin = yScale(regressionPriceMin)
+
+    Object.assign(this.chartStore.data, {
+      regressionPrice,
+      regressionPriceMax,
+      regressionPriceMin,
+      xPos,
+      yPosPrice,
+      yPosRegression,
+      yPosRegressionMax,
+      yPosRegressionMin,
+    });
+
+    this.chartStore.item = item;
   }
 
   mapInputRangeToDays(rangeValue) {
@@ -101,15 +143,136 @@ class LinearScaleChart extends Chart {
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;
 
-    const rowTickValues = Array(9).fill(null).map((val, i) => Math.pow(10, i-1));
-    const colTickValues = regressionData
-      .filter(i => i.date.getMonth() == 0 && i.date.getDate() == 1)
-      .map(i => i.index);
+    const { hoverData } = this.chartStore;
+    const {
+      xPos,
+      yPosPrice,
+      yPosRegression,
+      yPosRegressionMax,
+      yPosRegressionMin,
+    } = hoverData;
 
     return (
       <div>
         <svg className={chartStyles.chartSvg} width={800} height={400} viewBox={`0 0 ${width} ${height}`}>
+          <Group top={margin.top} left={margin.left}>
+            {/* Clip path for lines */}
+            <RectClipPath
+              id="linear_scales_chart_clip"
+              x={0}
+              y={0 - margin.top}
+              width={innerWidth + margin.right}
+              height={innerHeight + margin.top}
+            />
 
+            {/* Background grid */}
+            <Grid
+              xScale={xScale}
+              yScale={yScale}
+              width={innerWidth}
+              height={innerHeight}
+            />
+
+            {/* Price line */}
+            <LinePath
+              data={data}
+              x={(d) => xScale(d.date)}
+              y={(d) => yScale(d.price)}
+              className={`${chartStyles.pathLine} ${chartStyles.pathPrice}`}
+            />
+
+            {/* Regression line */}
+            <LinePath
+              data={regressionData}
+              x={(d) => xScale(d.date)}
+              y={(d) => yScale(Math.pow(10, d.regressionNlb))}
+              className={`${chartStyles.pathLine} ${chartStyles.pathRegression}`}
+              clipPath="url(#linear_scales_chart_clip)"
+            />
+
+            {/* Regression line max */}
+            <LinePath
+              data={regressionData}
+              x={(d) => xScale(d.date)}
+              y={(d) => yScale(Math.pow(10, d.regressionNlb + standardDeviationNlb))}
+              className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
+              clipPath="url(#linear_scales_chart_clip)"
+            />
+
+            {/* Regression line min */}
+            <LinePath
+              data={regressionData}
+              x={(d) => xScale(d.date)}
+              y={(d) => yScale(Math.pow(10, d.regressionNlb - standardDeviationNlb))}
+              className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
+              clipPath="url(#linear_scales_chart_clip)"
+            />
+
+            { hoverData && (
+              <Group>
+                {/* The vertical line that follows the cursor when hovering */}
+                <line
+                  x1={xPos}
+                  y1={0}
+                  x2={xPos}
+                  y2={innerHeight}
+                  className={chartStyles.mouseLine}
+                />
+
+                {/* Forward min circle */}
+                { yPosPrice && (
+                  <circle
+                    cx={xPos}
+                    cy={yPosPrice}
+                    className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+                  />
+                )}
+
+                {/* Regression circle */}
+                <circle
+                  cx={xPos}
+                  cy={yPosRegression}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleRegression}`}
+                />
+
+                {/* Regression circle max/top */}
+                <circle
+                  cx={xPos}
+                  cy={yPosRegressionMax}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleDeviation}`}
+                />
+
+                {/* Regression circle min/bottom */}
+                <circle
+                  cx={xPos}
+                  cy={yPosRegressionMin}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleDeviation}`}
+                />
+              </Group>
+            )}
+
+            {/* Left axis */}
+            <AxisLeft
+              scale={yScale}
+              tickFormat={d3.format(",.1f")}
+            />
+
+            {/* Bottom axis */}
+            <AxisBottom
+              scale={xScale}
+              top={innerHeight}
+            />
+
+            {/* Hover detection area */}
+            <rect
+              width={innerWidth}
+              height={innerHeight}
+              className={chartStyles.mouseOverlay}
+              onMouseOver={() => this.onMouseOver()}
+              onMouseOut={() => this.onMouseOut()}
+              onMouseMove={(e) => this.onMouseMove(e)}
+            />
+          </Group>
         </svg>
 
         <div className={chartStyles.rangeWrapper}>
