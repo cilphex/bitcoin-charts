@@ -1,5 +1,5 @@
 import React from "react"
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import moment from 'moment';
 import { moneyFormat } from 'lib/utils.js'
 
@@ -9,10 +9,11 @@ import ChartStore from 'stores/ChartStore';
 // Components
 import PowerLawChart from './components/PowerLawChart';
 import LinearScaleChart from './components/LinearScaleChart';
+import Estimates from './components/Estimates';
 import ChartPageFooter from 'components/ChartPageFooter';
 
 // Styles
-import styles from "app.scss";
+import styles from 'app.scss';
 
 @observer
 class PowerLawCorridor extends React.Component {
@@ -29,6 +30,11 @@ class PowerLawCorridor extends React.Component {
       hoverData: powerLawChartData,
       hoverItem: powerLawChartItem,
     } = this.powerLawChartStore;
+
+    const {
+      hoverData: linearScaleChartData,
+      hoverItem: linearScaleChartItem,
+    } = this.linearScaleChartStore;
 
     return (
       <div>
@@ -59,8 +65,8 @@ class PowerLawCorridor extends React.Component {
               </div>
               <div>
                 Price: <span className={styles.price}>
-                {powerLawChartItem.price && moneyFormat(powerLawChartItem.price) || '???'}
-              </span>
+                  {powerLawChartItem.price && moneyFormat(powerLawChartItem.price) || '???'}
+                </span>
                 Max: <span className={styles.deviation}>{moneyFormat(powerLawChartData.regressionPriceMax)}</span>
                 Expected: <span className={styles.expected}>{moneyFormat(powerLawChartData.regressionPrice)}</span>
                 Min: <span className={styles.deviation}>{moneyFormat(powerLawChartData.regressionPriceMin)}</span>
@@ -81,11 +87,34 @@ class PowerLawCorridor extends React.Component {
 
         <div className={styles.chartHeader}>
           <h2>Linear Scales</h2>
+          { linearScaleChartItem && (
+            <div className={styles.chartDataTop}>
+              <div>
+                {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
+              </div>
+              <div>
+                Price: <span className={styles.price}>
+                  {linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}
+                </span>
+                Max: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</span>
+                Expected: <span className={styles.expected}>{moneyFormat(linearScaleChartData.regressionPrice)}</span>
+                Min: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</span>
+              </div>
+            </div>
+          )}
         </div>
 
         <LinearScaleChart
           dataStore={this.dataStore}
           chartStore={this.linearScaleChartStore}
+        />
+
+        <div className={styles.chartHeader}>
+          <h2>Data Points</h2>
+        </div>
+
+        <Estimates
+          dataStore={this.dataStore}
         />
 
         <ChartPageFooter

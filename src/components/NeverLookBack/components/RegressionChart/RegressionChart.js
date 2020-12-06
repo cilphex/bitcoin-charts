@@ -146,7 +146,7 @@ class RegressionChart extends Chart {
     } = hoverData;
 
     return (
-      <div>
+      <>
         <svg className={chartStyles.chartSvg} width={800} height={400} viewBox={`0 0 ${width} ${height}`}>
           <Group top={margin.top} left={margin.left}>
             {/* Clip path for lines */}
@@ -282,7 +282,7 @@ class RegressionChart extends Chart {
             onChange={(e) => this.onRangeChange(e)}
           />
         </div>
-      </div>
+      </>
     );
   }
 }
