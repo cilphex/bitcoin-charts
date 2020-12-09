@@ -56,8 +56,8 @@ class NeverLookBack extends React.Component {
                 {moment(basicChartItem.date).format('MMM D, YYYY')}
               </div>
               <div>
-                Price: <span className={styles.price}>{moneyFormat(basicChartItem.price)}</span>
-                NLB: <span className={styles.forwardMinPrice}>{moneyFormat(basicChartItem.forwardMinimumPrice)}</span>
+                Price: <span className={styles.chartPrice}>{moneyFormat(basicChartItem.price)}</span>
+                NLB: <span className={styles.chartPriceForwardMin}>{moneyFormat(basicChartItem.forwardMinimumPrice)}</span>
               </div>
             </div>
           )}
@@ -76,6 +76,27 @@ class NeverLookBack extends React.Component {
           </div>
         </div>
 
+        { basicChartItem && (
+          <div className={styles.chartDataOverlay}>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Date</td>
+                  <td>{moment(basicChartItem.date).format('MMM D, YYYY')}</td>
+                </tr>
+                <tr>
+                  <td>Price</td>
+                  <td className={styles.chartPrice}>{moneyFormat(basicChartItem.price)}</td>
+                </tr>
+                <tr>
+                  <td>NLB</td>
+                  <td className={styles.chartPriceForwardMin}>{moneyFormat(basicChartItem.forwardMinimumPrice)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
         <BasicChart
           dataStore={this.dataStore}
           chartStore={this.basicChartStore}
@@ -89,12 +110,12 @@ class NeverLookBack extends React.Component {
                 {moment(regressionChartItem.date).format('MMM D, YYYY')}
               </div>
               <div>
-                Price: <span className={styles.price}>
+                NLB: <span className={styles.chartPriceForwardMin}>
                   {regressionChartItem.forwardMinimumPrice && moneyFormat(regressionChartItem.forwardMinimumPrice) || '???'}
                 </span>
-                Max: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPriceMax)}</span>
-                Expected: <span className={styles.expected}>{moneyFormat(regressionChartData.regressionPrice)}</span>
-                Min: <span className={styles.deviation}>{moneyFormat(regressionChartData.regressionPriceMin)}</span>
+                Max: <span className={styles.chartPriceDeviation}>{moneyFormat(regressionChartData.regressionPriceMax)}</span>
+                Expected: <span className={styles.chartPriceExpected}>{moneyFormat(regressionChartData.regressionPrice)}</span>
+                Min: <span className={styles.chartPriceDeviation}>{moneyFormat(regressionChartData.regressionPriceMin)}</span>
               </div>
             </div>
           )}
@@ -113,6 +134,35 @@ class NeverLookBack extends React.Component {
           </div>
         </div>
 
+        { regressionChartItem && (
+          <div className={styles.chartDataOverlay}>
+            <table>
+              <tbody>
+              <tr>
+                <td>Date</td>
+                <td>{moment(regressionChartItem.date).format('MMM D, YYYY')}</td>
+              </tr>
+              <tr>
+                <td>NLB</td>
+                <td className={styles.chartPriceForwardMin}>{regressionChartItem.forwardMinimumPrice && moneyFormat(regressionChartItem.forwardMinimumPrice) || '???'}</td>
+              </tr>
+              <tr>
+                <td>Max</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(regressionChartData.regressionPriceMax)}</td>
+              </tr>
+              <tr>
+                <td>Expected</td>
+                <td className={styles.chartPriceExpected}>{moneyFormat(regressionChartData.regressionPrice)}</td>
+              </tr>
+              <tr>
+                <td>Min</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(regressionChartData.regressionPriceMin)}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
         <RegressionChart
           dataStore={this.dataStore}
           chartStore={this.regressionChartStore}
@@ -129,9 +179,9 @@ class NeverLookBack extends React.Component {
                 Price: <span className={styles.price}>
                   {linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}
                 </span>
-                Max: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</span>
-                Expected: <span className={styles.expected}>{moneyFormat(linearScaleChartData.regressionPrice)}</span>
-                Min: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</span>
+                Max: <span className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</span>
+                Expected: <span className={styles.chartPriceExpected}>{moneyFormat(linearScaleChartData.regressionPrice)}</span>
+                Min: <span className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</span>
               </div>
             </div>
           )}
@@ -148,6 +198,36 @@ class NeverLookBack extends React.Component {
             </p>
           </div>
         </div>
+
+        { linearScaleChartItem && (
+          <div className={styles.chartDataOverlay}>
+            <table>
+              <tbody>
+              <tr>
+                <td>Date</td>
+                <td>{moment(linearScaleChartItem.date).format('MMM D, YYYY')}</td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td className={styles.chartPrice}>{linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}</td>
+              </tr>
+              <tr>
+                <td>Max</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</td>
+              </tr>
+              <tr>
+                <td>Expected</td>
+                <td className={styles.chartPriceExpected}>{moneyFormat(linearScaleChartData.regressionPrice)}</td>
+              </tr>
+              <tr>
+                <td>Min</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
 
         <LinearScaleChart
           dataStore={this.dataStore}

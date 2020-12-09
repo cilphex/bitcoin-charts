@@ -64,12 +64,12 @@ class PowerLawCorridor extends React.Component {
                 {moment(powerLawChartItem.date).format('MMM D, YYYY')}
               </div>
               <div>
-                Price: <span className={styles.price}>
+                Price: <span className={styles.chartPrice}>
                   {powerLawChartItem.price && moneyFormat(powerLawChartItem.price) || '???'}
                 </span>
-                Max: <span className={styles.deviation}>{moneyFormat(powerLawChartData.regressionPriceMax)}</span>
-                Expected: <span className={styles.expected}>{moneyFormat(powerLawChartData.regressionPrice)}</span>
-                Min: <span className={styles.deviation}>{moneyFormat(powerLawChartData.regressionPriceMin)}</span>
+                Max: <span className={styles.chartPriceDeviation}>{moneyFormat(powerLawChartData.regressionPriceMax)}</span>
+                Expected: <span className={styles.chartPriceExpected}>{moneyFormat(powerLawChartData.regressionPrice)}</span>
+                Min: <span className={styles.chartPriceDeviation}>{moneyFormat(powerLawChartData.regressionPriceMin)}</span>
               </div>
             </div>
           )}
@@ -93,12 +93,12 @@ class PowerLawCorridor extends React.Component {
                 {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
               </div>
               <div>
-                Price: <span className={styles.price}>
+                Price: <span className={styles.chartPrice}>
                   {linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}
                 </span>
-                Max: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</span>
-                Expected: <span className={styles.expected}>{moneyFormat(linearScaleChartData.regressionPrice)}</span>
-                Min: <span className={styles.deviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</span>
+                Max: <span className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</span>
+                Expected: <span className={styles.chartPriceExpected}>{moneyFormat(linearScaleChartData.regressionPrice)}</span>
+                Min: <span className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</span>
               </div>
             </div>
           )}
