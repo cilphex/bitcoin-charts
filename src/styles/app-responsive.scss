@@ -1,0 +1,31 @@
+@media (max-width: 750px) {
+  div.chartDataTop {
+    display: none;
+  }
+
+  table.chartDataOverlay {
+    display: block;
+  }
+}
+
+@media (max-width: 700px) {
+  div.dataPoints {
+    flex-direction: column;
+  }
+
+  div.dataPoints > div {
+    flex-basis: auto;
+    margin: 0 0 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  h1 {
+    margin-top: 10px;
+  }
+
+  div.content {
+    margin-bottom: 0;
+  }
+}
+

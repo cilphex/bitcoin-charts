@@ -1,7 +1,7 @@
 import React from 'react';
 import dimensions from './dimensions.js';
 import ChartLoading from './components/ChartLoading';
-import chartStyles from 'styles/chart-styles.scss';
+import chartStyles from 'styles/chart.scss';
 
 class Chart extends React.Component {
   constructor(props) {

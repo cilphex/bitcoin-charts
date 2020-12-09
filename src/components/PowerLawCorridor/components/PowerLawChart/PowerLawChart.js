@@ -1,18 +1,17 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import moment from "moment";
 import * as d3 from 'd3';
 import { scalePower, scaleLog } from "@vx/scale";
 import { Group } from "@vx/group";
 import { RectClipPath } from "@vx/clip-path";
 import { Grid } from "@vx/grid";
+import { LinePath } from "@vx/shape";
+import { AxisBottom, AxisLeft } from "@vx/axis";
+import { localPoint } from "@vx/event";
 
 import Chart from 'components/Chart';
-import chartStyles from 'styles/chart-styles.scss';
-import {LinePath} from "@vx/shape";
-import {AxisBottom, AxisLeft} from "@vx/axis";
-import moment from "moment";
-import {localPoint} from "@vx/event";
-
+import chartStyles from 'styles/chart.scss';
 
 @observer
 class PowerLawChart extends Chart {
@@ -148,7 +147,7 @@ class PowerLawChart extends Chart {
     } = hoverData;
 
     return <>
-      <svg className={chartStyles.chartSvg} width={800} height={400} viewBox={`0 0 ${width} ${height}`}>
+      <svg className={chartStyles.chartSvg} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
         <Group top={margin.top} left={margin.left}>
           {/* Clip path for lines */}
           <RectClipPath

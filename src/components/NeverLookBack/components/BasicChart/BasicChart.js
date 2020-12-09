@@ -11,7 +11,7 @@ import { localPoint } from "@vx/event";
 import { bisector } from 'd3-array';
 
 import Chart from 'components/Chart';
-import chartStyles from 'styles/chart-styles.scss';
+import chartStyles from 'styles/chart.scss';
 
 const bisectDate = bisector((d) => d.date).right;
 
@@ -73,7 +73,7 @@ class BasicChart extends Chart {
     } = hoverData;
 
     return (
-      <svg className={chartStyles.chartSvg} width={800} height={400} viewBox={`0 0 ${width} ${height}`}>
+      <svg className={chartStyles.chartSvg} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
         <Group top={margin.top} left={margin.left}>
           {/* Background grid */}
           <Grid
