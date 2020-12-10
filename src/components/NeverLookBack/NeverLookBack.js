@@ -228,7 +228,6 @@ class NeverLookBack extends React.Component {
           </div>
         )}
 
-
         <LinearScaleChart
           dataStore={this.dataStore}
           chartStore={this.linearScaleChartStore}

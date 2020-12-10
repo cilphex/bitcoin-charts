@@ -57,3 +57,14 @@ div.estimates {
     border: none;
   }
 }
+
+@media (max-width: 700px) {
+  div.estimates {
+    flex-direction: column;
+
+    & > div {
+      flex-basis: auto;
+      margin: 0 0 10px;
+    }
+  }
+}

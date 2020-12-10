@@ -75,6 +75,35 @@ class PowerLawCorridor extends React.Component {
           )}
         </div>
 
+        { powerLawChartItem && (
+          <div className={styles.chartDataOverlay}>
+            <table>
+              <tbody>
+              <tr>
+                <td>Date</td>
+                <td>{moment(powerLawChartItem.date).format('MMM D, YYYY')}</td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td className={styles.chartPrice}>{powerLawChartItem.price && moneyFormat(powerLawChartItem.price) || '???'}</td>
+              </tr>
+              <tr>
+                <td>Max</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(powerLawChartData.regressionPriceMax)}</td>
+              </tr>
+              <tr>
+                <td>Expected</td>
+                <td className={styles.chartPriceExpected}>{moneyFormat(powerLawChartData.regressionPrice)}</td>
+              </tr>
+              <tr>
+                <td>Min</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(powerLawChartData.regressionPriceMin)}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
         <PowerLawChart
           dataStore={this.dataStore}
           chartStore={this.powerLawChartStore}
@@ -103,6 +132,35 @@ class PowerLawCorridor extends React.Component {
             </div>
           )}
         </div>
+
+        { linearScaleChartItem && (
+          <div className={styles.chartDataOverlay}>
+            <table>
+              <tbody>
+              <tr>
+                <td>Date</td>
+                <td>{moment(linearScaleChartItem.date).format('MMM D, YYYY')}</td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td className={styles.chartPrice}>{linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}</td>
+              </tr>
+              <tr>
+                <td>Max</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</td>
+              </tr>
+              <tr>
+                <td>Expected</td>
+                <td className={styles.chartPriceExpected}>{moneyFormat(linearScaleChartData.regressionPrice)}</td>
+              </tr>
+              <tr>
+                <td>Min</td>
+                <td className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
 
         <LinearScaleChart
           dataStore={this.dataStore}
