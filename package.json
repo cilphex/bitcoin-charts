@@ -8,7 +8,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel-node ./node_modules/webpack/bin/webpack",
-    "start": "babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open"
+    "start": "babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open",
+    "updateData": "babel-node ./src/cloud-functions/update-data.js"
   },
   "devDependencies": {
     "@babel/core": "7.7.5",
@@ -33,6 +34,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@google-cloud/storage": "^5.7.4",
     "@vx/axis": "^0.0.193-alpha.2",
     "@vx/clip-path": "^0.0.193-alpha.2",
     "@vx/event": "^0.0.193-alpha.2",
@@ -46,6 +48,7 @@
     "mobx": "^5.15.2",
     "mobx-react": "^6.1.5",
     "moment": "^2.24.0",
+    "node-fetch": "^2.6.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2"
