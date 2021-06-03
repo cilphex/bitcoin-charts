@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx';
+import { makeObservable, observable, computed } from 'mobx';
 import moment from "moment";
 
 class EstimatesStore {
@@ -9,6 +9,7 @@ class EstimatesStore {
   chartData = null;
 
   constructor(chartData) {
+    makeObservable(this);
     this.chartData = chartData;
     this.processData();
   }

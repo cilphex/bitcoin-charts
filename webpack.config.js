@@ -58,27 +58,34 @@ module.exports = {
       },
       {
         test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
-        loaders: ['file-loader']
+        use: ['file-loader']
       }
     ]
   },
 
-  // Here we set what plugins we need in our app. As of this moment we only
-  // need the html-webpack-plugin which tells the server that the
+  // Here we set what plugins we need in our app.
+  //
+  // The html-webpack-plugin which tells the server that the
   // index.bundle.js should be injected (or added if you will) to our
   // index.html file
+  //
+  // copy-webpack-plugin is not designed to copy files generated from the build process; rather,
+  // it is to copy files that already exist in the source tree, as part of the build process.
   plugins: [
     new CleanWebpackPlugin(),
+
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'app.html')
     }),
 
-    new CopyPlugin([
-      {
-        from: path.join(__dirname, 'public'),
-        to: path.join(__dirname, 'build')
-      }
-    ])
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(__dirname, 'public'),
+          to: path.join(__dirname, 'build')
+        }
+      ]
+    })
   ],
 
   // Development stuff?

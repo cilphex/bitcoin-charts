@@ -1,10 +1,11 @@
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import ChartData from 'lib/chart-data.js';
 
 class DataStore {
   @observable chartData = null;
 
   constructor() {
+    makeObservable(this);
     this.fetchData();
   }
 
