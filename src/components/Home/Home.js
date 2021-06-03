@@ -5,7 +5,7 @@ import styles from "./Home.scss"
 
 export default function() {
   return (
-    <div>
+    <div className={appStyles.contentColumn}>
       <h1>Bitcoin Charts</h1>
       <div className={appStyles.textBlock}>
         <p>Money is a self-organizing system of resource management.</p>
