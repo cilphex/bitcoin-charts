@@ -24,11 +24,11 @@ class PowerLawChart extends Chart {
   }
 
   onMouseOver() {
-    this.chartStore.hovering = true;
+    this.chartStore.setHovering(true);
   }
 
   onMouseOut() {
-    this.chartStore.hovering = false;
+    this.chartStore.setHovering(false);
   }
 
   onMouseMove(e) {
@@ -55,7 +55,7 @@ class PowerLawChart extends Chart {
     const yPosRegressionMax = yScale(regressionPriceMax)
     const yPosRegressionMin = yScale(regressionPriceMin)
 
-    Object.assign(this.chartStore.data, {
+    this.chartStore.assignData({
       regressionPrice,
       regressionPriceMax,
       regressionPriceMin,
@@ -66,7 +66,7 @@ class PowerLawChart extends Chart {
       yPosRegressionMin,
     });
 
-    this.chartStore.item = item;
+    this.chartStore.setItem(item);
   }
 
   mapInputRangeToDays(rangeValue) {

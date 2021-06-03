@@ -22,11 +22,11 @@ class BasicChart extends Chart {
   }
 
   onMouseOver() {
-    this.chartStore.hovering = true;
+    this.chartStore.setHovering(true);
   }
 
   onMouseOut() {
-    this.chartStore.hovering = false;
+    this.chartStore.setHovering(false);
   }
 
   onMouseMove(e, data, xScale, yScale) {
@@ -41,13 +41,13 @@ class BasicChart extends Chart {
     const yPosPrice = yScale(item.price);
     const yPosForwardMin = yScale(item.forwardMinimumPrice);
 
-    this.chartStore.data = {
+    this.chartStore.setData({
       xPos,
       yPosPrice,
       yPosForwardMin,
-    };
+    });
 
-    this.chartStore.item = item;
+    this.chartStore.setItem(item);
   }
 
   get chartView() {

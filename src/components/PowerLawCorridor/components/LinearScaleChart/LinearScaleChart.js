@@ -37,11 +37,11 @@ class LinearScaleChart extends Chart {
   }
 
   onMouseOver() {
-    this.chartStore.hovering = true;
+    this.chartStore.setHovering(true);
   }
 
   onMouseOut() {
-    this.chartStore.hovering = false;
+    this.chartStore.setHovering(false);
   }
 
   onMouseMove(e) {
@@ -68,7 +68,7 @@ class LinearScaleChart extends Chart {
     const yPosRegressionMax = yScale(regressionPriceMax)
     const yPosRegressionMin = yScale(regressionPriceMin)
 
-    Object.assign(this.chartStore.data, {
+    this.chartStore.assignData({
       regressionPrice,
       regressionPriceMax,
       regressionPriceMin,
@@ -79,7 +79,7 @@ class LinearScaleChart extends Chart {
       yPosRegressionMin,
     });
 
-    this.chartStore.item = item;
+    this.chartStore.setItem(item);
   }
 
   // TODO: move into parent class and remove from sibling classes?
