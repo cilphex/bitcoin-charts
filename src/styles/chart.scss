@@ -96,14 +96,14 @@ div.rangeWrapper {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
-  height: 20px; /* Height of the slider thumb. */
+  height: 30px; /* Height of the slider thumb. */
 
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
-    width: 200px;
-    height: 3px;
-    background: #00da0a;
+    width: 300px;
+    height: 2px;
+    background: #555;
     border-radius: 100px;
     outline: none;
     cursor: ew-resize;
@@ -117,11 +117,11 @@ div.rangeWrapper {
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 10px;
+      height: 30px;
       background: #fff;
-      border: 3px solid #00da0a;
-      border-radius: 100px;
+      border: 1px solid #555;
+      border-radius: 4px;
     }
   }
 }

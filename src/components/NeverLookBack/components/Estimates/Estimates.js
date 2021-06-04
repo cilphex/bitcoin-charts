@@ -48,12 +48,12 @@ class EstimatesContent extends React.Component {
           <h3>5 Years</h3>
           <table>
             <tbody>
-            {years.map((year, i) =>
+              {years.map((year, i) =>
                 <tr key={i}>
                   <td>{moment(year.date).year()}</td>
                   <td>{moneyFormat(Math.round(Math.pow(10, year.regressionNlb)))}</td>
                 </tr>
-            )}
+              )}
             </tbody>
           </table>
         </div>
@@ -62,12 +62,12 @@ class EstimatesContent extends React.Component {
           <h3>Goals</h3>
           <table>
             <tbody>
-            {magnitudes.map((magnitude, i) =>
+              {magnitudes.map((magnitude, i) =>
                 <tr key={i}>
                   <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude.regressionNlb))))}</td>
                   <td>{moment(magnitude.date).format('MMM D, YYYY')}</td>
                 </tr>
-            )}
+              )}
             </tbody>
           </table>
         </div>
