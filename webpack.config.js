@@ -95,7 +95,7 @@ module.exports = {
   // Everything from our src folder needs to be served (outputted) in the
   // browser
   devServer: {
-    contentBase: path.join(__dirname, 'src'),
+    // contentBase: path.join(__dirname, 'src'),
     historyApiFallback: true
   },
 }
