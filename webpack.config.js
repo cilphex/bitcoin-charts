@@ -72,6 +72,7 @@ module.exports = {
   // copy-webpack-plugin is not designed to copy files generated from the build process; rather,
   // it is to copy files that already exist in the source tree, as part of the build process.
   plugins: [
+    // Clean the build dir first
     new CleanWebpackPlugin(),
 
     new HtmlWebpackPlugin({
