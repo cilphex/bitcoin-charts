@@ -25,7 +25,7 @@ class ChartPageFooter extends React.Component {
             {' '}
             <span>But that might take a while.</span>
           </p>
-          <p><a href="https://github.com/cilphex/bitcoin-never-look-back">Open source</a></p>
+          <p><a href="https://github.com/cilphex/bitcoin-charts">Open source</a></p>
         </div>
       </div>
     )
