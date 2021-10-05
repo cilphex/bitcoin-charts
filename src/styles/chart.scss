@@ -102,26 +102,21 @@ div.rangeWrapper {
     -webkit-appearance: none;
     appearance: none;
     width: 300px;
-    height: 2px;
-    background: #555;
+    height: 4px;
+    background: #aaa;
     border-radius: 100px;
     outline: none;
     cursor: ew-resize;
-    opacity: 0.75;
     outline: none;
-
-    &:hover {
-      opacity: 1;
-    }
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 10px;
-      height: 30px;
+      width: 20px;
+      height: 20px;
       background: #fff;
-      border: 1px solid #555;
-      border-radius: 4px;
+      border: 3px solid #555;
+      border-radius: 100px;
     }
   }
 }
