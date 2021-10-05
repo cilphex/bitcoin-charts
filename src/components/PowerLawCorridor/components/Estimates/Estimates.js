@@ -3,80 +3,24 @@ import { observer } from 'mobx-react';
 import moment from 'moment';
 import { moneyFormat } from 'lib/utils.js';
 
-import Chart from 'components/Chart';
+import EstimatesStore from './EstimatesStore.js';
 import styles from "./Estimates.scss"
 
 @observer
-class Estimates extends Chart {
+class EstimatesContent extends React.Component {
   constructor(props) {
     super(props);
+
+    this.estimatesStore = new EstimatesStore(this.props.chartData);
   }
 
-  get today() {
-    if (this._today) {
-      return this._today;
+  render() {
+    const { ready, today, years, magnitudes } = this.estimatesStore;
+
+    if (!ready) {
+      return <>Calculating...</>;
     }
 
-    const { chartData } = this.dataStore;
-    const { regressionData, standardDeviationPlc } = chartData;
-
-    const todayData = regressionData.find(i =>
-      moment(i.date).isSame(moment(), 'day')
-    )
-
-    const { regressionPlc, regressionPlcTop } = todayData;
-    const expected = Math.round(Math.pow(10, regressionPlc))
-    const min = Math.round(Math.pow(10, regressionPlc - standardDeviationPlc))
-    const max = Math.round(Math.pow(10, regressionPlcTop))
-
-    this._today = {
-      expected,
-      min,
-      max
-    }
-
-    return this._today;
-  }
-
-  get years() {
-    if (this._years) {
-      return this._years;
-    }
-
-    const { chartData } = this.dataStore;
-    const { regressionData } = chartData;
-
-    this._years = Array(5).fill(null)
-    .map((item, i) => moment().year() + i)
-    .map((year, i) =>
-      regressionData.find(dataItem =>
-        moment(dataItem.date).isSame(moment(`${year}-01-01`), 'day')
-      )
-    )
-
-    return this._years;
-  }
-
-  get magnitudes() {
-    if (this._magnitudes) {
-      return this._magnitudes;
-    }
-
-    const { chartData } = this.dataStore;
-    const { regressionData } = chartData;
-
-    this._magnitudes = Array(5).fill(null)
-    .map((val, i) => Math.pow(10, i+3)) // 10,000 to 100,000,000
-    .map((price, i) =>
-      regressionData.find(dataItem =>
-        Math.pow(10, dataItem.regressionPlc) > price
-      )
-    )
-
-    return this._magnitudes;
-  }
-
-  get chartView() {
     return (
       <div className={styles.estimates}>
         <div>
@@ -85,15 +29,15 @@ class Estimates extends Chart {
             <tbody>
             <tr className={styles.deviation}>
               <td>Max price</td>
-              <td>{moneyFormat(this.today.max)}</td>
+              <td>{moneyFormat(today.max)}</td>
             </tr>
             <tr className={styles.expected}>
               <td>Expected price</td>
-              <td>{moneyFormat(this.today.expected)}</td>
+              <td>{moneyFormat(today.expected)}</td>
             </tr>
             <tr className={styles.deviation}>
               <td>Min price</td>
-              <td>{moneyFormat(this.today.min)}</td>
+              <td>{moneyFormat(today.min)}</td>
             </tr>
             </tbody>
           </table>
@@ -103,7 +47,7 @@ class Estimates extends Chart {
           <h3>5 Years</h3>
           <table>
             <tbody>
-            {this.years.map((year, i) =>
+            {years.map((year, i) =>
               <tr key={i}>
                 <td>{moment(year.date).year()}</td>
                 <td>{moneyFormat(Math.round(Math.pow(10, year.regressionPlc)))}</td>
@@ -117,7 +61,7 @@ class Estimates extends Chart {
           <h3>Goals</h3>
           <table>
             <tbody>
-            {this.magnitudes.map((magnitude, i) =>
+            {magnitudes.map((magnitude, i) =>
               <tr key={i}>
                 <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude.regressionPlc))))}</td>
                 <td>{moment(magnitude.date).format('MMM D, YYYY')}</td>
@@ -128,6 +72,29 @@ class Estimates extends Chart {
         </div>
       </div>
     )
+  }
+}
+
+@observer
+class Estimates extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.dataStore = this.props.dataStore;
+  }
+
+  render() {
+    const { chartData } = this.dataStore;
+
+    if (!chartData) {
+      return <>Loading...</>;
+    }
+
+    return (
+      <EstimatesContent
+        chartData={chartData}
+      />
+    );
   }
 }
 

@@ -4,7 +4,6 @@ import moment from 'moment';
 import { moneyFormat } from 'lib/utils.js';
 
 import EstimatesStore from './EstimatesStore.js';
-import Chart from 'components/Chart';
 import styles from "./Estimates.scss"
 
 @observer
