@@ -13,6 +13,14 @@ div.chart {
   background: #fff;
 }
 
+@media (max-width: 1000px) {
+  .chartSvg {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+  }
+}
+
 .grid {
   stroke-width: 0;
 
