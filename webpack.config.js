@@ -96,7 +96,8 @@ module.exports = {
   // Everything from our src folder needs to be served (outputted) in the
   // browser
   devServer: {
-    // contentBase: path.join(__dirname, 'src'),
+    // What historyApiFallback does is let all not-found routes just load the index page,
+    // this way we can use react router for routing on the frontend
     historyApiFallback: true
   },
 }
