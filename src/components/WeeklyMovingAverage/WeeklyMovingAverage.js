@@ -46,7 +46,7 @@ class WeeklyMovingAverage extends React.Component {
           <div className={styles.textBlock}>
             <p>The 200-week moving average tracks the average Bitcoin price
             over the last 200 weeks for any given day. It has provided an apparent
-            minimum price for Bitcoin since its inception.</p>
+            minimum price for Bitcoin since it began trading.</p>
           </div>
 
           <div className={styles.chartHeader}>
