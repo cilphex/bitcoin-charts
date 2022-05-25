@@ -51,10 +51,6 @@ div.chart {
   stroke: #03a9f4;
 }
 
-.lightBlue {
-  stroke: #b2e7ff;
-}
-
 .pathRegression {
   stroke: #ff699c;
 }
@@ -101,6 +97,18 @@ div.chart {
 .mouseCircleDeviation {
   fill: #ff699c;
   opacity: 0.3;
+}
+
+/* Colors should be located beneath things like mouseCircle
+ * classes so they can override their default colors.
+ */
+.lightBlueStroke {
+  stroke: #b2e7ff;
+}
+
+.lightBlueFill {
+  fill: #b2e7ff;
+  stroke: #b2e7ff;
 }
 
 div.rangeWrapper {

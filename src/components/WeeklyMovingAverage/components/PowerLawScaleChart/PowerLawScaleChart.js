@@ -45,11 +45,13 @@ class PowerLawScaleChart extends Chart {
     // if we hover past the current day. (Hence "item &&".)
     const yPosPrice = item && yScale(item.price);
     const yPosWMA200Week = item && yScale(item.wma200week);
+    const yPosWMA200WeekPrelim = item && yScale(item.wma200week_prelim);
 
     this.chartStore.setData({
       xPos,
       yPosPrice,
       yPosWMA200Week,
+      yPosWMA200WeekPrelim,
     });
 
     this.chartStore.setItem(item);
@@ -108,6 +110,7 @@ class PowerLawScaleChart extends Chart {
       xPos,
       yPosPrice,
       yPosWMA200Week,
+      yPosWMA200WeekPrelim,
     } = hoverData;
 
     return <>
@@ -146,7 +149,7 @@ class PowerLawScaleChart extends Chart {
             data={wmaDataPrelim}
             x={(d) => xScale(d.index + 1)}
             y={(d) => yScale(d.wma200week_prelim)}
-            className={`${chartStyles.pathLine} ${chartStyles.lightBlue}`}
+            className={`${chartStyles.pathLine} ${chartStyles.lightBlueStroke}`}
           />
 
           {/* 200 WMA line */}
@@ -181,6 +184,14 @@ class PowerLawScaleChart extends Chart {
                   cx={xPos}
                   cy={yPosWMA200Week}
                   className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
+                />
+              )}
+
+              { yPosWMA200WeekPrelim && (
+                <circle
+                  cx={xPos}
+                  cy={yPosWMA200WeekPrelim}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.lightBlueFill}`}
                 />
               )}
             </Group>

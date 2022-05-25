@@ -65,9 +65,7 @@ class PowerLawCorridor extends React.Component {
                   {moment(powerLawChartItem.date).format('MMM D, YYYY')}
                 </div>
                 <div>
-                  Price: <span className={styles.chartPrice}>
-                    {powerLawChartItem.price && moneyFormat(powerLawChartItem.price) || '???'}
-                  </span>
+                  Price: <span className={styles.chartPrice}>{moneyFormat(powerLawChartItem.price)}</span>
                   Max: <span className={styles.chartPriceDeviation}>{moneyFormat(powerLawChartData.regressionPriceMax)}</span>
                   Expected: <span className={styles.chartPriceExpected}>{moneyFormat(powerLawChartData.regressionPrice)}</span>
                   Min: <span className={styles.chartPriceDeviation}>{moneyFormat(powerLawChartData.regressionPriceMin)}</span>
@@ -86,7 +84,7 @@ class PowerLawCorridor extends React.Component {
                 </tr>
                 <tr>
                   <td>Price</td>
-                  <td className={styles.chartPrice}>{powerLawChartItem.price && moneyFormat(powerLawChartItem.price) || '???'}</td>
+                  <td className={styles.chartPrice}>{moneyFormat(powerLawChartItem.price)}</td>
                 </tr>
                 <tr>
                   <td>Max</td>
@@ -125,9 +123,7 @@ class PowerLawCorridor extends React.Component {
                   {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
                 </div>
                 <div>
-                  Price: <span className={styles.chartPrice}>
-                    {linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}
-                  </span>
+                  Price: <span className={styles.chartPrice}>{moneyFormat(linearScaleChartItem.price)}</span>
                   Max: <span className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMax)}</span>
                   Expected: <span className={styles.chartPriceExpected}>{moneyFormat(linearScaleChartData.regressionPrice)}</span>
                   Min: <span className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.regressionPriceMin)}</span>
@@ -146,7 +142,7 @@ class PowerLawCorridor extends React.Component {
                 </tr>
                 <tr>
                   <td>Price</td>
-                  <td className={styles.chartPrice}>{linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}</td>
+                  <td className={styles.chartPrice}>{moneyFormat(linearScaleChartItem.price)}</td>
                 </tr>
                 <tr>
                   <td>Max</td>
