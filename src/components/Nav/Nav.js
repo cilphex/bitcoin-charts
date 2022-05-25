@@ -16,7 +16,8 @@ class Nav extends React.Component {
     const linkClasses = ({
       home: '/',
       nlb: '/never-look-back',
-      plc: '/power-law-corridor'
+      plc: '/power-law-corridor',
+      wma: '/weekly-moving-average',
     });
 
     Object.keys(linkClasses).forEach(key =>
@@ -33,6 +34,7 @@ class Nav extends React.Component {
           </Link>
           <Link to="/never-look-back" className={linkClasses.nlb}>NLB</Link>
           <Link to="/power-law-corridor" className={linkClasses.plc}>PLC</Link>
+          <Link to="/weekly-moving-average" className={linkClasses.wma}>WMA</Link>
 
           {!chartData && (
             <div className={styles.loading}>

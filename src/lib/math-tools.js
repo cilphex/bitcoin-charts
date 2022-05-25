@@ -4,6 +4,11 @@
 const sum = (values) => values.reduce((a, b) => a + b, 0)
 
 /**
+ * Get the average of the values in an array
+ */
+const average = (values) => values.reduce((a, b) => a + b) / values.length;
+
+/**
  * Return an array of products of two other arrays
  */
 const multiplyVals = (vals1, vals2) => {
@@ -49,6 +54,7 @@ const standardDeviation = (vals1, vals2) => {
 }
 
 export default {
+  average,
   linearRegression,
   standardDeviation
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import * as d3 from 'd3';
-import { scaleLinear, scaleTime } from "@vx/scale";
-import { Group } from "@vx/group";
-import { Grid } from "@vx/grid";
-import { LinePath } from "@vx/shape";
-import { AxisBottom, AxisLeft } from "@vx/axis";
-import { localPoint } from "@vx/event";
-
+import { Group } from '@vx/group';
+import { RectClipPath } from '@vx/clip-path';
+import { Grid } from '@vx/grid';
+import { scaleLinear, scaleTime } from '@vx/scale';
+import { LinePath } from '@vx/shape';
+import { AxisBottom, AxisLeft } from '@vx/axis';
+import { localPoint } from '@vx/event';
 import { bisector } from 'd3-array';
 
 import Chart from 'components/Chart';
@@ -16,7 +16,7 @@ import chartStyles from 'styles/chart.scss';
 const bisectDate = bisector((d) => d.date).right;
 
 @observer
-class BasicChart extends Chart {
+class LinearScaleChart extends Chart {
   constructor(props) {
     super(props);
   }
@@ -43,12 +43,10 @@ class BasicChart extends Chart {
     // Basic chart data does not have regression predictions so item may not exist
     // if we hover past the current day. (Hence "item &&".)
     const yPosPrice = item && yScale(item.price);
-    const yPosForwardMin = item && yScale(item.forwardMinimumPrice);
 
     this.chartStore.setData({
       xPos,
       yPosPrice,
-      yPosForwardMin,
     });
 
     this.chartStore.setItem(item);
@@ -71,6 +69,16 @@ class BasicChart extends Chart {
 
   get chartView() {
     const { data } = this.dataStore.chartData;
+
+    // wmaData is data with the starting values that don't have 200 weeks of
+    // history sliced out
+    const wmaData = data.slice(
+      data.findIndex(item => !!item.wma200week)
+    )
+    const wmaDataPrelim = data.slice(
+      0, data.findIndex(item => !!item.wma200week)
+    )
+
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;
 
@@ -78,12 +86,20 @@ class BasicChart extends Chart {
     const {
       xPos,
       yPosPrice,
-      yPosForwardMin
     } = hoverData;
 
-    return (
+    return <>
       <svg className={chartStyles.chartSvg} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
         <Group top={margin.top} left={margin.left}>
+          {/* Clip path for lines */}
+          <RectClipPath
+            id="linear_scale_chart"
+            x={0}
+            y={0 - margin.top}
+            width={innerWidth + margin.right}
+            height={innerHeight + margin.top}
+          />
+
           {/* Background grid */}
           <Grid
             xScale={xScale}
@@ -92,7 +108,7 @@ class BasicChart extends Chart {
             height={innerHeight}
           />
 
-          {/* The bitcoin price line */}
+          {/* Price line */}
           <LinePath
             data={data}
             x={(d) => xScale(d.date)}
@@ -100,11 +116,19 @@ class BasicChart extends Chart {
             className={`${chartStyles.pathLine} ${chartStyles.pathPrice}`}
           />
 
-          {/* The NLB price line */}
+          {/* 200 WMA line - Preliminary, for dates w/o full 200-week history */}
           <LinePath
-            data={data}
+            data={wmaDataPrelim}
             x={(d) => xScale(d.date)}
-            y={(d) => yScale(d.forwardMinimumPrice)}
+            y={(d) => yScale(d.wma200week_prelim)}
+            className={`${chartStyles.pathLine} ${chartStyles.lightBlue}`}
+          />
+
+          {/* 200 WMA line */}
+          <LinePath
+            data={wmaData}
+            x={(d) => xScale(d.date)}
+            y={(d) => yScale(d.wma200week)}
             className={`${chartStyles.pathLine} ${chartStyles.pathForwardMinPrice}`}
           />
 
@@ -119,23 +143,20 @@ class BasicChart extends Chart {
                 className={chartStyles.mouseLine}
               />
 
-              <circle
-                cx={xPos}
-                cy={yPosPrice}
-                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
-              />
-
-              <circle
-                cx={xPos}
-                cy={yPosForwardMin}
-                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
-              />
+              { yPosPrice && (
+                <circle
+                  cx={xPos}
+                  cy={yPosPrice}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+                />
+              )}
             </Group>
           )}
 
           {/* Left axis */}
           <AxisLeft
             scale={yScale}
+            tickFormat={d3.format(",.1f")}
           />
 
           {/* Bottom axis */}
@@ -155,8 +176,8 @@ class BasicChart extends Chart {
           />
         </Group>
       </svg>
-    );
+    </>;
   }
 }
 
-export default BasicChart;
+export default LinearScaleChart;

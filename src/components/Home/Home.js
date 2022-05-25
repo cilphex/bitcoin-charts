@@ -17,6 +17,7 @@ export default function() {
       <div className={styles.links}>
         <Link to="/never-look-back">Never Look Back Price</Link>
         <Link to="/power-law-corridor">Power Law Corridor</Link>
+        <Link to="/weekly-moving-average">200-Week Moving Average</Link>
       </div>
     </div>
   )
