@@ -92,6 +92,13 @@ class WeeklyMovingAverage extends React.Component {
         />
 
         <div className={styles.contentColumn}>
+          <div className={styles.textBlock}>
+            <p>We can get a more clear view by plotting the values on power
+            law scales (log price over square-root time). The light blue line
+            is the largest moving average available for dates that do not have
+            200 weeks worth of history.</p>
+          </div>
+
           <div className={styles.chartHeader}>
             <h2>Power Law Scales</h2>
             { powerLawScaleChartItem && (
@@ -133,6 +140,12 @@ class WeeklyMovingAverage extends React.Component {
           dataStore={this.dataStore}
           chartStore={this.powerLawScaleChartStore}
         />
+
+        <div className={styles.contentColumn}>
+          <div className={styles.textBlock}>
+            <p>This indicator does not provide any forward projections.</p>
+          </div>
+        </div>
 
         <div className={styles.contentColumn}>
           <ChartPageFooter/>

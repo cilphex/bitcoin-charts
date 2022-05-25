@@ -75,6 +75,9 @@ class LinearScaleChart extends Chart {
     const wmaData = data.slice(
       data.findIndex(item => !!item.wma200week)
     )
+    const wmaDataPrelim = data.slice(
+      0, data.findIndex(item => !!item.wma200week)
+    )
 
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;
@@ -111,6 +114,14 @@ class LinearScaleChart extends Chart {
             x={(d) => xScale(d.date)}
             y={(d) => yScale(d.price)}
             className={`${chartStyles.pathLine} ${chartStyles.pathPrice}`}
+          />
+
+          {/* 200 WMA line - Preliminary, for dates w/o full 200-week history */}
+          <LinePath
+            data={wmaDataPrelim}
+            x={(d) => xScale(d.date)}
+            y={(d) => yScale(d.wma200week_prelim)}
+            className={`${chartStyles.pathLine} ${chartStyles.lightBlue}`}
           />
 
           {/* 200 WMA line */}

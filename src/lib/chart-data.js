@@ -56,16 +56,18 @@ class ChartData {
     this.data.forEach(item => {
       values_to_average.push(item.price)
 
-      if (values_to_average.length <= wma_days) {
-        return
-      }
-
       if (values_to_average.length > wma_days) {
         values_to_average.shift()
       }
 
       const average = mathTools.average(values_to_average)
-      item.wma200week = average
+
+      if (values_to_average.length < wma_days) {
+        item.wma200week_prelim = average
+      }
+      else {
+        item.wma200week = average
+      }
     })
   }
 
