@@ -50,10 +50,8 @@ class WeeklyMovingAverage extends React.Component {
                   {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
                 </div>
                 <div>
-                  Price: <span className={styles.chartPrice}>
-                    {linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}
-                  </span>
-                  200-Week MA: <span className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.wma200week)}</span>
+                  Price: <span className={styles.chartPrice}>{moneyFormat(linearScaleChartItem.price)}</span>
+                  200-Week MA: <span className={styles.chartPriceForwardMin}>{moneyFormat(linearScaleChartItem.wma200week)}</span>
                 </div>
               </div>
             )}
@@ -69,11 +67,11 @@ class WeeklyMovingAverage extends React.Component {
                 </tr>
                 <tr>
                   <td>Price</td>
-                  <td className={styles.chartPrice}>{linearScaleChartItem.price && moneyFormat(linearScaleChartItem.price) || '???'}</td>
+                  <td className={styles.chartPrice}>{moneyFormat(linearScaleChartItem.price)}</td>
                 </tr>
                 <tr>
                   <td>200-Week MA</td>
-                  <td className={styles.chartPriceDeviation}>{moneyFormat(linearScaleChartData.wma200week)}</td>
+                  <td className={styles.chartPriceForwardMin}>{moneyFormat(linearScaleChartItem.wma200week)}</td>
                 </tr>
                 </tbody>
               </table>

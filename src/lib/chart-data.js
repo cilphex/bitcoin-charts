@@ -9,6 +9,9 @@ class ChartData {
     this.regressionData = this.getRegressionData()
     this.standardDeviationNlb = this.getStandardDeviationNlb()
     this.standardDeviationPlc = this.getStandardDeviationPlc()
+
+    // For debugging
+    window.testData = this.data
   }
 
   reverseData() {
@@ -25,18 +28,44 @@ class ChartData {
 
   expandData() {
     this.data.forEach((item, index) => {
-      var forwardData = this.data.slice(index)
-      var min = item.price
+      item.index = index
+    })
+  }
+
+  addNLBData() {
+    this.data.forEach(item => {
+      const forwardData = this.data.slice(item.index)
+      let min = item.price
       forwardData.forEach(forwardItem => {
         if (forwardItem.price < min) {
           min = forwardItem.price
         }
       })
-      item.index = index
-      item.sqrtDaysPassed = Math.sqrt(index)
+      item.sqrtDaysPassed = Math.sqrt(item.index)
       item.forwardMinimumPrice = min
       item.log10Price = Math.log10(item.price)
       item.log10forwardMinimumPrice = Math.log10(item.forwardMinimumPrice)
+    })
+  }
+
+  addWMAData() {
+    const weeks = 200;
+    const days_per_week = 7;
+    const wma_days = weeks * days_per_week;
+    const values_to_average = [];
+    this.data.forEach(item => {
+      values_to_average.push(item.price)
+
+      if (values_to_average.length <= wma_days) {
+        return
+      }
+
+      if (values_to_average.length > wma_days) {
+        values_to_average.shift()
+      }
+
+      const average = mathTools.average(values_to_average)
+      item.wma200week = average
     })
   }
 
@@ -44,26 +73,26 @@ class ChartData {
     // This is just a basic regression example for the actual price
     // plotted on linear axes
     this.regressionPriceFn = mathTools.linearRegression(
-        this.data.map(i => i.index),
-        this.data.map(i => i.price)
+      this.data.map(i => i.index),
+      this.data.map(i => i.price)
     )
 
     this.regressionNlbFn = mathTools.linearRegression(
-        this.data.map(i => i.sqrtDaysPassed),
-        this.data.map(i => i.log10forwardMinimumPrice)
+      this.data.map(i => i.sqrtDaysPassed),
+      this.data.map(i => i.log10forwardMinimumPrice)
     )
 
     // TODO: if this works, make Math.log10(i.price) a field
     this.regressionPlcFn = mathTools.linearRegression(
-        this.data.map(i => i.sqrtDaysPassed),
-        this.data.map(i => i.log10Price)
+      this.data.map(i => i.sqrtDaysPassed),
+      this.data.map(i => i.log10Price)
     )
 
     const plcTopData = this.data.filter(i => i.localHigh)
 
     this.regressionPlcTopFn = mathTools.linearRegression(
-        plcTopData.map(i => i.sqrtDaysPassed),
-        plcTopData.map(i => i.log10Price)
+      plcTopData.map(i => i.sqrtDaysPassed),
+      plcTopData.map(i => i.log10Price)
     )
   }
 
@@ -81,6 +110,8 @@ class ChartData {
     this.reverseData()
     this.parseData()
     this.expandData()
+    this.addNLBData()
+    this.addWMAData()
     this.setupRegressionFunctions()
     this.addRegressionFields()
   }

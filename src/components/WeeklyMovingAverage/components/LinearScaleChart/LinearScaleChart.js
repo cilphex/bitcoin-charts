@@ -40,7 +40,9 @@ class LinearScaleChart extends Chart {
     const item = data[index];
     const xPos = xScale(date);
 
-    const yPosPrice = yScale(item.price);
+    // Basic chart data does not have regression predictions so item may not exist
+    // if we hover past the current day. (Hence "item &&".)
+    const yPosPrice = item && yScale(item.price);
 
     this.chartStore.setData({
       xPos,
@@ -67,6 +69,13 @@ class LinearScaleChart extends Chart {
 
   get chartView() {
     const { data } = this.dataStore.chartData;
+
+    // wmaData is data with the starting values that don't have 200 weeks of
+    // history sliced out
+    const wmaData = data.slice(
+      data.findIndex(item => !!item.wma200week)
+    )
+    
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;
 
@@ -102,6 +111,14 @@ class LinearScaleChart extends Chart {
             x={(d) => xScale(d.date)}
             y={(d) => yScale(d.price)}
             className={`${chartStyles.pathLine} ${chartStyles.pathPrice}`}
+          />
+
+          {/* 200 WMA line */}
+          <LinePath
+            data={wmaData}
+            x={(d) => xScale(d.date)}
+            y={(d) => yScale(d.wma200week)}
+            className={`${chartStyles.pathLine} ${chartStyles.pathForwardMinPrice}`}
           />
 
           { hoverData && (

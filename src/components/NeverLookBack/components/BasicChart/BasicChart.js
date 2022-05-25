@@ -40,8 +40,10 @@ class BasicChart extends Chart {
     const item = data[index];
     const xPos = xScale(date);
 
-    const yPosPrice = yScale(item.price);
-    const yPosForwardMin = yScale(item.forwardMinimumPrice);
+    // Basic chart data does not have regression predictions so item may not exist
+    // if we hover past the current day. (Hence "item &&".)
+    const yPosPrice = item && yScale(item.price);
+    const yPosForwardMin = item && yScale(item.forwardMinimumPrice);
 
     this.chartStore.setData({
       xPos,
