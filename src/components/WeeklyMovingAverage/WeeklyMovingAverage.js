@@ -144,6 +144,7 @@ class WeeklyMovingAverage extends React.Component {
         <div className={styles.contentColumn}>
           <div className={styles.textBlock}>
             <p>This indicator does not provide any forward projections.</p>
+            <p><em>Public TODO: Try a line-of-best-fit chart for the 200-Week MA line.</em></p>
           </div>
         </div>
 
