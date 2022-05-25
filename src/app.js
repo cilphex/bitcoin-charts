@@ -9,7 +9,8 @@ import DataStore from 'stores/DataStore.js';
 import Nav from './components/Nav'
 import Home from './components/Home'
 import NeverLookBack from './components/NeverLookBack'
-import PowerLawCorridor from "./components/PowerLawCorridor";
+import PowerLawCorridor from './components/PowerLawCorridor';
+import WeeklyMovingAverage from './components/WeeklyMovingAverage';
 
 // Styles
 import styles from "./app.scss";
@@ -31,6 +32,9 @@ class App extends React.Component {
           </Route>
           <Route path="/power-law-corridor">
             <PowerLawCorridor dataStore={this.dataStore}/>
+          </Route>
+          <Route path="/weekly-moving-average">
+            <WeeklyMovingAverage dataStore={this.dataStore}/>
           </Route>
           <Route exact path="/">
             <Home/>

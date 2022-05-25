@@ -9,10 +9,6 @@ class ChartData {
     this.regressionData = this.getRegressionData()
     this.standardDeviationNlb = this.getStandardDeviationNlb()
     this.standardDeviationPlc = this.getStandardDeviationPlc()
-
-    // Tmp, for testing
-    window.data = this.data
-    window.regressionData = this.regressionData
   }
 
   reverseData() {

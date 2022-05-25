@@ -111,7 +111,6 @@ class PowerLawCorridor extends React.Component {
           chartStore={this.powerLawChartStore}
         />
 
-
         <div className={styles.contentColumn}>
           <div className={styles.textBlock}>
             <p>If we plot the same values on linear scales, we can see Bitcoin's
