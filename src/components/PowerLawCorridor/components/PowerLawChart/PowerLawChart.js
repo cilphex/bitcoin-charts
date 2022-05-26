@@ -72,7 +72,7 @@ class PowerLawChart extends Chart {
       regressionData,
     } = chartData;
     const { innerWidth, innerHeight } = this.chartDimensions;
-    const maxDays = this.state.maxDays || data.length - 1;
+    const maxDays = this.state.maxDays || data.length;
     const maxRegressionPlc = regressionData[maxDays].regressionPlc;
 
     // Memoize, so we're re-evaluating on scale sliding but not on

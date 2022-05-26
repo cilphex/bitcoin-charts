@@ -61,7 +61,7 @@ class PowerLawScaleChart extends Chart {
       regressionData,
     } = this.dataStore.chartData;
     const { innerWidth, innerHeight } = this.chartDimensions;
-    const maxDays = this.state.maxDays || data.length - 1
+    const maxDays = this.state.maxDays || data.length;
     const maxRegressionWma = regressionData[maxDays].regressionWma;
 
     return {

@@ -85,7 +85,7 @@ class LinearScaleChart extends Chart {
       regressionData,
     } = chartData;
     const { innerWidth, innerHeight } = this.chartDimensions;
-    const maxDays = this.state.maxDays || data.length - 1;
+    const maxDays = this.state.maxDays || data.length;
     const maxRegressionNlb = regressionData[maxDays].regressionNlb;
     const maxDayRegressionNlb = Math.pow(10, maxRegressionNlb);
     const maxPrice = maxDayRegressionNlb * this.priceToRegressionRatio;
