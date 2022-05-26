@@ -7,9 +7,10 @@ import { moneyFormat } from 'lib/utils.js'
 import ChartStore from 'stores/ChartStore';
 
 // Components
-import LinearScaleChart from './components/LinearScaleChart';
+import LinearScaleChart from './components/LinearScaleChart'
 import PowerLawScaleChart from './components/PowerLawScaleChart'
-import ChartPageFooter from 'components/ChartPageFooter';
+import LineOfBestFit from './components/LineOfBestFit'
+import ChartPageFooter from 'components/ChartPageFooter'
 
 // Styles
 import styles from 'app.scss';
@@ -22,18 +23,21 @@ class WeeklyMovingAverage extends React.Component {
     this.dataStore = this.props.dataStore;
     this.linearScaleChartStore = new ChartStore();
     this.powerLawScaleChartStore = new ChartStore();
+    this.lineOfBestFitChartStore = new ChartStore();
   }
 
   render() {
     const {
-      hoverData: linearScaleChartData,
       hoverItem: linearScaleChartItem,
     } = this.linearScaleChartStore;
 
     const {
-      hoverData: powerLawScaleChartData,
       hoverItem: powerLawScaleChartItem,
     } = this.powerLawScaleChartStore;
+
+    const {
+      hoverItem: lineOfBestFitChartItem,
+    } = this.lineOfBestFitChartStore;
 
     return(
       <div>
@@ -143,10 +147,51 @@ class WeeklyMovingAverage extends React.Component {
 
         <div className={styles.contentColumn}>
           <div className={styles.textBlock}>
-            <p>This indicator does not provide any forward projections.</p>
-            <p><em>Public TODO: Try a line-of-best-fit chart for the 200-Week MA line.</em></p>
+            <p>We can map a line of best fit to the 200-week moving average
+            to make a forward-looking projection.</p>
+          </div>
+
+          <div className={styles.chartHeader}>
+            <h2>Line of Best Fit</h2>
+            { lineOfBestFitChartItem && (
+              <div className={styles.chartDataTop}>
+                <div>
+                  {moment(lineOfBestFitChartItem.date).format('MMM D, YYYY')}
+                </div>
+                <div>
+                  Price: <span className={styles.chartPrice}>{moneyFormat(lineOfBestFitChartItem.price)}</span>
+                  Projection: <span className={styles.chartPriceForwardMin}>{moneyFormat(Math.pow(10, lineOfBestFitChartItem.regressionWma))}</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
+        { lineOfBestFitChartItem && (
+          <div className={styles.chartDataOverlay}>
+            <table>
+              <tbody>
+              <tr>
+                <td>Date</td>
+                <td>{moment(lineOfBestFitChartItem.date).format('MMM D, YYYY')}</td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td className={styles.chartPrice}>{moneyFormat(lineOfBestFitChartItem.price)}</td>
+              </tr>
+              <tr>
+                <td>Projection</td>
+                <td className={styles.chartPriceForwardMin}>{moneyFormat(Math.pow(10, lineOfBestFitChartItem.regressionWma))}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        <LineOfBestFit
+          dataStore={this.dataStore}
+          chartStore={this.lineOfBestFitChartStore}
+        />
 
         <div className={styles.contentColumn}>
           <ChartPageFooter/>

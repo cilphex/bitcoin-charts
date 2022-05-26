@@ -1,22 +1,25 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import moment from "moment";
 import * as d3 from 'd3';
-import { scalePower, scaleLog } from "@vx/scale";
-import { Group } from "@vx/group";
-import { RectClipPath } from "@vx/clip-path";
-import { Grid } from "@vx/grid";
-import { LinePath } from "@vx/shape";
-import { AxisBottom, AxisLeft } from "@vx/axis";
-import { localPoint } from "@vx/event";
+import { Group } from '@vx/group';
+import { RectClipPath } from '@vx/clip-path';
+import { Grid } from '@vx/grid';
+import { scalePower, scaleLog } from '@vx/scale';
+import { LinePath } from '@vx/shape';
+import { AxisBottom, AxisLeft } from '@vx/axis';
+import { localPoint } from '@vx/event';
+import { bisector } from 'd3-array';
 
 import Chart from 'components/Chart';
 import chartStyles from 'styles/chart.scss';
+import moment from "moment";
+
+const bisectDate = bisector((d) => d.date).right;
 
 @observer
-class PowerLawChart extends Chart {
+class PowerLawScaleChart extends Chart {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   onMouseOver() {
@@ -28,86 +31,61 @@ class PowerLawChart extends Chart {
   }
 
   onMouseMove(e) {
-    const {
-      regressionData,
-      standardDeviationPlc
-    } = this.dataStore.chartData;
+    const { regressionData } = this.dataStore.chartData;
     const { xScale, yScale } = this.scales;
-
     const { margin } = this.chartDimensions;
     const point = localPoint(e);
     const x = point.x - margin.left;
     const date = xScale.invert(x);
-    const index = Math.round(date);
+    const index = Math.round(date)
     const item = regressionData[index];
     const xPos = xScale(index);
 
-    const yPosPrice = yScale(item.price);
-    const regressionPrice = Math.pow(10, item.regressionPlc)
-    const regressionPriceMax = Math.pow(10, item.regressionPlcTop)
-    const regressionPriceMin = Math.pow(10, item.regressionPlc - standardDeviationPlc)
+    // Basic chart data does not have regression predictions so item may not exist
+    // if we hover past the current day. (Hence "item &&".)
+    const yPosPrice = item.price && yScale(item.price)
+    const yPosRegression = yScale(Math.pow(10, item.regressionWma))
 
-    const yPosRegression = yScale(regressionPrice)
-    const yPosRegressionMax = yScale(regressionPriceMax)
-    const yPosRegressionMin = yScale(regressionPriceMin)
-
-    this.chartStore.assignData({
-      regressionPrice,
-      regressionPriceMax,
-      regressionPriceMin,
+    this.chartStore.setData({
       xPos,
       yPosPrice,
       yPosRegression,
-      yPosRegressionMax,
-      yPosRegressionMin,
     });
 
     this.chartStore.setItem(item);
   }
 
   get scales() {
-    const { chartData } = this.dataStore;
     const {
       data,
       regressionData,
-    } = chartData;
+    } = this.dataStore.chartData;
     const { innerWidth, innerHeight } = this.chartDimensions;
-    const maxDays = this.state.maxDays || data.length - 1;
-    const maxRegressionPlc = regressionData[maxDays].regressionPlc;
+    const maxDays = this.state.maxDays || data.length - 1
+    const maxRegressionWma = regressionData[maxDays].regressionWma;
 
-    // Memoize, so we're re-evaluating on scale sliding but not on
-    // every mouse move
-    if (maxDays == this.prevMaxDays) {
-      return this._scales;
-    }
-
-    // TODO: Use scaleSqrt on RegressionChart currently using scalePower with exponent of 0.5
-    this.prevMaxDays = maxDays;
-    this._scales = {
+    return {
       xScale: scalePower({
         range: [0, innerWidth],
         domain: [0, maxDays],
-        exponent: 0.5,
+        exponent: 0.5
       }),
       yScale: scaleLog({
         range: [innerHeight, 0],
         domain: [
           d3.min(data, (d) => d.price),
-          Math.pow(10, maxRegressionPlc)
+          Math.pow(10, maxRegressionWma) * 3 // Pull the top down a bit with the *3
         ]
       })
-    };
-
-    return this._scales;
+    }
   }
 
   get chartView() {
-    const { chartData } = this.dataStore;
     const {
       data,
       regressionData,
-      standardDeviationPlc
-    } = chartData;
+    } = this.dataStore.chartData;
+
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;
 
@@ -121,8 +99,6 @@ class PowerLawChart extends Chart {
       xPos,
       yPosPrice,
       yPosRegression,
-      yPosRegressionMax,
-      yPosRegressionMin,
     } = hoverData;
 
     return <>
@@ -130,7 +106,7 @@ class PowerLawChart extends Chart {
         <Group top={margin.top} left={margin.left}>
           {/* Clip path for lines */}
           <RectClipPath
-            id="power_law_chart_clip"
+            id="line_of_best_fit_clip"
             x={0}
             y={0 - margin.top}
             width={innerWidth + margin.right}
@@ -160,27 +136,9 @@ class PowerLawChart extends Chart {
           <LinePath
             data={regressionData}
             x={(d) => xScale(d.index + 1)}
-            y={(d) => yScale(Math.pow(10, d.regressionPlc))}
-            className={`${chartStyles.pathLine} ${chartStyles.pathRegression}`}
-            clipPath="url(#power_law_chart_clip)"
-          />
-
-          {/* Regression line top deviation */}
-          <LinePath
-            data={regressionData}
-            x={(d) => xScale(d.index + 1)}
-            y={(d) => yScale(Math.pow(10, d.regressionPlcTop))}
-            className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
-            clipPath="url(#power_law_chart_clip)"
-          />
-
-          {/* Regression line bottom deviation */}
-          <LinePath
-            data={regressionData}
-            x={(d) => xScale(d.index + 1)}
-            y={(d) => yScale(Math.pow(10, d.regressionPlc - standardDeviationPlc))}
-            className={`${chartStyles.pathLine} ${chartStyles.pathRegressionStdDev}`}
-            clipPath="url(#power_law_chart_clip)"
+            y={(d) => yScale(Math.pow(10, d.regressionWma))}
+            className={`${chartStyles.pathLine} ${chartStyles.solidBlueStroke}`}
+            clipPath="url(#line_of_best_fit_clip)"
           />
 
           { hoverData && (
@@ -194,7 +152,6 @@ class PowerLawChart extends Chart {
                 className={chartStyles.mouseLine}
               />
 
-              {/* Price circle */}
               { yPosPrice && (
                 <circle
                   cx={xPos}
@@ -203,26 +160,13 @@ class PowerLawChart extends Chart {
                 />
               )}
 
-              {/* Regression circle */}
-              <circle
-                cx={xPos}
-                cy={yPosRegression}
-                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleRegression}`}
-              />
-
-              {/* Regression circle max/top */}
-              <circle
-                cx={xPos}
-                cy={yPosRegressionMax}
-                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleDeviation}`}
-              />
-
-              {/* Regression circle min/bottom */}
-              <circle
-                cx={xPos}
-                cy={yPosRegressionMin}
-                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleDeviation}`}
-              />
+              { yPosRegression && (
+                <circle
+                  cx={xPos}
+                  cy={yPosRegression}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+                />
+              )}
             </Group>
           )}
 
@@ -266,4 +210,4 @@ class PowerLawChart extends Chart {
   }
 }
 
-export default PowerLawChart;
+export default PowerLawScaleChart;

@@ -20,10 +20,6 @@ const bisectDate = bisector((d) => d.date).right;
 class LinearScaleChart extends Chart {
   constructor(props) {
     super(props);
-
-    this.state = {
-      maxDays: null,
-    };
   }
 
   // TODO: memoize this, and put in parent class? remove from sibling classes?
@@ -80,24 +76,6 @@ class LinearScaleChart extends Chart {
     });
 
     this.chartStore.setItem(item);
-  }
-
-  // TODO: move into parent class and remove from sibling classes?
-  mapInputRangeToDays(rangeValue) {
-    rangeValue = 100 - rangeValue;
-    const { chartData } = this.dataStore;
-    const min = chartData.data.length;
-    const max = 10000 - 1;
-    const rangeDiff = max - min;
-    const percent = rangeValue / 100;
-    const offset = rangeDiff * percent;
-    const pos = min + offset;
-    return Math.round(pos);
-  }
-
-  onRangeChange(e) {
-    const maxDays = this.mapInputRangeToDays(e.target.value);
-    this.setState({ maxDays });
   }
 
   get scales() {
