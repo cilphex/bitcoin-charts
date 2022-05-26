@@ -2,4 +2,3 @@ Notes:
 - utilize scss and nest some attributes for clarity
 - onMouseMove callbacks use slightly different stuff for setting up index/xPos
 - rename css class names to things like 'darkBlue', 'lightBlue', 'darkRed', 'lightRed', etc
-- add line-of-best-fit chart for 200-Week MA
