@@ -102,6 +102,10 @@ div.chart {
 /* Colors should be located beneath things like mouseCircle
  * classes so they can override their default colors.
  */
+
+.solidBlueStroke {
+  stroke: #03a9f4;
+}
 .lightBlueStroke {
   stroke: #b2e7ff;
 }

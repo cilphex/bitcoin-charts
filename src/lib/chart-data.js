@@ -12,6 +12,7 @@ class ChartData {
 
     // For debugging
     window.testData = this.data
+    window.testRegressionData = this.regressionData
   }
 
   reverseData() {
@@ -68,6 +69,8 @@ class ChartData {
       else {
         item.wma200week = average
       }
+
+      item.log10wma = Math.log10(item.wma200week || item.wma200week_prelim)
     })
   }
 
@@ -94,7 +97,12 @@ class ChartData {
 
     this.regressionPlcTopFn = mathTools.linearRegression(
       plcTopData.map(i => i.sqrtDaysPassed),
-      plcTopData.map(i => i.log10Price)
+      plcTopData.map(i => i.log10Price),
+    )
+
+    this.regressionWmaFn = mathTools.linearRegression(
+      this.data.map(i => i.sqrtDaysPassed),
+      this.data.map(i => i.log10wma),
     )
   }
 
@@ -105,6 +113,7 @@ class ChartData {
       // Necessary on regular data for calculating standard deviations
       item.regressionNlb = this.regressionNlbFn(item.sqrtDaysPassed)
       item.regressionPlc = this.regressionPlcFn(item.sqrtDaysPassed)
+      item.regressionWma = this.regressionWmaFn(item.sqrtDaysPassed)
     })
   }
 
@@ -135,6 +144,7 @@ class ChartData {
       const regressionNlb = this.regressionNlbFn(sqrtDaysPassed)
       const regressionPlc = this.regressionPlcFn(sqrtDaysPassed)
       const regressionPlcTop = this.regressionPlcTopFn(sqrtDaysPassed)
+      const regressionWma = this.regressionWmaFn(sqrtDaysPassed)
 
       return {
         index,
@@ -144,7 +154,8 @@ class ChartData {
         sqrtDaysPassed,
         regressionNlb,
         regressionPlc,
-        regressionPlcTop
+        regressionPlcTop,
+        regressionWma,
       }
     })
   }
