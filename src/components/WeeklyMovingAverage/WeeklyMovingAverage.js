@@ -148,7 +148,8 @@ class WeeklyMovingAverage extends React.Component {
         <div className={styles.contentColumn}>
           <div className={styles.textBlock}>
             <p>We can map a line of best fit to the 200-week moving average
-            to make a forward-looking projection.</p>
+            to make a forward-looking projection. This projection uses all WMA
+            data, including for the days without full 200-week history.</p>
           </div>
 
           <div className={styles.chartHeader}>
