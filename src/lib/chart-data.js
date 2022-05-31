@@ -75,13 +75,6 @@ class ChartData {
   }
 
   setupRegressionFunctions() {
-    // This is just a basic regression example for the actual price
-    // plotted on linear axes
-    this.regressionPriceFn = mathTools.linearRegression(
-      this.data.map(i => i.index),
-      this.data.map(i => i.price)
-    )
-
     this.regressionNlbFn = mathTools.linearRegression(
       this.data.map(i => i.sqrtDaysPassed),
       this.data.map(i => i.log10forwardMinimumPrice)
@@ -108,8 +101,6 @@ class ChartData {
 
   addRegressionFields() {
     this.data.forEach(item => {
-      item.regressionPrice = this.regressionPriceFn(item.index)
-
       // Necessary on regular data for calculating standard deviations
       item.regressionNlb = this.regressionNlbFn(item.sqrtDaysPassed)
       item.regressionPlc = this.regressionPlcFn(item.sqrtDaysPassed)

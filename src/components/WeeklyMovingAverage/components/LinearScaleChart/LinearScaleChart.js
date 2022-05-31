@@ -39,14 +39,13 @@ class LinearScaleChart extends Chart {
     const index = bisectDate(data, date, 1); // get the index for the domain value
     const item = data[index];
     const xPos = xScale(date);
-
-    // Basic chart data does not have regression predictions so item may not exist
-    // if we hover past the current day. (Hence "item &&".)
-    const yPosPrice = item && yScale(item.price);
+    const yPosPrice = yScale(item.price);
+    const yPosWma = yScale(item.wma200week || item.wma200week_prelim);
 
     this.chartStore.setData({
       xPos,
       yPosPrice,
+      yPosWma,
     });
 
     this.chartStore.setItem(item);
@@ -86,6 +85,7 @@ class LinearScaleChart extends Chart {
     const {
       xPos,
       yPosPrice,
+      yPosWma,
     } = hoverData;
 
     return <>
@@ -143,13 +143,17 @@ class LinearScaleChart extends Chart {
                 className={chartStyles.mouseLine}
               />
 
-              { yPosPrice && (
-                <circle
-                  cx={xPos}
-                  cy={yPosPrice}
-                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
-                />
-              )}
+              <circle
+                cx={xPos}
+                cy={yPosPrice}
+                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+              />
+
+              <circle
+                cx={xPos}
+                cy={yPosWma}
+                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
+              />
             </Group>
           )}
 

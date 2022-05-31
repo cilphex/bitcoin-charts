@@ -30,8 +30,19 @@ div.chart {
   }
 }
 
-.axisText {
-  fill: #000;
+.priceLabel {
+  width: 70px;
+  height: 20px;
+  fill: #fff;
+  stroke: #555;
+  stroke-width: 1;
+}
+
+.priceLabelText {
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  color: #888;
 }
 
 .pathLine {
@@ -68,8 +79,8 @@ div.chart {
 }
 
 .mouseLine {
-  stroke: #00ffcc;
-  stroke-width: 2px;
+  stroke: #888;
+  stroke-width: 1px;
   opacity: 0.5;
   pointer-events: none;
 }
