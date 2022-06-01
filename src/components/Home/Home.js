@@ -13,7 +13,7 @@ function Home(props) {
   let standardDeviationPlc;
   let lowestNlb;
   let lowestPlc;
-  let wma200week;
+  let lowestWma;
   let nlbGrowth;
   let plcGrowth;
   let wmaGrowth;
@@ -25,17 +25,17 @@ function Home(props) {
     const lastItem = data[data.length - 1];
     const previousItem = data[data.length - 2];
 
-    lowestNlb = Math.floor(Math.pow(10, lastItem.regressionNlb - standardDeviationNlb));
-    lowestPlc = Math.floor(Math.pow(10, lastItem.regressionPlc - standardDeviationPlc));
-    wma200week = Math.floor(lastItem.wma200week);
+    lowestNlb = Math.pow(10, lastItem.regressionNlb - standardDeviationNlb);
+    lowestPlc = Math.pow(10, lastItem.regressionPlc - standardDeviationPlc);
+    lowestWma = Math.pow(10, lastItem.regressionWma);
 
-    const prevLowestNlb = Math.floor(Math.pow(10, previousItem.regressionNlb - standardDeviationNlb))
-    const prevLowestPlc = Math.floor(Math.pow(10, previousItem.regressionPlc - standardDeviationPlc));
-    const prevWma200week = Math.floor(previousItem.wma200week);
+    const prevLowestNlb = Math.pow(10, previousItem.regressionNlb - standardDeviationNlb);
+    const prevLowestPlc = Math.pow(10, previousItem.regressionPlc - standardDeviationPlc);
+    const prevLowestWma = Math.pow(10, previousItem.regressionWma);
 
-    nlbGrowth = lowestNlb - prevLowestNlb;
-    plcGrowth = lowestPlc - prevLowestPlc;
-    wmaGrowth = wma200week - prevWma200week;
+    nlbGrowth = Math.floor(lowestNlb - prevLowestNlb);
+    plcGrowth = Math.floor(lowestPlc - prevLowestPlc);
+    wmaGrowth = Math.floor(lowestWma - prevLowestWma);
   }
 
   return (
@@ -71,7 +71,7 @@ function Home(props) {
         <Link to="/weekly-moving-average">
           <dl>
             <dd>200-Week Moving Average</dd>
-            <dd>{wma200week && (<>{moneyFormat(wma200week)}</>)}</dd>
+            <dd>{lowestWma && (<>{moneyFormat(lowestWma)}</>)}</dd>
             <dd>{wmaGrowth && (<>{moneyFormat(wmaGrowth)}</>)}</dd>
           </dl>
         </Link>
