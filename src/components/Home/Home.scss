@@ -20,3 +20,42 @@ div.links a:active {
 div.links a:last-child {
   border-bottom: none;
 }
+
+div.links dl {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  margin: 0;
+
+  dd {
+    margin: 0;
+
+    // Link title
+    &:nth-child(1) {
+      flex-grow: 1;
+    }
+
+    // Current lowest price
+    &:nth-child(2) {
+      margin-left: 10px;
+      width: 20%;
+      text-align: right;
+    }
+
+    // Growth rate
+    &:nth-child(3) {
+      margin-left: 10px;
+      width: 20%;
+      text-align: right;
+    }
+  }
+
+  &.columnTitles {
+    dd {
+      text-transform: uppercase;
+      color: #aaa;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+}

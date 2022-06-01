@@ -37,7 +37,7 @@ class App extends React.Component {
             <WeeklyMovingAverage dataStore={this.dataStore}/>
           </Route>
           <Route exact path="/">
-            <Home/>
+            <Home dataStore={this.dataStore}/>
           </Route>
         </div>
       </Router>

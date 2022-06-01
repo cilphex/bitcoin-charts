@@ -14,8 +14,6 @@ import Chart from 'components/Chart';
 import chartStyles from 'styles/chart.scss';
 import moment from "moment";
 
-const bisectDate = bisector((d) => d.date).right;
-
 @observer
 class PowerLawScaleChart extends Chart {
   constructor(props) {
