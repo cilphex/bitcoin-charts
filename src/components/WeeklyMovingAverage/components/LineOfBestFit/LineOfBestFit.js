@@ -162,7 +162,7 @@ class PowerLawScaleChart extends Chart {
                 <circle
                   cx={xPos}
                   cy={yPosRegression}
-                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
                 />
               )}
             </Group>
