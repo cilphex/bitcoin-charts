@@ -5,6 +5,11 @@ steps:
   entrypoint: yarn
   args: ['install']
 
+  # Build with webpack
+- name: node:16.7.0
+  entrypoint: yarn
+  args: ['run', 'lint']
+
 # Build with webpack
 - name: node:16.7.0
   entrypoint: yarn
