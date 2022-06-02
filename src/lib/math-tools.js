@@ -45,7 +45,7 @@ const linearRegression = (xVals, yVals) => {
  */
 const standardDeviation = (vals1, vals2) => {
   const squaredDiffs = vals1.map((val1, i) =>
-      Math.pow((val1 - vals2[i]), 2)
+      Math.pow((val1 - vals2[i]), 2),
   );
 
   const avg = sum(squaredDiffs) / squaredDiffs.length;
@@ -55,5 +55,5 @@ const standardDeviation = (vals1, vals2) => {
 export default {
   average,
   linearRegression,
-  standardDeviation
+  standardDeviation,
 };

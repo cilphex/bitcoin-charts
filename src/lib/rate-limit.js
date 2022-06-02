@@ -26,5 +26,5 @@ function rateLimit(ms) {
 }
 
 export {
-  rateLimit
+  rateLimit,
 };

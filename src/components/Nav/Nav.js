@@ -30,7 +30,7 @@ class Nav extends React.Component {
     });
 
     Object.keys(linkClasses).forEach(key =>
-      linkClasses[key] = pathname === linkClasses[key] ? styles.selected : ""
+      linkClasses[key] = pathname === linkClasses[key] ? styles.selected : "",
     );
 
     return (

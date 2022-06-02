@@ -65,15 +65,15 @@ class PowerLawScaleChart extends Chart {
       xScale: scalePower({
         range: [0, innerWidth],
         domain: [0, maxDays],
-        exponent: 0.5
+        exponent: 0.5,
       }),
       yScale: scaleLog({
         range: [innerHeight, 0],
         domain: [
           d3.min(data, (d) => d.price),
-          Math.pow(10, maxRegressionWma) * 3 // Pull the top down a bit with the *3
-        ]
-      })
+          Math.pow(10, maxRegressionWma) * 3, // Pull the top down a bit with the *3
+        ],
+      }),
     };
   }
 

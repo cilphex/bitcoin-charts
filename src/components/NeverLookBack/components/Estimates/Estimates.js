@@ -58,7 +58,7 @@ class EstimatesContent extends React.Component {
                 <tr key={i}>
                   <td>{moment(year.date).year()}</td>
                   <td>{moneyFormat(Math.round(Math.pow(10, year.regressionNlb)))}</td>
-                </tr>
+                </tr>,
               )}
             </tbody>
           </table>
@@ -72,7 +72,7 @@ class EstimatesContent extends React.Component {
                 <tr key={i}>
                   <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude.regressionNlb))))}</td>
                   <td>{moment(magnitude.date).format("MMM D, YYYY")}</td>
-                </tr>
+                </tr>,
               )}
             </tbody>
           </table>

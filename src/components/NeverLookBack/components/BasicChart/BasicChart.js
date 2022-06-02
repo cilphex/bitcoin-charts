@@ -60,11 +60,11 @@ class BasicChart extends Chart {
     return {
       xScale: scaleTime({
         range: [0, innerWidth],
-        domain: d3.extent(data, (d) => d.date)
+        domain: d3.extent(data, (d) => d.date),
       }),
       yScale: scaleLinear({
         range: [innerHeight, 0],
-        domain: d3.extent(data, (d) => d.price)
+        domain: d3.extent(data, (d) => d.price),
       }),
     };
   }
@@ -78,7 +78,7 @@ class BasicChart extends Chart {
     const {
       xPos,
       yPosPrice,
-      yPosForwardMin
+      yPosForwardMin,
     } = hoverData;
 
     return (

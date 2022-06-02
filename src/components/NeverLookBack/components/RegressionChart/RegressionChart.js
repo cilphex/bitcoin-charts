@@ -30,7 +30,7 @@ class RegressionChart extends Chart {
   onMouseMove(e) {
     const {
       regressionData,
-      standardDeviationNlb
+      standardDeviationNlb,
     } = this.dataStore.chartData;
     const { xScale, yScale } = this.scales;
 
@@ -86,15 +86,15 @@ class RegressionChart extends Chart {
       xScale: scalePower({
         range: [0, innerWidth],
         domain: [0, maxDays],
-        exponent: 0.5
+        exponent: 0.5,
       }),
       yScale: scaleLog({
         range: [innerHeight, 0],
         domain: [
           d3.min(data, (d) => d.forwardMinimumPrice),
-          Math.pow(10, maxRegressionNlb)
-        ]
-      })
+          Math.pow(10, maxRegressionNlb),
+        ],
+      }),
     };
 
     return this._scales;
@@ -105,7 +105,7 @@ class RegressionChart extends Chart {
     const {
       data,
       regressionData,
-      standardDeviationNlb
+      standardDeviationNlb,
     } = chartData;
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;

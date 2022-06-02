@@ -31,7 +31,7 @@ class EstimatesStore {
     const { regressionData, standardDeviationNlb } = this.chartData;
 
     const todayData = regressionData.find(i =>
-      moment(i.date).isSame(moment(), "day")
+      moment(i.date).isSame(moment(), "day"),
     );
 
     const { regressionNlb } = todayData;
@@ -42,7 +42,7 @@ class EstimatesStore {
     const today = {
       expected,
       min,
-      max
+      max,
     };
 
     // this.today = today;
@@ -58,8 +58,8 @@ class EstimatesStore {
       .map((item, i) => moment().year() + i)
       .map(year =>
         regressionData.find(dataItem =>
-          moment(dataItem.date).isSame(moment(`${year}-01-01`), "day")
-        )
+          moment(dataItem.date).isSame(moment(`${year}-01-01`), "day"),
+        ),
       );
 
     // this.years = years;
@@ -75,8 +75,8 @@ class EstimatesStore {
       .map((val, i) => Math.pow(10, i+3)) // 10,000 to 100,000,000
       .map(price =>
         regressionData.find(dataItem =>
-          Math.pow(10, dataItem.regressionNlb) > price
-        )
+          Math.pow(10, dataItem.regressionNlb) > price,
+        ),
       );
 
     // this.magnitudes = magnitudes;

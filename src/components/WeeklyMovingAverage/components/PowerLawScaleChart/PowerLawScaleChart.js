@@ -67,15 +67,15 @@ class PowerLawScaleChart extends Chart {
       xScale: scalePower({
         range: [0, innerWidth],
         domain: [0, maxDays],
-        exponent: 0.5
+        exponent: 0.5,
       }),
       yScale: scaleLog({
         range: [innerHeight, 0],
         domain: [
           d3.min(data, (d) => d.price),
-          Math.pow(10, maxRegressionPlc)
-        ]
-      })
+          Math.pow(10, maxRegressionPlc),
+        ],
+      }),
     };
   }
 
@@ -88,10 +88,10 @@ class PowerLawScaleChart extends Chart {
     // wmaData is data with the starting values that don't have 200 weeks of
     // history sliced out
     const wmaData = data.slice(
-      data.findIndex(item => !!item.wma200week)
+      data.findIndex(item => !!item.wma200week),
     );
     const wmaDataPrelim = data.slice(
-      0, data.findIndex(item => !!item.wma200week)
+      0, data.findIndex(item => !!item.wma200week),
     );
 
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;

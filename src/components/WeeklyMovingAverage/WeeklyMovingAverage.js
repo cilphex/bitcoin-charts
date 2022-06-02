@@ -30,7 +30,7 @@ class WeeklyMovingAverage extends React.Component {
 
   static get propTypes() {
     return {
-      dataStore: PropTypes.instanceOf(DataStore)
+      dataStore: PropTypes.instanceOf(DataStore),
     };
   }
 

@@ -30,7 +30,7 @@ class PowerLawChart extends Chart {
   onMouseMove(e) {
     const {
       regressionData,
-      standardDeviationPlc
+      standardDeviationPlc,
     } = this.dataStore.chartData;
     const { xScale, yScale } = this.scales;
 
@@ -93,9 +93,9 @@ class PowerLawChart extends Chart {
         range: [innerHeight, 0],
         domain: [
           d3.min(data, (d) => d.price),
-          Math.pow(10, maxRegressionPlc)
-        ]
-      })
+          Math.pow(10, maxRegressionPlc),
+        ],
+      }),
     };
 
     return this._scales;
@@ -106,7 +106,7 @@ class PowerLawChart extends Chart {
     const {
       data,
       regressionData,
-      standardDeviationPlc
+      standardDeviationPlc,
     } = chartData;
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;

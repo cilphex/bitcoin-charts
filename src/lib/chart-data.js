@@ -23,7 +23,7 @@ class ChartData {
     this.data.forEach((item, index) => this.data[index] = {
       date: new Date(item.date),
       price: parseFloat(item.price.replace(/,/g, "")),
-      localHigh: !!item.localHigh
+      localHigh: !!item.localHigh,
     });
   }
 
@@ -79,18 +79,18 @@ class ChartData {
     // plotted on linear axes
     this.regressionPriceFn = mathTools.linearRegression(
       this.data.map(i => i.index),
-      this.data.map(i => i.price)
+      this.data.map(i => i.price),
     );
 
     this.regressionNlbFn = mathTools.linearRegression(
       this.data.map(i => i.sqrtDaysPassed),
-      this.data.map(i => i.log10forwardMinimumPrice)
+      this.data.map(i => i.log10forwardMinimumPrice),
     );
 
     // TODO: if this works, make Math.log10(i.price) a field
     this.regressionPlcFn = mathTools.linearRegression(
       this.data.map(i => i.sqrtDaysPassed),
-      this.data.map(i => i.log10Price)
+      this.data.map(i => i.log10Price),
     );
 
     const plcTopData = this.data.filter(i => i.localHigh);

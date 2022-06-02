@@ -7,5 +7,5 @@ function moneyFormat(num) {
 }
 
 export {
-  moneyFormat
+  moneyFormat,
 };

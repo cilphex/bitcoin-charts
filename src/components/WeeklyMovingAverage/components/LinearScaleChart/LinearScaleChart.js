@@ -58,11 +58,11 @@ class LinearScaleChart extends Chart {
     return {
       xScale: scaleTime({
         range: [0, innerWidth],
-        domain: d3.extent(data, (d) => d.date)
+        domain: d3.extent(data, (d) => d.date),
       }),
       yScale: scaleLinear({
         range: [innerHeight, 0],
-        domain: d3.extent(data, (d) => d.price)
+        domain: d3.extent(data, (d) => d.price),
       }),
     };
   }
@@ -73,10 +73,10 @@ class LinearScaleChart extends Chart {
     // wmaData is data with the starting values that don't have 200 weeks of
     // history sliced out
     const wmaData = data.slice(
-      data.findIndex(item => !!item.wma200week)
+      data.findIndex(item => !!item.wma200week),
     );
     const wmaDataPrelim = data.slice(
-      0, data.findIndex(item => !!item.wma200week)
+      0, data.findIndex(item => !!item.wma200week),
     );
 
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;

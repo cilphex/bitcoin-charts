@@ -20,6 +20,7 @@ module.exports = {
   ],
   "rules": {
     "brace-style": ["error", "stroustrup"],
+    "comma-dangle": ["error", "always-multiline"],
     "quotes": ["error", "double"],
     // This rule raises a warning when you use single quotes in strings like "it's"
     "react/no-unescaped-entities": "off",

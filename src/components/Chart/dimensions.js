@@ -2,7 +2,7 @@ const margin = {
   top: 20,
   right: 20,
   bottom: 35,
-  left: 75
+  left: 75,
 };
 const width = 1000;
 const height = 500;
@@ -14,5 +14,5 @@ export default {
   width,
   height,
   innerWidth,
-  innerHeight
+  innerHeight,
 };

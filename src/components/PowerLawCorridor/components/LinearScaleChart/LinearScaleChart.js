@@ -43,7 +43,7 @@ class LinearScaleChart extends Chart {
   onMouseMove(e) {
     const {
       regressionData,
-      standardDeviationPlc
+      standardDeviationPlc,
     } = this.dataStore.chartData;
     const { xScale, yScale } = this.scales;
 
@@ -102,13 +102,13 @@ class LinearScaleChart extends Chart {
         range: [0, innerWidth],
         domain: [
           data[0].date,
-          moment(data[0].date).add(maxDays, "days").toDate()
+          moment(data[0].date).add(maxDays, "days").toDate(),
         ],
       }),
       yScale: scaleLinear({
         range: [innerHeight, 0],
-        domain: [0, maxPrice]
-      })
+        domain: [0, maxPrice],
+      }),
     };
 
     return this._scales;
