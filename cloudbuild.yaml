@@ -5,10 +5,13 @@ steps:
   entrypoint: yarn
   args: ['install']
 
-# Run linter
-- name: node:16.7.0
-  entrypoint: yarn
-  args: ['run', 'lint']
+## Run linter
+# This is how it could be done, but do it on github instead because
+# linting shouldn't block deployment for code that runs.
+# See .github/workflows/lint.yml
+#- name: node:16.7.0
+#  entrypoint: yarn
+#  args: ['run', 'lint']
 
 # Build with webpack
 - name: node:16.7.0
