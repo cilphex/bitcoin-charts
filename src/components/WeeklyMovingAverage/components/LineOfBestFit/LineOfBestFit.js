@@ -8,7 +8,9 @@ import { scalePower, scaleLog } from '@vx/scale';
 import { LinePath } from '@vx/shape';
 import { AxisBottom, AxisLeft } from '@vx/axis';
 import { localPoint } from '@vx/event';
+import { Text } from '@vx/text'
 import { bisector } from 'd3-array';
+import { moneyFormat } from 'lib/utils';
 
 import Chart from 'components/Chart';
 import chartStyles from 'styles/chart.scss';
@@ -31,13 +33,22 @@ class PowerLawScaleChart extends Chart {
   onMouseMove(e) {
     const { regressionData } = this.dataStore.chartData;
     const { xScale, yScale } = this.scales;
-    const { margin } = this.chartDimensions;
+    const { margin, innerHeight } = this.chartDimensions;
     const point = localPoint(e);
     const x = point.x - margin.left;
+    const y = point.y - margin.top;
     const date = xScale.invert(x);
     const index = Math.round(date)
     const item = regressionData[index];
     const xPos = xScale(index);
+    const yPos = y;
+
+    // Was playing around, now number these
+    const exponentRange = yScale.domain().map(i => Math.log10(i))
+    const percent = (innerHeight - y) / innerHeight
+    const exponentDiff = exponentRange[1] - exponentRange[0]
+    const exponent = percent * exponentDiff + exponentRange[0]
+    const priceLabelValue = moneyFormat(Math.pow(10, exponent))
 
     // Basic chart data does not have regression predictions so item may not exist
     // if we hover past the current day. (Hence "item &&".)
@@ -46,6 +57,8 @@ class PowerLawScaleChart extends Chart {
 
     this.chartStore.setData({
       xPos,
+      priceLabelValue,
+      yPos,
       yPosPrice,
       yPosRegression,
     });
@@ -95,6 +108,8 @@ class PowerLawScaleChart extends Chart {
     const { hoverData } = this.chartStore;
     const {
       xPos,
+      priceLabelValue,
+      yPos,
       yPosPrice,
       yPosRegression,
     } = hoverData;
@@ -141,6 +156,15 @@ class PowerLawScaleChart extends Chart {
 
           { hoverData && (
             <Group>
+              {/* The horizontal line that follows the cursor when hovering */}
+              <line
+                x1={0}
+                y1={yPos}
+                x2={innerWidth}
+                y2={yPos}
+                className={chartStyles.mouseLine}
+              />
+
               {/* The vertical line that follows the cursor when hovering */}
               <line
                 x1={xPos}
@@ -150,21 +174,34 @@ class PowerLawScaleChart extends Chart {
                 className={chartStyles.mouseLine}
               />
 
-              { yPosPrice && (
-                <circle
-                  cx={xPos}
-                  cy={yPosPrice}
-                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
-                />
-              )}
+              {/* Price text wrapper */}
+              <rect
+                x={10}
+                y={yPos - 10}
+                rx={5}
+                className={chartStyles.priceLabel}
+              />
 
-              { yPosRegression && (
-                <circle
-                  cx={xPos}
-                  cy={yPosRegression}
-                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
-                />
-              )}
+              {/* Price text */}
+              <Text
+                x={15}
+                y={yPos + 5}
+                className={chartStyles.priceLabelText}
+              >
+                {priceLabelValue}
+              </Text>
+
+              <circle
+                cx={xPos}
+                cy={yPosPrice}
+                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+              />
+
+              <circle
+                cx={xPos}
+                cy={yPosRegression}
+                className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
+              />
             </Group>
           )}
 
