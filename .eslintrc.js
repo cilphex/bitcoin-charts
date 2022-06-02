@@ -25,5 +25,11 @@ module.exports = {
     // This rule raises a warning when you use single quotes in strings like "it's"
     "react/no-unescaped-entities": "off",
     "semi": ["error", "always"]
+  },
+  settings: {
+    // Removes a warning on linting
+    react: {
+      version: 'detect'
+    }
   }
 }
