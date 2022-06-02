@@ -1,5 +1,5 @@
-import { makeObservable, observable, runInAction } from 'mobx';
-import ChartData from 'lib/chart-data.js';
+import { makeObservable, observable, runInAction } from "mobx";
+import ChartData from "lib/chart-data.js";
 
 class DataStore {
   @observable chartData = null;
@@ -10,7 +10,7 @@ class DataStore {
   }
 
   async fetchData() {
-    const res = await fetch('/data/price-data.json')
+    const res = await fetch("/data/price-data.json");
     const data = await res.json();
     runInAction(() => this.chartData = new ChartData(data));
   }

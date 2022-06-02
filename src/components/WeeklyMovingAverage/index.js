@@ -1,2 +1,2 @@
-import WeeklyMovingAverage from './WeeklyMovingAverage.js'
-export default WeeklyMovingAverage
+import WeeklyMovingAverage from "./WeeklyMovingAverage.js";
+export default WeeklyMovingAverage;

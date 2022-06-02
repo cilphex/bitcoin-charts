@@ -1,4 +1,4 @@
-import { makeObservable, observable, computed, runInAction } from 'mobx';
+import { makeObservable, observable, computed, runInAction } from "mobx";
 import moment from "moment";
 
 class EstimatesStore {
@@ -24,20 +24,20 @@ class EstimatesStore {
     await this.processToday();
     await this.processYears();
     await this.processMagnitudes();
-  }
+  };
 
   processToday = async() => {
-    await new Promise(resolve => setTimeout(resolve, 0))
+    await new Promise(resolve => setTimeout(resolve, 0));
     const { regressionData, standardDeviationPlc } = this.chartData;
 
     const todayData = regressionData.find(i =>
-      moment(i.date).isSame(moment(), 'day')
-    )
+      moment(i.date).isSame(moment(), "day")
+    );
 
     const { regressionPlc, regressionPlcTop } = todayData;
-    const expected = Math.round(Math.pow(10, regressionPlc))
-    const min = Math.round(Math.pow(10, regressionPlc - standardDeviationPlc))
-    const max = Math.round(Math.pow(10, regressionPlcTop))
+    const expected = Math.round(Math.pow(10, regressionPlc));
+    const min = Math.round(Math.pow(10, regressionPlc - standardDeviationPlc));
+    const max = Math.round(Math.pow(10, regressionPlcTop));
 
     const today = {
       expected,
@@ -48,32 +48,30 @@ class EstimatesStore {
     // this.today = today;
 
     runInAction(() => this.today = today);
-  }
+  };
 
   processYears = async() => {
-    await new Promise(resolve => setTimeout(resolve, 0))
+    await new Promise(resolve => setTimeout(resolve, 0));
     const { regressionData } = this.chartData;
 
     const years = Array(5).fill(null)
       .map((item, i) => moment().year() + i)
-      .map((year, i) =>
+      .map(year =>
         regressionData.find(dataItem =>
-          moment(dataItem.date).isSame(moment(`${year}-01-01`), 'day')
+          moment(dataItem.date).isSame(moment(`${year}-01-01`), "day")
         )
       );
 
-    // this.years = years;
-
     runInAction(() => this.years = years);
-  }
+  };
 
   processMagnitudes = async() => {
-    await new Promise(resolve => setTimeout(resolve, 0))
+    await new Promise(resolve => setTimeout(resolve, 0));
     const { regressionData } = this.chartData;
 
     const magnitudes = Array(5).fill(null)
       .map((val, i) => Math.pow(10, i+3)) // 10,000 to 100,000,000
-      .map((price, i) =>
+      .map(price =>
         regressionData.find(dataItem =>
           Math.pow(10, dataItem.regressionPlc) > price
         )
@@ -82,7 +80,7 @@ class EstimatesStore {
     // this.magnitudes = magnitudes;
 
     runInAction(() => this.magnitudes = magnitudes);
-  }
+  };
 }
 
 export default EstimatesStore;

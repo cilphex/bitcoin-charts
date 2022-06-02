@@ -1,9 +1,11 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
-import { moneyFormat } from 'lib/utils';
-import appStyles from 'app.scss';
-import styles from './Home.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
+import { moneyFormat } from "lib/utils";
+import DataStore from "stores/DataStore";
+import appStyles from "app.scss";
+import styles from "./Home.scss";
 
 function Home(props) {
   const { chartData } = props.dataStore;
@@ -77,7 +79,11 @@ function Home(props) {
         </Link>
       </div>
     </div>
-  )
+  );
 }
+
+Home.propTypes = {
+  dataStore: PropTypes.instanceOf(DataStore),
+};
 
 export default observer(Home);

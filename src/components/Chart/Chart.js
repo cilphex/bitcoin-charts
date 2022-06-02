@@ -1,7 +1,12 @@
-import React from 'react';
-import dimensions from './dimensions.js';
-import ChartLoading from './components/ChartLoading';
-import chartStyles from 'styles/chart.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import dimensions from "./dimensions.js";
+
+import DataStore from "stores/DataStore";
+import ChartStore from "stores/ChartStore";
+
+import ChartLoading from "./components/ChartLoading";
+import chartStyles from "styles/chart.scss";
 
 class Chart extends React.Component {
   constructor(props) {
@@ -13,6 +18,13 @@ class Chart extends React.Component {
 
     this.dataStore = this.props.dataStore;
     this.chartStore = this.props.chartStore;
+  }
+
+  static get propTypes() {
+    return {
+      dataStore: PropTypes.instanceOf(DataStore),
+      chartStore: PropTypes.instanceOf(ChartStore),
+    };
   }
 
   get chartDimensions() {

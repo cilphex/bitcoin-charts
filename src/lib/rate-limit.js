@@ -1,9 +1,9 @@
 function rateLimit(ms) {
   if (ms === undefined) {
-    throw 'ms must be defined for rate limit';
+    throw "ms must be defined for rate limit";
   }
-  if (typeof ms !== 'number') {
-    throw 'ms for rate limit must be a number';
+  if (typeof ms !== "number") {
+    throw "ms for rate limit must be a number";
   }
 
   return function decorator(target, name, descriptor) {
@@ -22,7 +22,7 @@ function rateLimit(ms) {
     };
 
     return descriptor;
-  }
+  };
 }
 
 export {

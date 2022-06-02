@@ -1,20 +1,17 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import * as d3 from 'd3';
-import { Group } from '@vx/group';
-import { RectClipPath } from '@vx/clip-path';
-import { Grid } from '@vx/grid';
-import { scalePower, scaleLog } from '@vx/scale';
-import { LinePath } from '@vx/shape';
-import { AxisBottom, AxisLeft } from '@vx/axis';
-import { localPoint } from '@vx/event';
-import { bisector } from 'd3-array';
+import React from "react";
+import { observer } from "mobx-react";
+import * as d3 from "d3";
+import { Group } from "@vx/group";
+import { RectClipPath } from "@vx/clip-path";
+import { Grid } from "@vx/grid";
+import { scalePower, scaleLog } from "@vx/scale";
+import { LinePath } from "@vx/shape";
+import { AxisBottom, AxisLeft } from "@vx/axis";
+import { localPoint } from "@vx/event";
 
-import Chart from 'components/Chart';
-import chartStyles from 'styles/chart.scss';
+import Chart from "components/Chart";
+import chartStyles from "styles/chart.scss";
 import moment from "moment";
-
-const bisectDate = bisector((d) => d.date).right;
 
 @observer
 class PowerLawScaleChart extends Chart {
@@ -37,7 +34,7 @@ class PowerLawScaleChart extends Chart {
     const point = localPoint(e);
     const x = point.x - margin.left;
     const date = xScale.invert(x);
-    const index = Math.round(date)
+    const index = Math.round(date);
     const item = data[index];
     const xPos = xScale(index);
 
@@ -63,7 +60,7 @@ class PowerLawScaleChart extends Chart {
       regressionData,
     } = this.dataStore.chartData;
     const { innerWidth, innerHeight } = this.chartDimensions;
-    const maxDays = data.length
+    const maxDays = data.length;
     const maxRegressionPlc = regressionData[maxDays].regressionPlc;
 
     return {
@@ -79,7 +76,7 @@ class PowerLawScaleChart extends Chart {
           Math.pow(10, maxRegressionPlc)
         ]
       })
-    }
+    };
   }
 
   get chartView() {
@@ -92,10 +89,10 @@ class PowerLawScaleChart extends Chart {
     // history sliced out
     const wmaData = data.slice(
       data.findIndex(item => !!item.wma200week)
-    )
+    );
     const wmaDataPrelim = data.slice(
       0, data.findIndex(item => !!item.wma200week)
-    )
+    );
 
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;
@@ -209,7 +206,7 @@ class PowerLawScaleChart extends Chart {
             scale={xScale}
             top={innerHeight}
             tickValues={colTickValues}
-            tickFormat={i => moment(data[0].date).add(i, 'days').format('`YY')}
+            tickFormat={i => moment(data[0].date).add(i, "days").format("`YY")}
           />
 
           {/* Hover detection area */}

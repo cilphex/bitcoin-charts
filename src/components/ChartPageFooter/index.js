@@ -1,2 +1,2 @@
-import ChartPageFooter from './ChartPageFooter.js'
+import ChartPageFooter from "./ChartPageFooter.js";
 export default ChartPageFooter;

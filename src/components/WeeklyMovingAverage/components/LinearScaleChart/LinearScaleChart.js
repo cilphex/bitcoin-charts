@@ -1,17 +1,17 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import * as d3 from 'd3';
-import { Group } from '@vx/group';
-import { RectClipPath } from '@vx/clip-path';
-import { Grid } from '@vx/grid';
-import { scaleLinear, scaleTime } from '@vx/scale';
-import { LinePath } from '@vx/shape';
-import { AxisBottom, AxisLeft } from '@vx/axis';
-import { localPoint } from '@vx/event';
-import { bisector } from 'd3-array';
+import React from "react";
+import { observer } from "mobx-react";
+import * as d3 from "d3";
+import { Group } from "@vx/group";
+import { RectClipPath } from "@vx/clip-path";
+import { Grid } from "@vx/grid";
+import { scaleLinear, scaleTime } from "@vx/scale";
+import { LinePath } from "@vx/shape";
+import { AxisBottom, AxisLeft } from "@vx/axis";
+import { localPoint } from "@vx/event";
+import { bisector } from "d3-array";
 
-import Chart from 'components/Chart';
-import chartStyles from 'styles/chart.scss';
+import Chart from "components/Chart";
+import chartStyles from "styles/chart.scss";
 
 const bisectDate = bisector((d) => d.date).right;
 
@@ -64,7 +64,7 @@ class LinearScaleChart extends Chart {
         range: [innerHeight, 0],
         domain: d3.extent(data, (d) => d.price)
       }),
-    }
+    };
   }
 
   get chartView() {
@@ -74,10 +74,10 @@ class LinearScaleChart extends Chart {
     // history sliced out
     const wmaData = data.slice(
       data.findIndex(item => !!item.wma200week)
-    )
+    );
     const wmaDataPrelim = data.slice(
       0, data.findIndex(item => !!item.wma200week)
-    )
+    );
 
     const { margin, width, height, innerWidth, innerHeight } = this.chartDimensions;
     const { xScale, yScale } = this.scales;

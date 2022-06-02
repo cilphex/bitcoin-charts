@@ -1,2 +1,2 @@
-import Nav from './Nav.js'
-export default Nav
+import Nav from "./Nav.js";
+export default Nav;

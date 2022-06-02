@@ -3,14 +3,14 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 // Stores
-import DataStore from 'stores/DataStore.js';
+import DataStore from "stores/DataStore.js";
 
 // Components
-import Nav from './components/Nav'
-import Home from './components/Home'
-import NeverLookBack from './components/NeverLookBack'
-import PowerLawCorridor from './components/PowerLawCorridor';
-import WeeklyMovingAverage from './components/WeeklyMovingAverage';
+import Nav from "./components/Nav";
+import Home from "./components/Home";
+import NeverLookBack from "./components/NeverLookBack";
+import PowerLawCorridor from "./components/PowerLawCorridor";
+import WeeklyMovingAverage from "./components/WeeklyMovingAverage";
 
 // Styles
 import styles from "./app.scss";
@@ -41,7 +41,7 @@ class App extends React.Component {
           </Route>
         </div>
       </Router>
-    )
+    );
   }
 }
 

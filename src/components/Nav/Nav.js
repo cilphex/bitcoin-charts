@@ -1,7 +1,9 @@
-import React from "react"
+import React from "react";
+import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import { observer } from 'mobx-react';
-import styles from "./Nav.scss"
+import { observer } from "mobx-react";
+import DataStore from "stores/DataStore";
+import styles from "./Nav.scss";
 
 @observer
 class Nav extends React.Component {
@@ -9,19 +11,26 @@ class Nav extends React.Component {
     super(props);
   }
 
+  static get propTypes() {
+    return {
+      location: PropTypes.object,
+      dataStore: PropTypes.instanceOf(DataStore),
+    };
+  }
+
   render() {
     const { pathname } = this.props.location;
     const { chartData } = this.props.dataStore;
 
     const linkClasses = ({
-      home: '/',
-      nlb: '/never-look-back',
-      plc: '/power-law-corridor',
-      wma: '/weekly-moving-average',
+      home: "/",
+      nlb: "/never-look-back",
+      plc: "/power-law-corridor",
+      wma: "/weekly-moving-average",
     });
 
     Object.keys(linkClasses).forEach(key =>
-      linkClasses[key] = pathname === linkClasses[key] ? styles.selected : ''
+      linkClasses[key] = pathname === linkClasses[key] ? styles.selected : ""
     );
 
     return (
@@ -43,8 +52,8 @@ class Nav extends React.Component {
           )}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(Nav)
+export default withRouter(Nav);

@@ -1,2 +1,2 @@
-import RegressionChart from './RegressionChart.js'
+import RegressionChart from "./RegressionChart.js";
 export default RegressionChart;
