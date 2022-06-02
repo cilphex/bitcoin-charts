@@ -1,6 +1,6 @@
 # Bitcoin Charts
 
-![Lint Actions Status](https://https://github.com/cilphex/bitcoin-charts/actions/workflows/lint.yml/badge.svg)
+![Lint Actions Status](https://github.com/cilphex/bitcoin-charts/actions/workflows/lint.yml/badge.svg)
 
 A website for bitcoin charts. A deprecated non-React version can be found
 [here](https://github.com/cilphex/bitcoin-never-look-back).
