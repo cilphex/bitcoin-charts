@@ -5,7 +5,7 @@ steps:
   entrypoint: yarn
   args: ['install']
 
-  # Build with webpack
+# Run linter
 - name: node:16.7.0
   entrypoint: yarn
   args: ['run', 'lint']
