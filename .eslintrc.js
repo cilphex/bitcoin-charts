@@ -26,10 +26,10 @@ module.exports = {
     "react/no-unescaped-entities": "off",
     "semi": ["error", "always"]
   },
-  settings: {
+  "settings": {
     // Removes a warning on linting
-    react: {
-      version: 'detect'
+    "react": {
+      "version": 'detect'
     }
   }
 }
