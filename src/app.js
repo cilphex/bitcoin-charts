@@ -19,7 +19,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.dataStore = new DataStore();
+    this.dataStore = new DataStore()
   }
 
   render() {
