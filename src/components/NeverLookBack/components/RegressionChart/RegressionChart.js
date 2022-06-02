@@ -1,7 +1,7 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import moment from 'moment';
-import * as d3 from 'd3';
+import React from "react";
+import { observer } from "mobx-react";
+import moment from "moment";
+import * as d3 from "d3";
 import { scalePower, scaleLog } from "@vx/scale";
 import { Group } from "@vx/group";
 import { LinePath } from "@vx/shape";
@@ -10,8 +10,8 @@ import { RectClipPath } from "@vx/clip-path";
 import { Grid } from "@vx/grid";
 import { localPoint } from "@vx/event";
 
-import Chart from 'components/Chart';
-import chartStyles from 'styles/chart.scss';
+import Chart from "components/Chart";
+import chartStyles from "styles/chart.scss";
 
 @observer
 class RegressionChart extends Chart {
@@ -43,13 +43,13 @@ class RegressionChart extends Chart {
     const xPos = xScale(index);
 
     const yPosForwardMin = yScale(item.forwardMinimumPrice);
-    const regressionPrice = Math.pow(10, item.regressionNlb)
-    const regressionPriceMax = Math.pow(10, item.regressionNlb + standardDeviationNlb)
-    const regressionPriceMin = Math.pow(10, item.regressionNlb - standardDeviationNlb)
+    const regressionPrice = Math.pow(10, item.regressionNlb);
+    const regressionPriceMax = Math.pow(10, item.regressionNlb + standardDeviationNlb);
+    const regressionPriceMin = Math.pow(10, item.regressionNlb - standardDeviationNlb);
 
-    const yPosRegression = yScale(regressionPrice)
-    const yPosRegressionMax = yScale(regressionPriceMax)
-    const yPosRegressionMin = yScale(regressionPriceMin)
+    const yPosRegression = yScale(regressionPrice);
+    const yPosRegressionMax = yScale(regressionPriceMax);
+    const yPosRegressionMin = yScale(regressionPriceMin);
 
     this.chartStore.assignData({
       regressionPrice,
@@ -237,7 +237,7 @@ class RegressionChart extends Chart {
               scale={xScale}
               top={innerHeight}
               tickValues={colTickValues}
-              tickFormat={i => moment(data[0].date).add(i, 'days').format('`YY')}
+              tickFormat={i => moment(data[0].date).add(i, "days").format("`YY")}
             />
 
             {/* Hover detection area */}

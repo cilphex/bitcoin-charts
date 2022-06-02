@@ -1,6 +1,6 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import * as d3 from 'd3';
+import React from "react";
+import { observer } from "mobx-react";
+import * as d3 from "d3";
 import { scaleLinear, scaleTime } from "@vx/scale";
 import { Group } from "@vx/group";
 import { Grid } from "@vx/grid";
@@ -8,10 +8,10 @@ import { LinePath } from "@vx/shape";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { localPoint } from "@vx/event";
 
-import { bisector } from 'd3-array';
+import { bisector } from "d3-array";
 
-import Chart from 'components/Chart';
-import chartStyles from 'styles/chart.scss';
+import Chart from "components/Chart";
+import chartStyles from "styles/chart.scss";
 
 const bisectDate = bisector((d) => d.date).right;
 
@@ -66,7 +66,7 @@ class BasicChart extends Chart {
         range: [innerHeight, 0],
         domain: d3.extent(data, (d) => d.price)
       }),
-    }
+    };
   }
 
   get chartView() {

@@ -1,17 +1,19 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import moment from 'moment';
-import { moneyFormat } from 'lib/utils.js'
+import React from "react";
+import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import moment from "moment";
+import { moneyFormat } from "lib/utils.js";
 
 // Stores
-import ChartStore from 'stores/ChartStore.js';
+import DataStore from "stores/DataStore.js";
+import ChartStore from "stores/ChartStore.js";
 
 // Components
-import BasicChart from './components/BasicChart';
-import RegressionChart from './components/RegressionChart';
-import LinearScaleChart from './components/LinearScaleChart';
-import Estimates from './components/Estimates';
-import ChartPageFooter from 'components/ChartPageFooter';
+import BasicChart from "./components/BasicChart";
+import RegressionChart from "./components/RegressionChart";
+import LinearScaleChart from "./components/LinearScaleChart";
+import Estimates from "./components/Estimates";
+import ChartPageFooter from "components/ChartPageFooter";
 
 // Styles
 import styles from "app.scss";
@@ -25,6 +27,12 @@ class NeverLookBack extends React.Component {
     this.basicChartStore = new ChartStore();
     this.regressionChartStore = new ChartStore();
     this.linearScaleChartStore = new ChartStore();
+  }
+
+  static get propTypes() {
+    return {
+      dataStore: PropTypes.instanceOf(DataStore),
+    };
   }
 
   render() {
@@ -43,9 +51,9 @@ class NeverLookBack extends React.Component {
         <div className={styles.contentColumn}>
           <h1>Bitcoin's Never Look Back Price</h1>
           <p className={styles.intro}>
-            As described in {' '}
+            As described in {" "}
             <a href="https://www.cane-island.digital/researchnotes/why-bitcoins-price-is-never-looking-back">this article</a>
-            {' '} by {' '}
+            {" "} by {" "}
             <a href="https://twitter.com/nsquaredcrypto">Timothy Peterson</a>
           </p>
 
@@ -54,7 +62,7 @@ class NeverLookBack extends React.Component {
             { basicChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(basicChartItem.date).format('MMM D, YYYY')}
+                  {moment(basicChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   Price: <span className={styles.chartPrice}>{moneyFormat(basicChartItem.price)}</span>
@@ -83,7 +91,7 @@ class NeverLookBack extends React.Component {
                 <tbody>
                   <tr>
                     <td>Date</td>
-                    <td>{moment(basicChartItem.date).format('MMM D, YYYY')}</td>
+                    <td>{moment(basicChartItem.date).format("MMM D, YYYY")}</td>
                   </tr>
                   <tr>
                     <td>Price</td>
@@ -110,7 +118,7 @@ class NeverLookBack extends React.Component {
             { regressionChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(regressionChartItem.date).format('MMM D, YYYY')}
+                  {moment(regressionChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   NLB: <span className={styles.chartPriceForwardMin}>{moneyFormat(regressionChartItem.forwardMinimumPrice)}</span>
@@ -141,7 +149,7 @@ class NeverLookBack extends React.Component {
                 <tbody>
                 <tr>
                   <td>Date</td>
-                  <td>{moment(regressionChartItem.date).format('MMM D, YYYY')}</td>
+                  <td>{moment(regressionChartItem.date).format("MMM D, YYYY")}</td>
                 </tr>
                 <tr>
                   <td>NLB</td>
@@ -176,7 +184,7 @@ class NeverLookBack extends React.Component {
             { linearScaleChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
+                  {moment(linearScaleChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   Price: <span className={styles.price}>{moneyFormat(linearScaleChartItem.price)}</span>
@@ -206,7 +214,7 @@ class NeverLookBack extends React.Component {
                 <tbody>
                 <tr>
                   <td>Date</td>
-                  <td>{moment(linearScaleChartItem.date).format('MMM D, YYYY')}</td>
+                  <td>{moment(linearScaleChartItem.date).format("MMM D, YYYY")}</td>
                 </tr>
                 <tr>
                   <td>Price</td>

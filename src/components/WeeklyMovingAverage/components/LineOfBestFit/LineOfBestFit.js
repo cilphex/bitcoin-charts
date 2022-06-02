@@ -1,17 +1,16 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import * as d3 from 'd3';
-import { Group } from '@vx/group';
-import { RectClipPath } from '@vx/clip-path';
-import { Grid } from '@vx/grid';
-import { scalePower, scaleLog } from '@vx/scale';
-import { LinePath } from '@vx/shape';
-import { AxisBottom, AxisLeft } from '@vx/axis';
-import { localPoint } from '@vx/event';
-import { bisector } from 'd3-array';
+import React from "react";
+import { observer } from "mobx-react";
+import * as d3 from "d3";
+import { Group } from "@vx/group";
+import { RectClipPath } from "@vx/clip-path";
+import { Grid } from "@vx/grid";
+import { scalePower, scaleLog } from "@vx/scale";
+import { LinePath } from "@vx/shape";
+import { AxisBottom, AxisLeft } from "@vx/axis";
+import { localPoint } from "@vx/event";
 
-import Chart from 'components/Chart';
-import chartStyles from 'styles/chart.scss';
+import Chart from "components/Chart";
+import chartStyles from "styles/chart.scss";
 import moment from "moment";
 
 @observer
@@ -35,14 +34,14 @@ class PowerLawScaleChart extends Chart {
     const point = localPoint(e);
     const x = point.x - margin.left;
     const date = xScale.invert(x);
-    const index = Math.round(date)
+    const index = Math.round(date);
     const item = regressionData[index];
     const xPos = xScale(index);
 
     // Basic chart data does not have regression predictions so item may not exist
     // if we hover past the current day. (Hence "item &&".)
-    const yPosPrice = item.price && yScale(item.price)
-    const yPosRegression = yScale(Math.pow(10, item.regressionWma))
+    const yPosPrice = item.price && yScale(item.price);
+    const yPosRegression = yScale(Math.pow(10, item.regressionWma));
 
     this.chartStore.setData({
       xPos,
@@ -75,7 +74,7 @@ class PowerLawScaleChart extends Chart {
           Math.pow(10, maxRegressionWma) * 3 // Pull the top down a bit with the *3
         ]
       })
-    }
+    };
   }
 
   get chartView() {
@@ -180,7 +179,7 @@ class PowerLawScaleChart extends Chart {
             scale={xScale}
             top={innerHeight}
             tickValues={colTickValues}
-            tickFormat={i => moment(data[0].date).add(i, 'days').format('`YY')}
+            tickFormat={i => moment(data[0].date).add(i, "days").format("`YY")}
           />
 
           {/* Hover detection area */}

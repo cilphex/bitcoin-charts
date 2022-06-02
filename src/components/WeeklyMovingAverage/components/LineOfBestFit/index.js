@@ -1,2 +1,2 @@
-import LineOfBestFit from './LineOfBestFit.js'
-export default LineOfBestFit
+import LineOfBestFit from "./LineOfBestFit.js";
+export default LineOfBestFit;

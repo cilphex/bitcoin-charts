@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './ChartLoading.scss';
+import React from "react";
+import styles from "./ChartLoading.scss";
 
 function ChartLoading() {
   return (

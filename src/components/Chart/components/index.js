@@ -1,2 +1,2 @@
-import ChartLoading from './ChartLoading.js'
-export default ChartLoading
+import ChartLoading from "./ChartLoading.js";
+export default ChartLoading;

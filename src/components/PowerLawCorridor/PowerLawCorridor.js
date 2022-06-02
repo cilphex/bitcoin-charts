@@ -1,19 +1,21 @@
-import React from "react"
-import { observer } from 'mobx-react';
-import moment from 'moment';
-import { moneyFormat } from 'lib/utils.js'
+import React from "react";
+import { observer } from "mobx-react";
+import moment from "moment";
+import { moneyFormat } from "lib/utils.js";
 
 // Stores
-import ChartStore from 'stores/ChartStore';
+import DataStore from "stores/DataStore";
+import ChartStore from "stores/ChartStore";
 
 // Components
-import PowerLawChart from './components/PowerLawChart';
-import LinearScaleChart from './components/LinearScaleChart';
-import Estimates from './components/Estimates';
-import ChartPageFooter from 'components/ChartPageFooter';
+import PowerLawChart from "./components/PowerLawChart";
+import LinearScaleChart from "./components/LinearScaleChart";
+import Estimates from "./components/Estimates";
+import ChartPageFooter from "components/ChartPageFooter";
 
 // Styles
-import styles from 'app.scss';
+import styles from "app.scss";
+import PropTypes from "prop-types";
 
 @observer
 class PowerLawCorridor extends React.Component {
@@ -23,6 +25,12 @@ class PowerLawCorridor extends React.Component {
     this.dataStore = this.props.dataStore;
     this.powerLawChartStore = new ChartStore();
     this.linearScaleChartStore = new ChartStore();
+  }
+
+  static get propTypes() {
+    return {
+      dataStore: PropTypes.instanceOf(DataStore),
+    };
   }
 
   render() {
@@ -41,9 +49,9 @@ class PowerLawCorridor extends React.Component {
         <div className={styles.contentColumn}>
           <h1>Bitcoin's Power Law Corridor</h1>
           <p className={styles.intro}>
-            As described in {' '}
+            As described in {" "}
             <a href="https://medium.com/coinmonks/bitcoins-natural-long-term-power-law-corridor-of-growth-649d0e9b3c94">this article</a>
-            {' '} by {' '}
+            {" "} by {" "}
             <a href="https://twitter.com/hcburger1">Harold Christopher Burger</a>
           </p>
 
@@ -62,7 +70,7 @@ class PowerLawCorridor extends React.Component {
             { powerLawChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(powerLawChartItem.date).format('MMM D, YYYY')}
+                  {moment(powerLawChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   Price: <span className={styles.chartPrice}>{moneyFormat(powerLawChartItem.price)}</span>
@@ -80,7 +88,7 @@ class PowerLawCorridor extends React.Component {
                 <tbody>
                 <tr>
                   <td>Date</td>
-                  <td>{moment(powerLawChartItem.date).format('MMM D, YYYY')}</td>
+                  <td>{moment(powerLawChartItem.date).format("MMM D, YYYY")}</td>
                 </tr>
                 <tr>
                   <td>Price</td>
@@ -120,7 +128,7 @@ class PowerLawCorridor extends React.Component {
             { linearScaleChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
+                  {moment(linearScaleChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   Price: <span className={styles.chartPrice}>{moneyFormat(linearScaleChartItem.price)}</span>
@@ -138,7 +146,7 @@ class PowerLawCorridor extends React.Component {
                 <tbody>
                 <tr>
                   <td>Date</td>
-                  <td>{moment(linearScaleChartItem.date).format('MMM D, YYYY')}</td>
+                  <td>{moment(linearScaleChartItem.date).format("MMM D, YYYY")}</td>
                 </tr>
                 <tr>
                   <td>Price</td>
@@ -182,7 +190,7 @@ class PowerLawCorridor extends React.Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }
 

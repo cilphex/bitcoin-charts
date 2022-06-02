@@ -1,10 +1,11 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import moment from 'moment';
-import { moneyFormat } from 'lib/utils.js';
-
-import EstimatesStore from './EstimatesStore.js';
-import styles from "./Estimates.scss"
+import React from "react";
+import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import moment from "moment";
+import { moneyFormat } from "lib/utils.js";
+import DataStore from "stores/DataStore";
+import EstimatesStore from "./EstimatesStore.js";
+import styles from "./Estimates.scss";
 
 @observer
 class EstimatesContent extends React.Component {
@@ -12,6 +13,12 @@ class EstimatesContent extends React.Component {
     super(props);
 
     this.estimatesStore = new EstimatesStore(this.props.chartData);
+  }
+
+  static get propTypes() {
+    return {
+      chartData: PropTypes.object,
+    };
   }
 
   render() {
@@ -64,14 +71,14 @@ class EstimatesContent extends React.Component {
               {magnitudes.map((magnitude, i) =>
                 <tr key={i}>
                   <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude.regressionNlb))))}</td>
-                  <td>{moment(magnitude.date).format('MMM D, YYYY')}</td>
+                  <td>{moment(magnitude.date).format("MMM D, YYYY")}</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -81,6 +88,12 @@ class Estimates extends React.Component {
     super(props);
 
     this.dataStore = this.props.dataStore;
+  }
+
+  static get propTypes() {
+    return {
+      dataStore: PropTypes.instanceOf(DataStore),
+    };
   }
 
   render() {

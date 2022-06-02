@@ -1,19 +1,21 @@
-import React from "react"
-import { observer } from 'mobx-react';
-import moment from 'moment';
-import { moneyFormat } from 'lib/utils.js'
+import React from "react";
+import PropTypes from "prop-types";
+import { observer } from "mobx-react";
+import moment from "moment";
+import { moneyFormat } from "lib/utils.js";
 
 // Stores
-import ChartStore from 'stores/ChartStore';
+import DataStore from "stores/DataStore";
+import ChartStore from "stores/ChartStore";
 
 // Components
-import LinearScaleChart from './components/LinearScaleChart'
-import PowerLawScaleChart from './components/PowerLawScaleChart'
-import LineOfBestFit from './components/LineOfBestFit'
-import ChartPageFooter from 'components/ChartPageFooter'
+import LinearScaleChart from "./components/LinearScaleChart";
+import PowerLawScaleChart from "./components/PowerLawScaleChart";
+import LineOfBestFit from "./components/LineOfBestFit";
+import ChartPageFooter from "components/ChartPageFooter";
 
 // Styles
-import styles from 'app.scss';
+import styles from "app.scss";
 
 @observer
 class WeeklyMovingAverage extends React.Component {
@@ -24,6 +26,12 @@ class WeeklyMovingAverage extends React.Component {
     this.linearScaleChartStore = new ChartStore();
     this.powerLawScaleChartStore = new ChartStore();
     this.lineOfBestFitChartStore = new ChartStore();
+  }
+
+  static get propTypes() {
+    return {
+      dataStore: PropTypes.instanceOf(DataStore)
+    };
   }
 
   render() {
@@ -58,7 +66,7 @@ class WeeklyMovingAverage extends React.Component {
             { linearScaleChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(linearScaleChartItem.date).format('MMM D, YYYY')}
+                  {moment(linearScaleChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   Price: <span className={styles.chartPrice}>{moneyFormat(linearScaleChartItem.price)}</span>
@@ -74,7 +82,7 @@ class WeeklyMovingAverage extends React.Component {
                 <tbody>
                 <tr>
                   <td>Date</td>
-                  <td>{moment(linearScaleChartItem.date).format('MMM D, YYYY')}</td>
+                  <td>{moment(linearScaleChartItem.date).format("MMM D, YYYY")}</td>
                 </tr>
                 <tr>
                   <td>Price</td>
@@ -108,7 +116,7 @@ class WeeklyMovingAverage extends React.Component {
             { powerLawScaleChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(powerLawScaleChartItem.date).format('MMM D, YYYY')}
+                  {moment(powerLawScaleChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   Price: <span className={styles.chartPrice}>{moneyFormat(powerLawScaleChartItem.price)}</span>
@@ -125,7 +133,7 @@ class WeeklyMovingAverage extends React.Component {
               <tbody>
               <tr>
                 <td>Date</td>
-                <td>{moment(powerLawScaleChartItem.date).format('MMM D, YYYY')}</td>
+                <td>{moment(powerLawScaleChartItem.date).format("MMM D, YYYY")}</td>
               </tr>
               <tr>
                 <td>Price</td>
@@ -157,7 +165,7 @@ class WeeklyMovingAverage extends React.Component {
             { lineOfBestFitChartItem && (
               <div className={styles.chartDataTop}>
                 <div>
-                  {moment(lineOfBestFitChartItem.date).format('MMM D, YYYY')}
+                  {moment(lineOfBestFitChartItem.date).format("MMM D, YYYY")}
                 </div>
                 <div>
                   Price: <span className={styles.chartPrice}>{moneyFormat(lineOfBestFitChartItem.price)}</span>
@@ -174,7 +182,7 @@ class WeeklyMovingAverage extends React.Component {
               <tbody>
               <tr>
                 <td>Date</td>
-                <td>{moment(lineOfBestFitChartItem.date).format('MMM D, YYYY')}</td>
+                <td>{moment(lineOfBestFitChartItem.date).format("MMM D, YYYY")}</td>
               </tr>
               <tr>
                 <td>Price</td>
@@ -198,7 +206,7 @@ class WeeklyMovingAverage extends React.Component {
           <ChartPageFooter/>
         </div>
       </div>
-    )
+    );
   }
 }
 

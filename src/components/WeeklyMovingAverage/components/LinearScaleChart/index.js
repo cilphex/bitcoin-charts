@@ -1,2 +1,2 @@
-import LinearScaleChart from './LinearScaleChart.js'
-export default LinearScaleChart
+import LinearScaleChart from "./LinearScaleChart.js";
+export default LinearScaleChart;

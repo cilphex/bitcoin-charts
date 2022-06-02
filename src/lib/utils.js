@@ -1,11 +1,11 @@
 function moneyFormat(num) {
   if (num === null || num === undefined) {
-    return '???'
+    return "???";
   }
   const formatted = Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return `$${formatted}`
+  return `$${formatted}`;
 }
 
 export {
   moneyFormat
-}
+};
