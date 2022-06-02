@@ -44,7 +44,7 @@ class NeverLookBack extends React.Component {
           <h1>Bitcoin's Never Look Back Price</h1>
           <p className={styles.intro}>
             As described in {' '}
-            <a href="https://www.caneislandcrypto.com/blog/2019/10/5/why-bitcoin-is-never-looking-back">this article</a>
+            <a href="https://www.cane-island.digital/researchnotes/why-bitcoins-price-is-never-looking-back">this article</a>
             {' '} by {' '}
             <a href="https://twitter.com/nsquaredcrypto">Timothy Peterson</a>
           </p>
