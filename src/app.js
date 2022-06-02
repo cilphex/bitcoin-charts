@@ -17,7 +17,7 @@ import styles from "./app.scss";
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.dataStore = new DataStore();
   }
