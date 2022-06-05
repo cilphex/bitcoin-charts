@@ -2,9 +2,27 @@ import Constants from "./constants.js";
 import mathTools from "./math-tools.js";
 import moment from "moment";
 
+// price-candles.json is in this format:
+// [
+//   1654387200,           // CloseTime
+//   29672.77,             // OpenPrice
+//   29952,                // HighPrice
+//   29454.14,             // LowPrice
+//   29843.18,             // ClosePrice
+//   6390.75942952,        // Volume
+//   189802823.4970840066  // QuoteVolume
+// ]
+
+// These are not accurate - fix them
+const localHighs = [
+  1312761600,
+  1385856000,
+  1513555200,
+]
+
 class ChartData {
   constructor(rawData) {
-    this.data = rawData.slice();
+    this.data = rawData.candles.slice();
     this.formatData();
     this.regressionData = this.getRegressionData();
     this.standardDeviationNlb = this.getStandardDeviationNlb();
@@ -21,9 +39,10 @@ class ChartData {
 
   parseData() {
     this.data.forEach((item, index) => this.data[index] = {
-      date: new Date(item.date),
-      price: parseFloat(item.price.replace(/,/g, "")),
-      localHigh: !!item.localHigh,
+      date: new Date(item[0] * 1000),
+      price: item[4],
+      // localHigh: !!item.localHigh,
+      localHigh: localHighs.includes(item[0]),
     });
   }
 
@@ -118,7 +137,7 @@ class ChartData {
   }
 
   formatData() {
-    this.reverseData();
+    // this.reverseData();
     this.parseData();
     this.expandData();
     this.addNLBData();

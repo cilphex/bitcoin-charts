@@ -10,7 +10,8 @@ class DataStore {
   }
 
   async fetchData() {
-    const res = await fetch("/data/price-data.json");
+    // const res = await fetch("/data/price-data.json");
+    const res = await fetch("/data/price-candles.json");
     const data = await res.json();
     runInAction(() => this.chartData = new ChartData(data));
   }
