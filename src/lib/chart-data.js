@@ -15,9 +15,9 @@ import moment from "moment";
 
 // These are not accurate - fix them
 const localHighs = [
-  1312761600,
-  1385856000,
-  1513555200,
+  1307577600,
+  1386115200,
+  1513468800,
 ]
 
 class ChartData {
@@ -33,15 +33,34 @@ class ChartData {
     window.testRegressionData = this.regressionData;
   }
 
-  reverseData() {
-    this.data.reverse();
+  // If you want to fill in missing days in the data, you can do it like this.
+  // Copies previous day to fill gaps. NOT USED.
+  fillMissingData() {
+    const newData = [
+      this.data[0]
+    ];
+    for (let i = 1; i < this.data.length; i++) {
+      let previousItem = this.data[i - 1];
+      let currentItem = this.data[i];
+      let previousDay = moment(previousItem[0] * 1000);
+      let currentDay = moment(currentItem[0] * 1000);
+      const diff = currentDay.diff(previousDay, 'days');
+
+      if (diff > 1) {
+        // console.log(`missing ${diff - 1} days`)
+        for (let j = diff - 1; j > 0; j--) {
+          newData.push(previousItem);
+        }
+      }
+      newData.push(currentItem);
+    }
+    this.data = newData;
   }
 
   parseData() {
     this.data.forEach((item, index) => this.data[index] = {
       date: new Date(item[0] * 1000),
-      price: item[4],
-      // localHigh: !!item.localHigh,
+      price: item[3],
       localHigh: localHighs.includes(item[0]),
     });
   }
@@ -137,7 +156,7 @@ class ChartData {
   }
 
   formatData() {
-    // this.reverseData();
+    this.fillMissingData();
     this.parseData();
     this.expandData();
     this.addNLBData();
