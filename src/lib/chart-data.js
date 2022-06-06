@@ -18,7 +18,7 @@ const localHighs = [
   1307577600,
   1386115200,
   1513468800,
-]
+];
 
 class ChartData {
   constructor(rawData) {
@@ -37,14 +37,14 @@ class ChartData {
   // Copies previous day to fill gaps. NOT USED.
   fillMissingData() {
     const newData = [
-      this.data[0]
+      this.data[0],
     ];
     for (let i = 1; i < this.data.length; i++) {
       let previousItem = this.data[i - 1];
       let currentItem = this.data[i];
       let previousDay = moment(previousItem[0] * 1000);
       let currentDay = moment(currentItem[0] * 1000);
-      const diff = currentDay.diff(previousDay, 'days');
+      const diff = currentDay.diff(previousDay, "days");
 
       if (diff > 1) {
         // console.log(`missing ${diff - 1} days`)
@@ -60,7 +60,7 @@ class ChartData {
   parseData() {
     this.data.forEach((item, index) => this.data[index] = {
       date: new Date(item[0] * 1000),
-      price: item[3],
+      price: item[4],
       localHigh: localHighs.includes(item[0]),
     });
   }
