@@ -18,9 +18,13 @@ class Nav extends React.Component {
     };
   }
 
+  changeChartType = () => {
+    this.props.dataStore.changeChartType();
+  }
+
   render() {
     const { pathname } = this.props.location;
-    const { chartData } = this.props.dataStore;
+    const { chartType, chartData } = this.props.dataStore;
 
     const linkClasses = ({
       home: "/",
@@ -48,6 +52,15 @@ class Nav extends React.Component {
           {!chartData && (
             <div className={styles.loading}>
               Loading
+            </div>
+          )}
+
+          {chartData && (
+            <div className={styles.chartType}>
+              Using&nbsp;
+              <a onClick={this.changeChartType}>
+                {chartType}
+              </a>
             </div>
           )}
         </div>

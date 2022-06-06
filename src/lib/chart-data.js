@@ -1,4 +1,4 @@
-import Constants from "./constants.js";
+import { MaxDays, ChartTypes } from "lib/constants";
 import mathTools from "./math-tools.js";
 import moment from "moment";
 
@@ -21,7 +21,8 @@ const localHighs = [
 ];
 
 class ChartData {
-  constructor(rawData) {
+  constructor(chartType, rawData) {
+    this.chartType = chartType;
     this.data = rawData.candles.slice();
     this.formatData();
     this.regressionData = this.getRegressionData();
@@ -58,9 +59,11 @@ class ChartData {
   }
 
   parseData() {
+    // 4 is closes, 3 is lows
+    const priceIndex = this.chartType == ChartTypes.closes ? 4 : 3;
     this.data.forEach((item, index) => this.data[index] = {
       date: new Date(item[0] * 1000),
-      price: item[4],
+      price: item[priceIndex],
       localHigh: localHighs.includes(item[0]),
     });
   }
@@ -171,9 +174,7 @@ class ChartData {
    * regressionData by itself for both, rather than regressionData + data.
    */
   getRegressionData() {
-    const { maxDays } = Constants.regressionData;
-
-    return Array(maxDays).fill(null).map((val, i) => {
+    return Array(MaxDays).fill(null).map((val, i) => {
       const index = i;
       const date = moment(this.data[0].date).add(i, "days").toDate();
       const price = this.data[i] && this.data[i].price;
