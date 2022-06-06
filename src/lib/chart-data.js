@@ -47,7 +47,7 @@ class ChartData {
       const diff = currentDay.diff(previousDay, "days");
 
       if (diff > 1) {
-        // console.log(`missing ${diff - 1} days`)
+        // missing diff-1 days
         for (let j = diff - 1; j > 0; j--) {
           newData.push(previousItem);
         }
