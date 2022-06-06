@@ -20,7 +20,7 @@ class Nav extends React.Component {
 
   changeChartType = () => {
     this.props.dataStore.changeChartType();
-  }
+  };
 
   render() {
     const { pathname } = this.props.location;

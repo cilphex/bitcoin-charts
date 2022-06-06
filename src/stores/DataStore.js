@@ -15,9 +15,9 @@ class DataStore {
   async fetchData() {
     const res = await fetch("/data/price-candles.json?");
     this.data = await res.json();
-    runInAction(() =>
-      this.chartData = new ChartData(this.chartType, this.data)
-    );
+    runInAction(() => {
+      this.chartData = new ChartData(this.chartType, this.data);
+    });
   }
 
   changeChartType = () => {
@@ -26,9 +26,9 @@ class DataStore {
         case ChartTypes.closes: this.chartType = ChartTypes.lows; break;
         case ChartTypes.lows: this.chartType = ChartTypes.closes; break;
       }
-      this.chartData = new ChartData(this.chartType, this.data)
-    })
-  }
+      this.chartData = new ChartData(this.chartType, this.data);
+    });
+  };
 }
 
 export default DataStore;
