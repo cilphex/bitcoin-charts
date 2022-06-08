@@ -13,7 +13,6 @@ import moment from "moment";
 //   189802823.4970840066  // QuoteVolume
 // ]
 
-// These are not accurate - fix them
 const localHighs = [
   1307577600,
   1386115200,
