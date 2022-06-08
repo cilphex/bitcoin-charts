@@ -1,10 +1,28 @@
-import Constants from "./constants.js";
+import { MaxDays, ChartTypes } from "lib/constants";
 import mathTools from "./math-tools.js";
 import moment from "moment";
 
+// price-candles.json is in this format:
+// [
+//   1654387200,           // CloseTime
+//   29672.77,             // OpenPrice
+//   29952,                // HighPrice
+//   29454.14,             // LowPrice
+//   29843.18,             // ClosePrice
+//   6390.75942952,        // Volume
+//   189802823.4970840066  // QuoteVolume
+// ]
+
+const localHighs = [
+  1307577600,
+  1386115200,
+  1513468800,
+];
+
 class ChartData {
-  constructor(rawData) {
-    this.data = rawData.slice();
+  constructor(chartType, rawData) {
+    this.chartType = chartType;
+    this.data = rawData.candles.slice();
     this.formatData();
     this.regressionData = this.getRegressionData();
     this.standardDeviationNlb = this.getStandardDeviationNlb();
@@ -15,15 +33,36 @@ class ChartData {
     window.testRegressionData = this.regressionData;
   }
 
-  reverseData() {
-    this.data.reverse();
+  // Fill in missing days in the data. Copies previous day to fill gaps.
+  fillMissingData() {
+    const newData = [
+      this.data[0],
+    ];
+    for (let i = 1; i < this.data.length; i++) {
+      let previousItem = this.data[i - 1];
+      let currentItem = this.data[i];
+      let previousDay = moment(previousItem[0] * 1000);
+      let currentDay = moment(currentItem[0] * 1000);
+      const diff = currentDay.diff(previousDay, "days");
+
+      if (diff > 1) {
+        // missing diff-1 days
+        for (let j = diff - 1; j > 0; j--) {
+          newData.push(previousItem);
+        }
+      }
+      newData.push(currentItem);
+    }
+    this.data = newData;
   }
 
   parseData() {
+    // 4 is closes, 3 is lows
+    const priceIndex = this.chartType == ChartTypes.closes ? 4 : 3;
     this.data.forEach((item, index) => this.data[index] = {
-      date: new Date(item.date),
-      price: parseFloat(item.price.replace(/,/g, "")),
-      localHigh: !!item.localHigh,
+      date: new Date(item[0] * 1000),
+      price: item[priceIndex],
+      localHigh: localHighs.includes(item[0]),
     });
   }
 
@@ -118,7 +157,7 @@ class ChartData {
   }
 
   formatData() {
-    this.reverseData();
+    this.fillMissingData();
     this.parseData();
     this.expandData();
     this.addNLBData();
@@ -133,9 +172,7 @@ class ChartData {
    * regressionData by itself for both, rather than regressionData + data.
    */
   getRegressionData() {
-    const { maxDays } = Constants.regressionData;
-
-    return Array(maxDays).fill(null).map((val, i) => {
+    return Array(MaxDays).fill(null).map((val, i) => {
       const index = i;
       const date = moment(this.data[0].date).add(i, "days").toDate();
       const price = this.data[i] && this.data[i].price;
