@@ -33,8 +33,7 @@ class ChartData {
     window.testRegressionData = this.regressionData;
   }
 
-  // If you want to fill in missing days in the data, you can do it like this.
-  // Copies previous day to fill gaps. NOT USED.
+  // Fill in missing days in the data. Copies previous day to fill gaps.
   fillMissingData() {
     const newData = [
       this.data[0],
