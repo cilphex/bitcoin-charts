@@ -1,3 +1,4 @@
 Notes:
 - onMouseMove callbacks use slightly different stuff for setting up index/xPos
 - rename css class names to things like 'darkBlue', 'lightBlue', 'darkRed', 'lightRed', etc
+- test
