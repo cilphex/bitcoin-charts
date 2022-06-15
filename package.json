@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js ./src",
     "build": "babel-node ./node_modules/webpack/bin/webpack",
     "start": "babel-node ./node_modules/webpack/bin/webpack serve --open",
-    "update-price": "babel-node ./scripts/update-price-history.js"
+    "update-price": "babel-node ./src/lib/update-price-history.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
@@ -52,6 +52,7 @@
     "mobx": "^6.3.2",
     "mobx-react": "^7.2.0",
     "moment": "^2.29.1",
+    "node-fetch": "^3.2.6",
     "react": "16.13",
     "react-dom": "16.13",
     "react-router-dom": "^5.2.0"
