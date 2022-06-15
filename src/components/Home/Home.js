@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { moneyFormat } from "lib/utils";
-import DataStore from "stores/DataStore";
+import { moneyFormat } from "lib/utils.js";
+import DataStore from "stores/DataStore.js";
 import appStyles from "app.scss";
 import styles from "./Home.scss";
 

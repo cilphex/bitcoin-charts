@@ -11,7 +11,7 @@ import { AxisBottom, AxisLeft } from "@vx/axis";
 import { localPoint } from "@vx/event";
 import { bisector } from "d3-array";
 
-import Chart from "components/Chart";
+import Chart from "components/Chart/index.js";
 import chartStyles from "styles/chart.scss";
 
 const bisectDate = bisector((d) => d.date).right;

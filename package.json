@@ -5,11 +5,13 @@
   "main": "index.js",
   "author": "Craig Hammell",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .js ./src",
     "build": "babel-node ./node_modules/webpack/bin/webpack",
-    "start": "babel-node ./node_modules/webpack/bin/webpack serve --open"
+    "start": "babel-node ./node_modules/webpack/bin/webpack serve --open",
+    "update-data": "babel-node ./scripts/update-price-history.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
@@ -37,6 +39,7 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.18.2",
+    "@google-cloud/storage": "^6.0.1",
     "@vx/axis": "^0.0.199",
     "@vx/clip-path": "^0.0.199",
     "@vx/event": "^0.0.199",
@@ -50,6 +53,7 @@
     "mobx": "^6.3.2",
     "mobx-react": "^7.2.0",
     "moment": "^2.29.1",
+    "node-fetch": "^3.2.6",
     "react": "16.13",
     "react-dom": "16.13",
     "react-router-dom": "^5.2.0"

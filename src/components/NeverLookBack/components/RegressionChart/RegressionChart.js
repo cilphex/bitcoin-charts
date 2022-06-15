@@ -10,7 +10,7 @@ import { RectClipPath } from "@vx/clip-path";
 import { Grid } from "@vx/grid";
 import { localPoint } from "@vx/event";
 
-import Chart from "components/Chart";
+import Chart from "components/Chart/index.js";
 import chartStyles from "styles/chart.scss";
 
 @observer

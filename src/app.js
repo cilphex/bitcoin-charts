@@ -6,11 +6,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import DataStore from "stores/DataStore.js";
 
 // Components
-import Nav from "./components/Nav";
-import Home from "./components/Home";
-import NeverLookBack from "./components/NeverLookBack";
-import PowerLawCorridor from "./components/PowerLawCorridor";
-import WeeklyMovingAverage from "./components/WeeklyMovingAverage";
+import Nav from "./components/Nav/index.js";
+import Home from "./components/Home/index.js";
+import NeverLookBack from "./components/NeverLookBack/index.js";
+import PowerLawCorridor from "./components/PowerLawCorridor/index.js";
+import WeeklyMovingAverage from "./components/WeeklyMovingAverage/index.js";
 
 // Styles
 import styles from "./app.scss";
