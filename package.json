@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js ./src",
     "build": "babel-node ./node_modules/webpack/bin/webpack",
     "start": "babel-node ./node_modules/webpack/bin/webpack serve --open",
-    "update-price": "babel-node ./src/lib/update-price-history.js"
+    "update-data": "babel-node ./scripts/update-price-history.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import fetch from "node-fetch";
 
-const dataPath = "./tmp/price-candles.json";
-const newDataPath = "./tmp/price-candles-tmp.json";
+const dataPath = "./public/data/price-candles.json";
+const newDataPath = "./public/data/price-candles.json";
 
 function getCandleData() {
   const priceCandlesFileBuffer = fs.readFileSync(dataPath);
@@ -34,6 +34,11 @@ async function getNewCandles() {
 
   if (!newEntries) {
     throw "Price data not retrieved";
+  }
+
+  if (!newEntries.length) {
+    console.log('No new entries');
+    return;
   }
 
   // Remove existing date from new entries
