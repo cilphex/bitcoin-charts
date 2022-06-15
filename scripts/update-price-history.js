@@ -36,13 +36,14 @@ async function getNewCandles() {
     throw "Price data not retrieved";
   }
 
+  // Remove existing date from new entries
+  newEntries = newEntries.filter(i => i[0] != lastCandleTimestamp);
+
   if (!newEntries.length) {
     console.log('No new entries');
     return;
   }
 
-  // Remove existing date from new entries
-  newEntries = newEntries.filter(i => i[0] != lastCandleTimestamp);
   candleEntries = candleEntries.concat(newEntries);
   candleData.candles = candleEntries;
   writeCandleData(candleData);
