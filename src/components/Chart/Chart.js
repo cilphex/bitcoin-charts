@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import dimensions from "./dimensions.js";
 
-import DataStore from "stores/DataStore";
-import ChartStore from "stores/ChartStore";
+import DataStore from "stores/DataStore.js";
+import ChartStore from "stores/ChartStore.js";
 
-import ChartLoading from "./components/ChartLoading";
+import ChartLoading from "./components/ChartLoading.js";
 import chartStyles from "styles/chart.scss";
 
 class Chart extends React.Component {

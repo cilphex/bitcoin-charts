@@ -1,5 +1,5 @@
-import { MaxDays, ChartTypes } from "lib/constants";
-import mathTools from "./math-tools.js";
+import { MaxDays, ChartTypes } from "lib/constants.js";
+import mathTools from "lib/math-tools.js";
 import moment from "moment";
 
 // price-candles.json is in this format:

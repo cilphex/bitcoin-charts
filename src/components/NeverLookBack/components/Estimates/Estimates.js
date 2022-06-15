@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { observer } from "mobx-react";
 import moment from "moment";
 import { moneyFormat } from "lib/utils.js";
-import DataStore from "stores/DataStore";
+import DataStore from "stores/DataStore.js";
 import EstimatesStore from "./EstimatesStore.js";
 import styles from "./Estimates.scss";
 

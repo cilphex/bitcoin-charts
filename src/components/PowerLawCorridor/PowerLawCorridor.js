@@ -4,14 +4,14 @@ import moment from "moment";
 import { moneyFormat } from "lib/utils.js";
 
 // Stores
-import DataStore from "stores/DataStore";
-import ChartStore from "stores/ChartStore";
+import DataStore from "stores/DataStore.js";
+import ChartStore from "stores/ChartStore.js";
 
 // Components
-import PowerLawChart from "./components/PowerLawChart";
-import LinearScaleChart from "./components/LinearScaleChart";
-import Estimates from "./components/Estimates";
-import ChartPageFooter from "components/ChartPageFooter";
+import PowerLawChart from "./components/PowerLawChart/index.js";
+import LinearScaleChart from "./components/LinearScaleChart/index.js";
+import Estimates from "./components/Estimates/index.js";
+import ChartPageFooter from "components/ChartPageFooter/index.js";
 
 // Styles
 import styles from "app.scss";

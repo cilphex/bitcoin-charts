@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { observer } from "mobx-react";
-import DataStore from "stores/DataStore";
+import DataStore from "stores/DataStore.js";
 import styles from "./Nav.scss";
 
 @observer

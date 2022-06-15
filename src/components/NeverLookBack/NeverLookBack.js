@@ -9,11 +9,11 @@ import DataStore from "stores/DataStore.js";
 import ChartStore from "stores/ChartStore.js";
 
 // Components
-import BasicChart from "./components/BasicChart";
-import RegressionChart from "./components/RegressionChart";
-import LinearScaleChart from "./components/LinearScaleChart";
-import Estimates from "./components/Estimates";
-import ChartPageFooter from "components/ChartPageFooter";
+import BasicChart from "./components/BasicChart/index.js";
+import RegressionChart from "./components/RegressionChart/index.js";
+import LinearScaleChart from "./components/LinearScaleChart/index.js";
+import Estimates from "./components/Estimates/index.js";
+import ChartPageFooter from "components/ChartPageFooter/index.js";
 
 // Styles
 import styles from "app.scss";

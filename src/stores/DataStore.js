@@ -1,5 +1,5 @@
 import { makeObservable, observable, runInAction } from "mobx";
-import { ChartTypes } from "lib/constants";
+import { ChartTypes } from "lib/constants.js";
 import ChartData from "lib/chart-data.js";
 
 class DataStore {

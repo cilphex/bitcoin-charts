@@ -10,7 +10,7 @@ import { LinePath } from "@vx/shape";
 import { AxisBottom, AxisLeft } from "@vx/axis";
 import { localPoint } from "@vx/event";
 
-import Chart from "components/Chart";
+import Chart from "components/Chart/index.js";
 import chartStyles from "styles/chart.scss";
 
 @observer
