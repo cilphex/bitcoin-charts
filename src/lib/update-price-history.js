@@ -4,6 +4,16 @@ import fetch from "node-fetch";
 const dataPath = "./tmp/price-candles.json";
 const newDataPath = "./tmp/price-candles-tmp.json";
 
+function getCandleData() {
+  const priceCandlesFileBuffer = fs.readFileSync(dataPath);
+  return JSON.parse(priceCandlesFileBuffer);
+}
+
+function writeCandleData(candleData) {
+  const stringCandleData = JSON.stringify(candleData, null, 2);
+  fs.writeFileSync(newDataPath, stringCandleData);
+}
+
 async function getNewPriceData(afterTimestamp) {
   const queryUrl = "https://api.cryptowat.ch/markets/coinbase/btcusd/ohlc?";
   const queryParams = {
@@ -16,39 +26,29 @@ async function getNewPriceData(afterTimestamp) {
 }
 
 async function getNewCandles() {
-  const priceCandlesFileBuffer = fs.readFileSync(dataPath);
-  const candleData = JSON.parse(priceCandlesFileBuffer);
-  const candleEntries = candleData.candles;
+  const candleData = getCandleData();
+  let candleEntries = candleData.candles;
   const lastCandle = candleEntries[candleEntries.length-1];
   const lastCandleTimestamp = lastCandle[0];
-  const newEntries = await getNewPriceData(lastCandleTimestamp);
+  let newEntries = await getNewPriceData(lastCandleTimestamp);
 
   if (!newEntries) {
     throw "Price data not retrieved";
   }
 
-  candleEntries.concat(newEntries);
+  // Remove existing date from new entries
+  newEntries = newEntries.filter(i => i[0] != lastCandleTimestamp);
+  candleEntries = candleEntries.concat(newEntries);
+  candleData.candles = candleEntries;
+  writeCandleData(candleData);
 
-  console.log('candleData', candleData);
+  console.log('Added new entries', newEntries)
 }
 
 getNewCandles();
 
-// (async () => {
-//   let today = moment();
-//   console.log('Today is', today.format());
-//
-//   const queryUrl = "https://api.cryptowat.ch/markets/coinbase/btcusd/ohlc?";
-//   const queryParams = {
-//     after: 1652072331,
-//     periods: 86400,
-//   };
-//
-//   const res = await fetch(queryUrl + new URLSearchParams(queryParams));
-//   const data = await res.json();
-//
-//   console.log('data', data.toString());
-// })()
+
+
 
 // import { Storage } from "@google-cloud/storage";
 // async function getCandlesFile() {
