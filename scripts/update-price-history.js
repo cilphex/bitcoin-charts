@@ -17,8 +17,11 @@ function writeCandleData(candleData) {
 async function getNewPriceData(afterTimestamp) {
   const queryUrl = "https://api.cryptowat.ch/markets/coinbase/btcusd/ohlc?";
   const queryParams = {
-    after: afterTimestamp,
     periods: 86400,
+    after: afterTimestamp,
+    // Use before because we don't want the most recent day
+    // as it is not yet final
+    before: Math.floor(new Date().getTime()/1000),
   };
   const res = await fetch(queryUrl + new URLSearchParams(queryParams));
   const data = await res.json();
