@@ -43,10 +43,12 @@ class LinearScaleChart extends Chart {
     // Basic chart data does not have regression predictions so item may not exist
     // if we hover past the current day. (Hence "item &&".)
     const yPosPrice = item && yScale(item.price);
+    const yPosWMA200Week = item && yScale(item.wma200week);
 
     this.chartStore.setData({
       xPos,
       yPosPrice,
+      yPosWMA200Week,
     });
 
     this.chartStore.setItem(item);
@@ -86,6 +88,7 @@ class LinearScaleChart extends Chart {
     const {
       xPos,
       yPosPrice,
+      yPosWMA200Week,
     } = hoverData;
 
     return <>
@@ -148,6 +151,14 @@ class LinearScaleChart extends Chart {
                   cx={xPos}
                   cy={yPosPrice}
                   className={`${chartStyles.mouseCircle} ${chartStyles.mouseCirclePrice}`}
+                />
+              )}
+
+              { yPosWMA200Week && (
+                <circle
+                  cx={xPos}
+                  cy={yPosWMA200Week}
+                  className={`${chartStyles.mouseCircle} ${chartStyles.mouseCircleForwardMin}`}
                 />
               )}
             </Group>
