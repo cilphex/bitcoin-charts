@@ -36,10 +36,6 @@ class EstimatesContent extends React.Component {
       magnitudes,
     } = this.estimatesStore;
 
-    const {
-      regressionType,
-    } = regressionVariables;
-
     if (!chartTypeIsValid) {
       return <>Invalid chart type "{chartType}"</>;
     }
@@ -47,6 +43,13 @@ class EstimatesContent extends React.Component {
     if (!ready) {
       return <>Calculating...</>;
     }
+
+    const {
+      regressionType,
+      standardDeviationType,
+    } = regressionVariables;
+
+    const standardDeviation = this.props.chartData[standardDeviationType] || 0;
 
     return (
       <div className={styles.estimates}>
@@ -77,7 +80,9 @@ class EstimatesContent extends React.Component {
               {years.map((year, i) =>
                 <tr key={i}>
                   <td>{moment(year.date).year()}</td>
-                  <td>{moneyFormat(Math.round(Math.pow(10, year[regressionType])))}</td>
+                  <td>
+                    {moneyFormat(Math.round(Math.pow(10, year[regressionType] - standardDeviation)))}
+                  </td>
                 </tr>,
               )}
             </tbody>
@@ -90,7 +95,7 @@ class EstimatesContent extends React.Component {
             <tbody>
               {magnitudes.map((magnitude, i) =>
                 <tr key={i}>
-                  <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude[regressionType]))))}</td>
+                  <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude[regressionType] - standardDeviation))))}</td>
                   <td>{moment(magnitude.date).format("MMM D, YYYY")}</td>
                 </tr>,
               )}

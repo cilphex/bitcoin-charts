@@ -110,14 +110,15 @@ class EstimatesStore {
   processMagnitudes = async() => {
     await new Promise(resolve => setTimeout(resolve, 0));
     const { regressionData } = this.chartData;
-    const { regressionType } = this.regressionVariables;
+    const { regressionType, standardDeviationType } = this.regressionVariables;
+    const standardDeviation = this.chartData[standardDeviationType] || 0;
 
     const magnitudes = Array(5)
       .fill(null)
       .map((val, i) => Math.pow(10, i+3)) // 10,000 to 100,000,000
       .map(price =>
         regressionData.find(dataItem =>
-          Math.pow(10, dataItem[regressionType]) > price,
+          Math.pow(10, dataItem[regressionType] - standardDeviation) > price,
         ),
       );
 
