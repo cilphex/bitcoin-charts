@@ -33,15 +33,15 @@ class EstimatesContent extends React.Component {
       regressionVariables,
       today,
       years,
-      magnitudes
+      magnitudes,
     } = this.estimatesStore;
 
     const {
-      regressionType
+      regressionType,
     } = regressionVariables;
 
     if (!chartTypeIsValid) {
-      return <>Invalid chart type "{chartType}"</>
+      return <>Invalid chart type "{chartType}"</>;
     }
 
     if (!ready) {
