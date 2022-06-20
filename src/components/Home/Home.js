@@ -40,6 +40,8 @@ function Home(props) {
     wmaGrowth = Math.floor(lowestWma - prevLowestWma);
   }
 
+  const loadingPlaceholder = "...";
+
   return (
     <div className={appStyles.contentColumn}>
       <h1>Bitcoin Charts</h1>
@@ -59,22 +61,22 @@ function Home(props) {
         <Link to="/never-look-back">
           <dl>
             <dd>Never Look Back Price</dd>
-            <dd>{lowestNlb && (<>{moneyFormat(lowestNlb)}</>)}</dd>
-            <dd>{nlbGrowth && (<>{moneyFormat(nlbGrowth)}</>)}</dd>
+            <dd>{lowestNlb ? <>{moneyFormat(lowestNlb)}</> : loadingPlaceholder}</dd>
+            <dd>{nlbGrowth ? <>{moneyFormat(nlbGrowth)}</> : loadingPlaceholder}</dd>
           </dl>
         </Link>
         <Link to="/power-law-corridor">
           <dl>
             <dd>Power Law Corridor</dd>
-            <dd>{lowestPlc && (<>{moneyFormat(lowestPlc)}</>)}</dd>
-            <dd>{plcGrowth && (<>{moneyFormat(plcGrowth)}</>)}</dd>
+            <dd>{lowestPlc ? <>{moneyFormat(lowestPlc)}</> : loadingPlaceholder}</dd>
+            <dd>{plcGrowth ? <>{moneyFormat(plcGrowth)}</> : loadingPlaceholder}</dd>
           </dl>
         </Link>
         <Link to="/weekly-moving-average">
           <dl>
             <dd>200-Week Moving Average</dd>
-            <dd>{lowestWma && (<>{moneyFormat(lowestWma)}</>)}</dd>
-            <dd>{wmaGrowth && (<>{moneyFormat(wmaGrowth)}</>)}</dd>
+            <dd>{lowestWma ? <>{moneyFormat(lowestWma)}</> : loadingPlaceholder}</dd>
+            <dd>{wmaGrowth ? <>{moneyFormat(wmaGrowth)}</> : loadingPlaceholder}</dd>
           </dl>
         </Link>
       </div>
