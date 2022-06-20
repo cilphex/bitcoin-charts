@@ -12,17 +12,37 @@ class EstimatesContent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.estimatesStore = new EstimatesStore(this.props.chartData);
+    this.estimatesStore = new EstimatesStore(
+      this.props.chartData,
+      this.props.chartType,
+    );
   }
 
   static get propTypes() {
     return {
       chartData: PropTypes.object,
+      chartType: PropTypes.string,
     };
   }
 
   render() {
-    const { ready, today, years, magnitudes } = this.estimatesStore;
+    const {
+      chartType,
+      chartTypeIsValid,
+      ready,
+      regressionVariables,
+      today,
+      years,
+      magnitudes
+    } = this.estimatesStore;
+
+    const {
+      regressionType
+    } = regressionVariables;
+
+    if (!chartTypeIsValid) {
+      return <>Invalid chart type "{chartType}"</>
+    }
 
     if (!ready) {
       return <>Calculating...</>;
@@ -39,7 +59,7 @@ class EstimatesContent extends React.Component {
               <td>{moneyFormat(today.max)}</td>
             </tr>
             <tr className={styles.expected}>
-              <td>Expected price</td>
+              <td>Middle price</td>
               <td>{moneyFormat(today.expected)}</td>
             </tr>
             <tr className={styles.deviation}>
@@ -57,7 +77,7 @@ class EstimatesContent extends React.Component {
               {years.map((year, i) =>
                 <tr key={i}>
                   <td>{moment(year.date).year()}</td>
-                  <td>{moneyFormat(Math.round(Math.pow(10, year.regressionNlb)))}</td>
+                  <td>{moneyFormat(Math.round(Math.pow(10, year[regressionType])))}</td>
                 </tr>,
               )}
             </tbody>
@@ -70,7 +90,7 @@ class EstimatesContent extends React.Component {
             <tbody>
               {magnitudes.map((magnitude, i) =>
                 <tr key={i}>
-                  <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude.regressionNlb))))}</td>
+                  <td>{moneyFormat(Math.round(Math.pow(10, Math.floor(magnitude[regressionType]))))}</td>
                   <td>{moment(magnitude.date).format("MMM D, YYYY")}</td>
                 </tr>,
               )}
@@ -93,11 +113,13 @@ class Estimates extends React.Component {
   static get propTypes() {
     return {
       dataStore: PropTypes.instanceOf(DataStore),
+      chartType: PropTypes.string,
     };
   }
 
   render() {
     const { chartData } = this.dataStore;
+    const { chartType } = this.props;
 
     if (!chartData) {
       return <>Loading...</>;
@@ -106,6 +128,7 @@ class Estimates extends React.Component {
     return (
       <EstimatesContent
         chartData={chartData}
+        chartType={chartType}
       />
     );
   }

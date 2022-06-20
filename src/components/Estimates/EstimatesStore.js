@@ -2,20 +2,54 @@ import { makeObservable, observable, computed, runInAction } from "mobx";
 import moment from "moment";
 
 class EstimatesStore {
+  @observable chartType;
   @observable today;
   @observable years;
   @observable magnitudes;
 
   chartData = null;
 
-  constructor(chartData) {
+  constructor(chartData, chartType) {
     makeObservable(this);
     this.chartData = chartData;
-    this.processData();
+    this.chartType = chartType;
+
+    if (this.chartTypeIsValid) {
+      this.processData();
+    }
+  }
+
+  @computed get chartTypeIsValid() {
+    const validChartTypes = ["nlb", "plc"];
+    return validChartTypes.indexOf(this.chartType) >= 0;
   }
 
   @computed get ready() {
     return !!(this.today && this.years && this.magnitudes);
+  }
+
+  @computed get regressionVariables() {
+    if (this._regressionVariables) {
+      return this._regressionVariables;
+    }
+
+    let regressionType, standardDeviationType;
+
+    switch (this.chartType) {
+      case "nlb":
+        regressionType = "regressionNlb";
+        standardDeviationType = "standardDeviationNlb";
+        break;
+      case "plc":
+        regressionType = "regressionPlc";
+        standardDeviationType = "standardDeviationPlc";
+        break;
+    }
+
+    return this._regressionVariables = {
+      regressionType,
+      standardDeviationType,
+    };
   }
 
   // An async function needs to 'await' something to yield, so just await a
@@ -28,24 +62,25 @@ class EstimatesStore {
 
   processToday = async() => {
     await new Promise(resolve => setTimeout(resolve, 0));
-    const { regressionData, standardDeviationPlc } = this.chartData;
+    const { regressionData } = this.chartData;
+    const { regressionType, standardDeviationType } = this.regressionVariables;
 
     const todayData = regressionData.find(i =>
       moment(i.date).isSame(moment(), "day"),
     );
 
-    const { regressionPlc, regressionPlcTop } = todayData;
-    const expected = Math.round(Math.pow(10, regressionPlc));
-    const min = Math.round(Math.pow(10, regressionPlc - standardDeviationPlc));
-    const max = Math.round(Math.pow(10, regressionPlcTop));
+    const regression = todayData[regressionType];
+    const standardDeviation = this.chartData[standardDeviationType];
+
+    const expected = Math.round(Math.pow(10, regression));
+    const min = Math.round(Math.pow(10, regression - standardDeviation));
+    const max = Math.round(Math.pow(10, regression + standardDeviation));
 
     const today = {
       expected,
       min,
       max,
     };
-
-    // this.today = today;
 
     runInAction(() => this.today = today);
   };
@@ -54,7 +89,8 @@ class EstimatesStore {
     await new Promise(resolve => setTimeout(resolve, 0));
     const { regressionData } = this.chartData;
 
-    const years = Array(5).fill(null)
+    const years = Array(5)
+      .fill(null)
       .map((item, i) => moment().year() + i)
       .map(year =>
         regressionData.find(dataItem =>
@@ -68,16 +104,16 @@ class EstimatesStore {
   processMagnitudes = async() => {
     await new Promise(resolve => setTimeout(resolve, 0));
     const { regressionData } = this.chartData;
+    const { regressionType } = this.regressionVariables;
 
-    const magnitudes = Array(5).fill(null)
+    const magnitudes = Array(5)
+      .fill(null)
       .map((val, i) => Math.pow(10, i+3)) // 10,000 to 100,000,000
       .map(price =>
         regressionData.find(dataItem =>
-          Math.pow(10, dataItem.regressionPlc) > price,
+          Math.pow(10, dataItem[regressionType]) > price,
         ),
       );
-
-    // this.magnitudes = magnitudes;
 
     runInAction(() => this.magnitudes = magnitudes);
   };
