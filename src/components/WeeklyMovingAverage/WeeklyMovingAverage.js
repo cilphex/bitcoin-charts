@@ -12,6 +12,7 @@ import ChartStore from "stores/ChartStore.js";
 import LinearScaleChart from "./components/LinearScaleChart/index.js";
 import PowerLawScaleChart from "./components/PowerLawScaleChart/index.js";
 import LineOfBestFit from "./components/LineOfBestFit/index.js";
+import Estimates from "components/Estimates/index.js";
 import ChartPageFooter from "components/ChartPageFooter/index.js";
 
 // Styles
@@ -201,6 +202,17 @@ class WeeklyMovingAverage extends React.Component {
           dataStore={this.dataStore}
           chartStore={this.lineOfBestFitChartStore}
         />
+
+        <div className={styles.contentColumn}>
+          <div className={styles.chartHeader}>
+            <h2>Data Points</h2>
+          </div>
+
+          <Estimates
+            dataStore={this.dataStore}
+            chartType="wma"
+          />
+        </div>
 
         <div className={styles.contentColumn}>
           <ChartPageFooter/>

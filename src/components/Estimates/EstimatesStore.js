@@ -20,7 +20,7 @@ class EstimatesStore {
   }
 
   @computed get chartTypeIsValid() {
-    const validChartTypes = ["nlb", "plc"];
+    const validChartTypes = ["nlb", "plc", "wma"];
     return validChartTypes.indexOf(this.chartType) >= 0;
   }
 
@@ -43,6 +43,9 @@ class EstimatesStore {
       case "plc":
         regressionType = "regressionPlc";
         standardDeviationType = "standardDeviationPlc";
+        break;
+      case "wma":
+        regressionType = "regressionWma";
         break;
     }
 
@@ -70,11 +73,14 @@ class EstimatesStore {
     );
 
     const regression = todayData[regressionType];
-    const standardDeviation = this.chartData[standardDeviationType];
-
     const expected = Math.round(Math.pow(10, regression));
-    const min = Math.round(Math.pow(10, regression - standardDeviation));
-    const max = Math.round(Math.pow(10, regression + standardDeviation));
+    let min, max;
+
+    if (standardDeviationType) {
+      const standardDeviation = this.chartData[standardDeviationType];
+      min = Math.round(Math.pow(10, regression - standardDeviation));
+      max = Math.round(Math.pow(10, regression + standardDeviation));
+    }
 
     const today = {
       expected,
