@@ -57,6 +57,16 @@ class NeverLookBack extends React.Component {
             <a href="https://twitter.com/nsquaredcrypto">Timothy Peterson</a>
           </p>
 
+          <div className={styles.textBlock}>
+            <p>
+              Bitcoin has a relatively unnoticed and &mdash; for most &mdash; unknown
+              characteristic. I call it the &ldquo;Never Look Back Price.&rdquo; The NLB price is
+              the last time bitcoin was at a particular price level. Once it reached
+              that price, it only proceeded up, it never retraced to that value
+              again. <span className={styles.quote}>&mdash; Quote</span>
+            </p>
+          </div>
+
           <div className={styles.chartHeader}>
             <h2>Basic NLB</h2>
             { basicChartItem && (
@@ -70,19 +80,6 @@ class NeverLookBack extends React.Component {
                 </div>
               </div>
             )}
-          </div>
-
-          <div className={styles.chartDescription}>
-            <div className={styles.quote}>&ldquo;</div>
-            <div className={styles.inner}>
-              <p>
-                Bitcoin has a relatively unnoticed and &mdash; for most &mdash; unknown
-                characteristic. I call it the &ldquo;Never Look Back Price.&rdquo; The NLB price is
-                the last time bitcoin was at a particular price level. Once it reached
-                that price, it only proceeded up, it never retraced to that value
-                again.
-              </p>
-            </div>
           </div>
 
           { basicChartItem && (
@@ -113,6 +110,17 @@ class NeverLookBack extends React.Component {
         />
 
         <div className={styles.contentColumn}>
+          <div className={styles.textBlock}>
+            <p>
+              I have plotted these NLB prices on a lognormal scale over
+              time. The result was amazing. The horizontal scale is &ldquo;square root
+              time&rdquo;, which is just regular time plotted on a different scale. It
+              essentially equates traditional time-value of money concepts to
+              bitcoin's adoption rate, and therefore price.
+              <span className={styles.quote}>&mdash; Quote</span>
+            </p>
+          </div>
+
           <div className={styles.chartHeader}>
             <h2>Regression</h2>
             { regressionChartItem && (
@@ -128,19 +136,6 @@ class NeverLookBack extends React.Component {
                 </div>
               </div>
             )}
-          </div>
-
-          <div className={styles.chartDescription}>
-            <div className={styles.quote}>&ldquo;</div>
-            <div className={styles.inner}>
-              <p>
-                I have plotted these NLB prices on a lognormal scale over
-                time. The result was amazing. The horizontal scale is &ldquo;square root
-                time&rdquo;, which is just regular time plotted on a different scale. It
-                essentially equates traditional time-value of money concepts to
-                bitcoin's adoption rate, and therefore price.
-              </p>
-            </div>
           </div>
 
           { regressionChartItem && (
@@ -179,6 +174,16 @@ class NeverLookBack extends React.Component {
         />
 
         <div className={styles.contentColumn}>
+          <div className={styles.textBlock}>
+            <p>
+              The NLB price represents a floor value for bitcoin. The actual
+              price could be higher, but significantly higher prices will fall
+              back down to the floor value. The NLB price is a sustainable price
+              over the long term.
+              <span className={styles.quote}>&mdash; Quote</span>
+            </p>
+          </div>
+
           <div className={styles.chartHeader}>
             <h2>Linear Scales</h2>
             { linearScaleChartItem && (
@@ -194,18 +199,6 @@ class NeverLookBack extends React.Component {
                 </div>
               </div>
             )}
-          </div>
-
-          <div className={styles.chartDescription}>
-            <div className={styles.quote}>&ldquo;</div>
-            <div className={styles.inner}>
-              <p>
-                The NLB price represents a floor value for bitcoin. The actual
-                price could be higher, but significantly higher prices will fall
-                back down to the floor value. The NLB price is a sustainable price
-                over the long term.
-              </p>
-            </div>
           </div>
 
           { linearScaleChartItem && (
@@ -244,22 +237,20 @@ class NeverLookBack extends React.Component {
         />
 
         <div className={styles.contentColumn}>
-          <div className={styles.chartHeader}>
-            <h2>Data Points</h2>
+          <div className={styles.textBlock}>
+            <p>
+              Is this NLB price a trend that will continue? Like I mentioned before, we don't know
+              what the next lowest price is until we hit that price. There will undoubtedly be
+              skeptics who criticize this methodology, and healthy professional skepticism is
+              beneficial because it keeps expectations realistic. On the other hand, would you bet
+              money that the price will fall substantially, say, to $4,000, given the ten-year
+              history of the Never Look Back price? I think that might take some guts, to say the least.
+              <span className={styles.quote}>&mdash; Quote</span>
+            </p>
           </div>
 
-          <div className={styles.chartDescription}>
-            <div className={styles.quote}>&ldquo;</div>
-            <div className={styles.inner}>
-              <p>
-                Is this NLB price a trend that will continue? Like I mentioned before, we don't know
-                what the next lowest price is until we hit that price. There will undoubtedly be
-                skeptics who criticize this methodology, and healthy professional skepticism is
-                beneficial because it keeps expectations realistic. On the other hand, would you bet
-                money that the price will fall substantially, say, to $4,000, given the ten-year
-                history of the Never Look Back price? I think that might take some guts, to say the least.
-              </p>
-            </div>
+          <div className={styles.chartHeader}>
+            <h2>Data Points</h2>
           </div>
 
           <Estimates

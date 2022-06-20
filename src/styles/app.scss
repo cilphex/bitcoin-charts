@@ -57,6 +57,11 @@ div.contentColumn {
 div.textBlock {
   margin: 40px 0;
   line-height: 1.6em;
+
+  span.quote {
+    font-style: italic;
+    color: #888;
+  }
 }
 
 div.chartHeader {
@@ -109,27 +114,4 @@ div.chartDataOverlay {
   margin: 20px 0 0 80px;
   font-size: 12px;
   display: none;
-}
-
-div.chartDescription {
-  position: relative;
-  font-size: 16px;
-  line-height: 1.6em;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-}
-
-div.chartDescription div.inner {
-  padding: 10px 30px;
-}
-
-div.chartDescription div.quote {
-  position: absolute;
-  padding-top: 20px;
-  top: 0;
-  left: 0;
-  width: 30px;
-  text-align: center;
-  font-size: 50px;
-  opacity: 0.25;
 }
