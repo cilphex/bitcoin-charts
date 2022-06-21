@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import DataStore from "stores/DataStore.js";
 
 // Components
+import Page from "components/Page/index.js";
 import Nav from "./components/Nav/index.js";
 import Home from "./components/Home/index.js";
 import NeverLookBack from "./components/NeverLookBack/index.js";
@@ -31,19 +32,37 @@ class App extends React.Component {
               have the catch-all route for a 404 page at the bottom */}
           <Switch>
             <Route path="/never-look-back">
-              <NeverLookBack dataStore={this.dataStore}/>
+              <Page
+                title="Never Look Back (NLB)"
+                description="The NLB price is the last time bitcoin was at a particular price level.">
+                <NeverLookBack dataStore={this.dataStore}/>
+              </Page>
             </Route>
             <Route path="/power-law-corridor">
-              <PowerLawCorridor dataStore={this.dataStore}/>
+              <Page
+                title="Power Law Corridor (PLC)"
+                description="Bitcoin's growth on power law scales.">
+                <PowerLawCorridor dataStore={this.dataStore}/>
+              </Page>
             </Route>
             <Route path="/weekly-moving-average">
-              <WeeklyMovingAverage dataStore={this.dataStore}/>
+              <Page
+                title="200-Week Moving Average (WMA)"
+                description="The average Bitcoin price over the previous 200 weeks for any given day.">
+                <WeeklyMovingAverage dataStore={this.dataStore}/>
+              </Page>
             </Route>
             <Route exact path="/">
-              <Home dataStore={this.dataStore}/>
+              <Page>
+                <Home dataStore={this.dataStore}/>
+              </Page>
             </Route>
             <Route exact path="*">
-              This page does not exist.
+              <Page
+                title="Page Not Found"
+                description="404 - Page not found.">
+                This page does not exist.
+              </Page>
             </Route>
           </Switch>
         </div>
