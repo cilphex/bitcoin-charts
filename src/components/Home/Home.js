@@ -50,6 +50,11 @@ function Home(props) {
         <p>Bitcoin is better money, because it allows for more pure
         self-organization as a result of its money supply being predetermined by
         hard-coded, low-inflation algorithm &mdash; rather than by fiat decree.</p>
+        <p>Bitcoin's growth is inevitable; over time, capital will flow through
+        the path of least resistance: the resource allocation mechanism
+        that preserves purchasing power and the ability to predictably offset
+        value claims over time.</p>
+        <p>Bitcoin is that.</p>
       </div>
 
       <div className={styles.links}>
