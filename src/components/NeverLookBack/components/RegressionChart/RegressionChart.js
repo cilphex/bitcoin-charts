@@ -255,9 +255,9 @@ class RegressionChart extends Chart {
         <div className={chartStyles.rangeWrapper}>
           <input
             type="range"
-            min={0}
-            max={150}
-            defaultValue={100}
+            min={this.defaultRangeValues.min}
+            max={this.defaultRangeValues.max}
+            defaultValue={data.length}
             onChange={(e) => this.onRangeChange(e)}
           />
         </div>

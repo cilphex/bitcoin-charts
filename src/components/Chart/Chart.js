@@ -39,20 +39,16 @@ class Chart extends React.Component {
     return <div>No chart defined.</div>;
   }
 
-  mapInputRangeToDays(rangeValue) {
-    rangeValue = 100 - rangeValue;
-    const { chartData } = this.dataStore;
-    const min = chartData.data.length;
-    const max = 10000 - 1;
-    const rangeDiff = max - min;
-    const percent = rangeValue / 100;
-    const offset = rangeDiff * percent;
-    const pos = min + offset;
-    return Math.round(pos);
+  get defaultRangeValues() {
+    return {
+      min: 150,
+      max: 10000 - 1,
+    }
   }
 
   onRangeChange(e) {
-    const maxDays = this.mapInputRangeToDays(e.target.value);
+    // Invert the value so that the chart pulls in the same direction as the slider
+    const maxDays = this.defaultRangeValues.max - e.target.value + this.defaultRangeValues.min;
     this.setState({ maxDays });
   }
 
