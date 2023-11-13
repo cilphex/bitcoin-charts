@@ -14,24 +14,22 @@ function writeCandleData(candleData) {
   fs.writeFileSync(newDataPath, stringCandleData);
 }
 
-async function getNewPriceData(afterTimestamp) {
-  const queryUrl = "https://api.cryptowat.ch/markets/coinbase/btcusd/ohlc?";
+async function getNewPriceData(sinceTimestamp) {
+  const queryUrl = "https://api.kraken.com/0/public/OHLC?";
   const queryParams = {
-    periods: 86400,
-    after: afterTimestamp,
-    // Use before because we don't want the most recent day
-    // as it is not yet final
-    before: Math.floor(new Date().getTime()/1000),
+    pair: "BTCUSD",
+    interval: 1440, // Interval in minutes; 1440 per day
+    since: sinceTimestamp,
   };
   const res = await fetch(queryUrl + new URLSearchParams(queryParams));
   const data = await res.json();
-  return data.result && data.result["86400"];
+  return data.result && data.result["XXBTZUSD"];
 }
 
 async function getNewCandles() {
   const candleData = getCandleData();
   let candleEntries = candleData.candles;
-  const lastCandle = candleEntries[candleEntries.length-1];
+  const lastCandle = candleEntries[candleEntries.length-2]; // minus two to overwrite the last value, which is never set in stone
   const lastCandleTimestamp = lastCandle[0];
   let newEntries = await getNewPriceData(lastCandleTimestamp);
 
@@ -39,42 +37,24 @@ async function getNewCandles() {
     throw "Price data not retrieved";
   }
 
-  // Remove existing date from new entries
-  newEntries = newEntries.filter(i => i[0] != lastCandleTimestamp);
+  // Convert string values to numbers.
+  newEntries = newEntries.map(entry => entry.map(val => Number(val)));
 
-  if (!newEntries.length) {
-    console.log('No new entries');
-    return;
+  // First ensure the timestamps are lined up properly.
+  // The first timestamp from the new set should match the last one from the existing set.
+  if (newEntries[0][0] != candleEntries[candleEntries.length-1][0]) {
+    throw "Timestamps do not match up.";
   }
 
+  // Remove most recent, outdated value.
+  candleEntries.pop();
   candleEntries = candleEntries.concat(newEntries);
   candleData.candles = candleEntries;
+
+  // Write the new data.
   writeCandleData(candleData);
 
   console.log('Added new entries', newEntries)
 }
 
 getNewCandles();
-
-
-
-
-// import { Storage } from "@google-cloud/storage";
-// async function getCandlesFile() {
-//   const bucketName = "bitcoin.craighammell.com";
-//   const filePath = "data/price-candles.json";
-//   let file;
-//   try {
-//     file = await new Storage()
-//       .bucket(bucketName)
-//       .file(filePath)
-//       .download();
-//   }
-//   catch(e) {
-//     console.log('Got error', e);
-//   }
-//   console.log('got file', file[0].toString("utf8").length);
-//   // const json = JSON.parse(file.toString("utf8"));
-//   // console.log('got json', json);
-// }
-// getCandlesFile();
