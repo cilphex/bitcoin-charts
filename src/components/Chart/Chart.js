@@ -43,7 +43,7 @@ class Chart extends React.Component {
     return {
       min: 150,
       max: 10000 - 1,
-    }
+    };
   }
 
   onRangeChange(e) {
